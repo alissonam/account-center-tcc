@@ -2,11 +2,9 @@
 
 echo "::::: SETUP STARTED :::::"
 
-#cp .env.example .env
-
-echo "Antes de prosseguir realize a cópia do arquivo .env.example para .env (da pasta principal) e configure adequadamente as variáveis."
-
 read -p "Confirma inicio do setup? ('Ctrl + C' pata cancelar)"
+
+cp .env.example .env
 
 source .env
 
