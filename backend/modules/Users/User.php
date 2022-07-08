@@ -2,7 +2,6 @@
 
 namespace Users;
 
-use Permissions\Permission;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -19,7 +18,6 @@ class User extends Authenticatable
     const STATUS_PENDING_PASSWORD = 'pending_password';
     const STATUS_ACTIVE           = 'active';
     const STATUS_BLOCKED          = 'blocked';
-    const STATUS_BLOCKED_BY_TIME  = 'blocked_by_time';
 
     /**
      * The attributes that are mass assignable.
@@ -28,13 +26,21 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'last_name',
         'email',
+        'phone',
         'password',
         'role',
         'status',
-        'permission_id',
-        'login_time',
-        'expires_in',
+        'document',
+        'registration',
+        'zipcode',
+        'state',
+        'city',
+        'neighborhood',
+        'street',
+        'number',
+        'complement',
     ];
 
     /**
@@ -54,14 +60,5 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'expires_in' => 'datetime:d/m/Y H:i',
     ];
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function permission()
-    {
-        return $this->belongsTo(Permission::class);
-    }
 }
