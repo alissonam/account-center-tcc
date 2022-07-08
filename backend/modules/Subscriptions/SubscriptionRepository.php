@@ -14,6 +14,12 @@ class SubscriptionRepository
      */
     public static function index(array $filters = [])
     {
-        return Subscription::query();
+        return Subscription::query()->when($filters['plan_id'] ?? null, function ($query, $id) {
+            return $query->where('plan_id', $id);
+        })->when($filters['product_id'] ?? null, function ($query, $id) {
+            return $query->where('product_id', $id);
+        })->when($filters['user_id'] ?? null, function ($query, $id) {
+            return $query->where('user_id', $id);
+        });
     }
 }
