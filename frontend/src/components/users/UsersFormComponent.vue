@@ -31,7 +31,7 @@
         </div>
         <div class="col-xs-12 col-sm-12 col-md-4 col-py-xs q-mr-md q-mb-lg">
           <q-input
-            label="Sobrenome"
+            label="Sobrenome/Razão social"
             v-model="user.last_name"
             hide-bottom-space
             dense
