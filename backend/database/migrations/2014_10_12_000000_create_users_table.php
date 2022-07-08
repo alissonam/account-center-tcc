@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('document', 20)->nullable()->unique();
             $table->string('registration', 30)->nullable()->unique();
             $table->string('email')->unique();
-            $table->string('phone', 20);
+            $table->string('phone', 20)->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->enum('role', ['admin', 'member'])->default('admin');
             $table->enum('status', ['active', 'blocked'])->default('active');
