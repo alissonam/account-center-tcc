@@ -321,7 +321,7 @@ async function filterPermissions(val, update, abort) {
   try {
     const result = await getPermissions({
       name: val,
-      rowsPerPage: 25,z
+      rowsPerPage: 25,
     })
     permissionsOptions.value = result
     update()
