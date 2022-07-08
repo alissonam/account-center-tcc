@@ -37,7 +37,7 @@ class SubscriptionRequest extends Request
     public function validateToUpdate()
     {
         return [
-            'plan_id'       => '',
+            'plan_id' => '',
         ];
     }
 }
