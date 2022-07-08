@@ -238,7 +238,7 @@ const rolesOptions = [
 
 const statusOptions = [
   {
-    label: 'Activo',
+    label: 'Ativo',
     value: 'active'
   },
   {
