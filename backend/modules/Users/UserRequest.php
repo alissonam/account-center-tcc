@@ -42,8 +42,19 @@ class UserRequest extends Request
             'email'         => 'required|string|email|unique:users',
             'phone'         => 'required|string',
             'name'          => 'required',
+            'last_name'     => '',
             'role'          => 'required',
             'password'      => 'nullable|string|min:6',
+            'status'        => '',
+            'document'      => '',
+            'registration'  => '',
+            'zipcode'       => '',
+            'state'         => '',
+            'city'          => '',
+            'neighborhood'  => '',
+            'street'        => '',
+            'number'        => '',
+            'complement'    => '',
         ];
     }
 
@@ -59,9 +70,19 @@ class UserRequest extends Request
         return [
             'email'         => 'string|email',
             'name'          => '',
+            'last_name'     => '',
             'role'          => '',
             'password'      => 'nullable|string|min:6',
             'status'        => "in:$pendingPassword,$active,$blocked",
+            'document'      => '',
+            'registration'  => '',
+            'zipcode'       => '',
+            'state'         => '',
+            'city'          => '',
+            'neighborhood'  => '',
+            'street'        => '',
+            'number'        => '',
+            'complement'    => '',
         ];
     }
 
