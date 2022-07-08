@@ -14,8 +14,6 @@ class SubscriptionRepository
      */
     public static function index(array $filters = [])
     {
-        return Subscription::query()->when($filters['name'] ?? null, function ($query, $name) {
-            return $query->where('name', 'like', "%$name%");
-        });
+        return Subscription::query();
     }
 }

@@ -16,7 +16,6 @@ class SubscriptionRequest extends Request
     public function validateToIndex()
     {
         return [
-            'name' => '',
         ];
     }
 
@@ -26,10 +25,9 @@ class SubscriptionRequest extends Request
     public function validateToStore()
     {
         return [
-            'name'          => 'required|min:2',
-            'plan_id'       => '',
-            'product_id'    => '',
-            'user_id'       => '',
+            'plan_id'       => 'required',
+            'product_id'    => 'required',
+            'user_id'       => 'required',
         ];
     }
 
@@ -39,10 +37,9 @@ class SubscriptionRequest extends Request
     public function validateToUpdate()
     {
         return [
-            'name'      => 'min:2',
-            'plan_id'       => '',
-            'product_id'    => '',
-            'user_id'       => '',
+            'plan_id'       => 'required',
+            'product_id'    => 'required',
+            'user_id'       => 'required',
         ];
     }
 }
