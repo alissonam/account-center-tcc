@@ -17,7 +17,7 @@ const redirectToLoginIfNotLogged = (to, from, next) => {
 }
 
 const checkPermission = (to, from, next) => {
-  if (loggedUser.permission?.abilities?.includes(to.meta.permission)) {
+  if ((to.meta.permission || []).includes(loggedUser.role)) {
     next()
   } else {
     next('/')
@@ -30,21 +30,21 @@ const permissions = [
     name: 'permissions',
     component: () => import('pages/Permissions/PermissionsList'),
     beforeEnter: checkPermission,
-    meta: { permission: 'permissions' }
+    meta: { permission: ['admin'] }
   },
   {
     path: '/permissions/create',
     name: 'permissions_create',
     component: () => import('pages/Permissions/PermissionsForm'),
     beforeEnter: checkPermission,
-    meta: { permission: 'permissions' }
+    meta: { permission: ['admin'] }
   },
   {
     path: '/permissions/update/:id',
     name: 'permissions_update',
     component: () => import('pages/Permissions/PermissionsForm'),
     beforeEnter: checkPermission,
-    meta: { permission: 'permissions' }
+    meta: { permission: ['admin'] }
   }
 ]
 
@@ -54,21 +54,21 @@ const users = [
     name: 'users',
     component: () => import('pages/Users/UsersList'),
     beforeEnter: checkPermission,
-    meta: { permission: 'users' }
+    meta: { permission: ['admin'] }
   },
   {
     path: '/users/create',
     name: 'users_create',
     component: () => import('pages/Users/UsersForm'),
     beforeEnter: checkPermission,
-    meta: { permission: 'users' }
+    meta: { permission: ['admin'] }
   },
   {
     path: '/users/update/:id',
     name: 'users_update',
     component: () => import('pages/Users/UsersForm'),
     beforeEnter: checkPermission,
-    meta: { permission: 'users' }
+    meta: { permission: ['admin'] }
   }
 ]
 
