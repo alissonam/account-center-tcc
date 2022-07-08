@@ -27,11 +27,11 @@ class PlanRequest extends Request
     {
         return [
             'name'          => 'required|min:2',
+            'product_id'    => 'required',
             'payload'       => '',
             'description'   => '',
             'hidden'        => '',
             'preferential'  => '',
-            'product_id'    => '',
         ];
     }
 
@@ -42,11 +42,11 @@ class PlanRequest extends Request
     {
         return [
             'name'      => 'min:2',
+            'product_id'    => '',
             'payload'       => '',
             'description'   => '',
             'hidden'        => '',
             'preferential'  => '',
-            'product_id'    => '',
         ];
     }
 }
