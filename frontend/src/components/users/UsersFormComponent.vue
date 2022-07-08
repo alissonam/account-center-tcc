@@ -19,7 +19,7 @@
   >
     <div>
       <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-6 col-py-xs q-mr-md q-mb-lg">
+        <div class="col-xs-12 col-sm-12 col-md-4 col-py-xs q-mr-md q-mb-lg">
           <q-input
             label="Nome"
             v-model="user.name"
@@ -29,7 +29,41 @@
             :rules="[val => !!val || 'Preenchimento obrigatório']"
           />
         </div>
+        <div class="col-xs-12 col-sm-12 col-md-4 col-py-xs q-mr-md q-mb-lg">
+          <q-input
+            label="Sobrenome/Razão social"
+            v-model="user.last_name"
+            hide-bottom-space
+            dense
+            outlined
+          />
+        </div>
         <div class="col q-mb-lg">
+          <q-input
+            label="Documento"
+            :mask="(user.document || '').length < 15
+              ? '###.###.###-######' : '##.###.###/####-##'"
+            v-model="user.document"
+            hide-bottom-space
+            dense
+            outlined
+            :rules="[
+               checkIfCPForCNPJIsValid
+            ]"
+          />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-4 col-py-xs q-mr-md q-mb-lg">
+          <q-input
+            label="Registro"
+            v-model="user.registration"
+            hide-bottom-space
+            dense
+            outlined
+          />
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-4 col-py-xs q-mr-md q-mb-lg">
           <q-input
             label="E-mail"
             v-model="user.email"
@@ -39,9 +73,21 @@
             :rules="[val => !!val || 'Preenchimento obrigatório']"
           />
         </div>
+        <div class="col q-mb-lg">
+          <q-input
+            label="Telefone"
+            :mask="(user.phone || '').length < 15
+              ? '(##) ####-#####' : '(##) #####-####'"
+            v-model="user.phone"
+            hide-bottom-space
+            dense
+            outlined
+            :rules="[val => !!val || 'Preenchimento obrigatório']"
+          />
+        </div>
       </div>
       <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-6 col-py-xs q-mb-lg q-mr-md">
+        <div class="col-xs-12 col-sm-12 col-md-4 col-py-xs q-mr-md q-mb-lg">
           <q-select
             label="Perfil"
             map-options
@@ -57,130 +103,98 @@
             :rules="[val => !!val || 'Preenchimento obrigatório']"
           />
         </div>
-        <div class="col q-mb-lg">
+        <div class="col-xs-12 col-sm-12 col-md-4 col-py-xs q-mr-md q-mb-lg">
           <q-select
-            label="Permissão"
-            v-model="user.permission_id"
+            label="Status"
             map-options
             emit-value
             hide-bottom-space
             clearable
-            :options="permissionsOptions"
-            :option-label="opt => opt.name || user.permission?.name || 'N/I'"
-            option-value="id"
+            v-model="user.status"
+            :options="statusOptions"
+            option-label="label"
+            option-value="value"
             dense
             outlined
-            :loading="loadingPermissions"
             :rules="[val => !!val || 'Preenchimento obrigatório']"
-            @filter="filterPermissions"
           />
         </div>
       </div>
-    </div>
-    <q-dialog v-model="openPasswordModal">
-      <q-card style="width: 660px; max-width: 80vw;">
-        <div class="text-h6 q-ma-md">
-          Defina sua senha:
-        </div>
-        <q-card-section>
-          <div class="col-xs-12 col-sm-12 col-md-6 col-py-xs q-mb-lg q-mr-md">
-            <div class="text-deep-orange text-bold">
-              Aviso: Após o salvamento do usuário esta senha não será mais exibida.
-            </div>
-            <q-input
-              v-model="user.password"
-              label="Senha"
-              outlined
-              clearable
-              dense
-              hide-bottom-space
-              :rules="[
-                val => val && val.length >= 6 || 'A senha deve ter no mínimo 6 caracteres'
-              ]"
-              lazy-rules
-            />
-          </div>
-        </q-card-section>
-        <q-card-actions align="right">
-          <q-btn
-            label="Fechar"
+      <div class="row justify-between q-mb-md">
+        <div class="text-h6">Dados do endereço</div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-3 col-py-xs q-mr-md q-mb-lg">
+          <q-input
+            label="CEP"
+            mask="#####-###"
+            v-model="user.zipcode"
+            hide-bottom-space
             dense
-            outline
-            color="negative"
-            type="button"
-            @click="openPasswordModal = false"
+            outlined
+            :loading="searchForZipCode"
+            @change="searchAddressWithZipcode()"
           />
-        </q-card-actions>
-      </q-card>
-    </q-dialog>
-    <div
-      v-if="user.role === 'member'"
-      align="left"
-    >
-      <q-btn
-        outline
-        label="Definir senha"
-        icon="lock_open"
-        color="positive"
-        type="button"
-        @click="openPasswordModal = true"
-      />
-      <q-chip
-        v-if="user.password"
-        color="positive"
-        text-color="white"
-        label="Senha definida"
-      />
-      <div class="text-deep-orange text-bold" v-if="!$route.params.id">
-        Aviso: caso a senha não seja definida será enviado um e-mail para definição da senha.
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-3 col-py-xs q-mr-md q-mb-lg">
+          <q-input
+            label="Estado"
+            v-model="user.state"
+            hide-bottom-space
+            dense
+            outlined
+          />
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-3 col-py-xs q-mr-md q-mb-lg">
+          <q-input
+            label="Cidade"
+            v-model="user.city"
+            hide-bottom-space
+            dense
+            outlined
+          />
+        </div>
+        <div class="col q-mb-lg">
+          <q-input
+            label="Barrio"
+            v-model="user.neighborhood"
+            hide-bottom-space
+            dense
+            outlined
+          />
+        </div>
       </div>
-    </div>
-    <div
-      v-if="route.params.id"
-      align="row" style="margin: 10px">
-        <q-btn
-          outline
-          label="Enviar assinatura"
-          icon="o_upload"
-          color="primary"
-          @click="showUpload = true"
-        />
-        <span
-          class="q-mt-lg"
-          style="margin: 10px; color: green"
-          v-if="userSignature">
-          Assinatura cadastrada
-        </span>
-        <span
-          class="q-mt-lg"
-          style="margin: 10px; color: #C10015"
-          v-else>
-          Não tem assinatura cadastrada
-        </span>
-    </div>
-    <div>
-      <q-uploader
-        v-if="showUpload"
-        ref="attachmentUploader"
-        dense
-        hide-bottom-space
-        class="row"
-        max-file-size="3000000"
-        batch
-        :url="`${uploadURL}/media`"
-        :headers="[{name: 'Authorization', value: userToken()}]"
-        label="Clique para selecionar ou arraste arquivos aqui"
-        no-thumbnails
-        auto-upload
-        color="primary"
-        accept=".jpg,.png,.jpeg,.gif"
-        :form-fields="() => [
-          {name: 'subject_id', value: user.id},
-          {name: 'media_type', value: 'user_signature'}
-        ]"
-        @start="() => closeLabel = 'Cancelar'"
-        @uploaded="onUploadAttachments"
-      />
+
+      <div class="row">
+
+        <div class="col-xs-12 col-sm-12 col-md-3 col-py-xs q-mr-md q-mb-lg">
+          <q-input
+            label="Rua"
+            v-model="user.street"
+            hide-bottom-space
+            dense
+            outlined
+          />
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-3 col-py-xs q-mr-md q-mb-lg">
+          <q-input
+            label="Número"
+            v-model="user.number"
+            hide-bottom-space
+            dense
+            outlined
+          />
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-3 col-py-xs q-mr-md q-mb-lg">
+          <q-input
+            label="Complemento"
+            v-model="user.complement"
+            hide-bottom-space
+            dense
+            outlined
+          />
+        </div>
+      </div>
     </div>
     <div align="right">
       <q-btn
@@ -200,19 +214,16 @@
 import { onMounted, ref } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { createUser, updateUser, getUser } from 'src/services/user/user-api'
-import { getPermissions } from 'src/services/permission/permission-api'
 import { Notify, Loading } from 'quasar'
 import { formatResponseError } from "src/services/utils/error-formatter";
-import { formatDateBR } from 'src/services/utils/date'
-import { userToken } from "src/services/utils/local-storage";
-import { getMedia } from "src/services/media/media-api";
+import {locationFromZipCode} from "src/services/utils/ceps";
+import {validateCPForCNPJ} from "src/services/utils/documents";
 
 const router = useRouter()
 const route = useRoute()
 const  uploadURL = process.env.API_URL
-let openDateTimeModal = ref(false)
-let openPasswordModal = ref(false)
-let showUpload = ref(false)
+let searchForZipCode = false
+let saving = ref(false)
 
 const rolesOptions = [
   {
@@ -225,18 +236,26 @@ const rolesOptions = [
   },
 ]
 
+const statusOptions = [
+  {
+    label: 'Ativo',
+    value: 'active'
+  },
+  {
+    label: 'Bloqueado',
+    value: 'blocked'
+  },
+  {
+    label: 'Pendente de senha',
+    value: 'pending_password'
+  },
+]
+
 let user = ref({
   name: '',
   email: null,
-  role: '',
-  permission_id: null,
   password: null,
 })
-
-let permissionsOptions = ref([])
-let loadingPermissions = ref(false)
-let saving = ref(false)
-let userSignature = ref(null)
 
 const mainPagination = ref({
   page: 1,
@@ -252,34 +271,11 @@ onMounted(async () => {
   }
 })
 
-async function getSignatureFunction(userId){
-  try {
-    let result = await getMedia({
-      media_type: 'user_signature',
-      subject_id: userId
-    })
-    userSignature.value = result[0]
-  } catch (error) {
-    Notify.create({
-      message: formatResponseError(error) || 'Falha ao carregar assinatura',
-      type: 'negative'
-    })
-  }
-}
-
-async function onUploadAttachments(){
-  showUpload.value = false
-  getSignatureFunction(user.value.id)
-}
-
 async function submitUser() {
   saving.value = true
   try {
     const validated = userForm.value.validate()
     if (validated) {
-      if (user.value.role !== 'member') {
-        user.value.password = null
-      }
       const userToSave = { ...user.value }
       !route.params.id ? await createUser(userToSave) : await updateUser(route.params.id, userToSave)
 
@@ -302,11 +298,8 @@ async function submitUser() {
 async function getUserFunction() {
   Loading.show()
   try {
-    const response = await getUser(route.params.id, {
-      with: ['permission']
-    })
+    const response = await getUser(route.params.id)
     user.value = response
-    getSignatureFunction(user.value.id)
   } catch (e) {
     Notify.create({
       message: 'Falha ao buscar usuário!',
@@ -316,44 +309,34 @@ async function getUserFunction() {
   Loading.hide()
 }
 
-async function filterPermissions(val, update, abort) {
-  loadingPermissions.value = true
-  try {
-    const result = await getPermissions({
-      name: val,
-      rowsPerPage: 25,
-    })
-    permissionsOptions.value = result
-    update()
-  } catch (e) {
-    Notify.create({
-      message: 'Falha ao buscar permissões!',
-      type: 'negative'
-    })
-    abort()
+async function searchAddressWithZipcode() {
+  Loading.show()
+  if (user.value.zipcode.length === 9) {
+    searchForZipCode = true
+    try {
+      const response = await locationFromZipCode(user.value.zipcode)
+
+      user.value.state = response.state
+      user.value.city = response.city
+      user.value.neighborhood = response.neighborhood
+      user.value.street = response.street
+      user.value.complement = response.complement
+    } catch (e) {
+      Notify.create({
+        message: 'Falha ao encontrar CEP!',
+        type: 'negative'
+      })
+    }
+    searchForZipCode = false
   }
-  loadingPermissions.value = false
+  Loading.hide()
+}
+
+async function checkIfCPForCNPJIsValid(value) {
+  if (!value || value.length === 0) {
+    return true
+  }
+  const isValid = await validateCPForCNPJ(value)
+  return isValid || '* Documento inválido'
 }
 </script>
-
-<style scoped>
-  .q-date__content {
-    width: auto;
-    min-width: 200px;
-  }
-
-  .q-date {
-    width: auto;
-    min-width: 200px;
-  }
-
-  .q-time__content {
-    width: auto;
-    min-width: 200px;
-  }
-
-  .q-time {
-    width: 440px;
-    min-width: 200px;
-  }
-</style>
