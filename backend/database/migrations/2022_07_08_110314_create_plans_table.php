@@ -15,12 +15,12 @@ return new class extends Migration
     {
         Schema::create('plans', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('product_id');
             $table->string('name');
             $table->json('payload');
             $table->text('description');
             $table->boolean('hidden')->default(false);
             $table->boolean('preferential')->default(false);
-            $table->unsignedBigInteger('product_id');
             $table->timestamps();
         });
     }
