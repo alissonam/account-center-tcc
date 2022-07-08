@@ -76,75 +76,7 @@
           />
         </div>
       </div>
-      <div
-        v-if="user.role === 'member'"
-        class="row"
-      >
-        <div class="col-xs-12 col-sm-12 col-md-6 col-py-xs q-mb-lg q-mr-md">
-          <q-input
-            label="Tempo de login"
-            suffix="mins"
-            v-model="user.login_time"
-            hide-bottom-space
-            clearable
-            dense
-            outlined
-          />
-        </div>
-        <div class="col q-mb-lg">
-          <q-input
-            label="Acessível até"
-            v-model="user.expires_in"
-            mask="##/##/#### ##:##"
-            hide-bottom-space
-            dense
-            clearable
-            outlined
-          >
-            <template v-slot:append>
-              <q-icon
-                :name="'event' + 'access_time'"
-                class="cursor-pointer q-ml-md q-mr-md"
-                @click="openDateTimeModal = true"
-              />
-            </template>
-          </q-input>
-        </div>
-      </div>
     </div>
-    <q-dialog v-model="openDateTimeModal">
-      <q-card style="width: 645px; max-width: 80vw;">
-        <div class="text-h6 q-ma-md">
-          Acessível até:
-        </div>
-        <q-card-section>
-          <div class="row">
-            <div class="col-xs-12 col-sm-6 col-md-6 col-py-xs q-mb-lg q-mr-md">
-              <q-date
-                v-model="user.expires_in"
-                mask="DD/MM/YYYY HH:mm"
-              />
-            </div>
-            <div class="col">
-              <q-time
-                v-model="user.expires_in"
-                mask="DD/MM/YYYY HH:mm"
-                format24h
-              />
-            </div>
-          </div>
-        </q-card-section>
-        <q-card-actions align="right">
-          <q-btn
-            label="Fechar"
-            dense
-            outline
-            color="negative"
-            @click="openDateTimeModal = false"
-          />
-        </q-card-actions>
-      </q-card>
-    </q-dialog>
     <q-dialog v-model="openPasswordModal">
       <q-card style="width: 660px; max-width: 80vw;">
         <div class="text-h6 q-ma-md">
@@ -347,8 +279,6 @@ async function submitUser() {
     if (validated) {
       if (user.value.role !== 'member') {
         user.value.password = null
-        user.value.expires_in = null
-        user.value.login_time = null
       }
       const userToSave = { ...user.value }
       !route.params.id ? await createUser(userToSave) : await updateUser(route.params.id, userToSave)
@@ -375,7 +305,6 @@ async function getUserFunction() {
     const response = await getUser(route.params.id, {
       with: ['permission']
     })
-    response.expires_in = formatDateBR(response.expires_in)
     user.value = response
     getSignatureFunction(user.value.id)
   } catch (e) {

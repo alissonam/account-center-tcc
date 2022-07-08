@@ -26,8 +26,6 @@ class UserRepository
         return User::query()
             ->when($filters['name'] ?? null, function ($query, $name) {
                 return $query->where('name', 'like', "%$name%");
-            })->when($filters['permission_id'] ?? null, function ($query, $permissionId) {
-                return $query->where('permission_id', $permissionId);
             })->when($filters['role'] ?? null, function ($query, $role) {
                 return $query->where('role', $role);
             });
