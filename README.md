@@ -107,9 +107,9 @@ Ou execute manualmente os 3 comandos a seguir:
 ```shell
 ./container-backend php artisan ti
 
-$permission = Permission::create(["name" => "Administrador"])
+#$permission = Permission::create(["name" => "Administrador"])
 
-User::create(["name"=>"The first","email"=>"email@mail.com","password"=>bcrypt("projeto"),"permission_id"=>$permission->id])
+User::create(["name"=>"The first","email"=>"email@mail.com","phone"=>"9995739","password"=>bcrypt("projeto")])
 ```
 
 ---

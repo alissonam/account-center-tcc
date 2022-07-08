@@ -12,10 +12,5 @@ use Illuminate\Support\Facades\Artisan;
 Artisan::command('user:block-for-expired-access-time', function () {
     $this->comment("Bloqueio de usuários com tempo de acesso expirado");
 
-    User::query()
-        ->whereNotIn('status', [User::STATUS_BLOCKED, User::STATUS_BLOCKED_BY_TIME])
-        ->where('expires_in', '<', new \DateTime())
-        ->update([
-            'status' => User::STATUS_BLOCKED_BY_TIME
-        ]);
+    User::query();
 })->purpose('Bloqueia usuários com tempo de acesso expirado');

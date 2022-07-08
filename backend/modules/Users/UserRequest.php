@@ -29,7 +29,6 @@ class UserRequest extends Request
     {
         return [
             'name'          => '',
-            'permission_id' => '',
             'role'          => '',
         ];
     }
@@ -41,12 +40,10 @@ class UserRequest extends Request
     {
         return [
             'email'         => 'required|string|email|unique:users',
+            'phone'         => 'required|string',
             'name'          => 'required',
             'role'          => 'required',
-            'permission_id' => 'required',
             'password'      => 'nullable|string|min:6',
-            'login_time'    => 'nullable|integer',
-            'expires_in'    => 'nullable|date_format:d/m/Y H:i',
         ];
     }
 
@@ -64,10 +61,7 @@ class UserRequest extends Request
             'email'         => 'string|email',
             'name'          => '',
             'role'          => '',
-            'permission_id' => '',
             'password'      => 'nullable|string|min:6',
-            'login_time'    => 'nullable|integer',
-            'expires_in'    => 'nullable|date_format:d/m/Y H:i',
             'status'        => "in:$pendingPassword,$active,$blocked,$blockedByTime",
         ];
     }

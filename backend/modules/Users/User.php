@@ -2,7 +2,6 @@
 
 namespace Users;
 
-use Permissions\Permission;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -29,12 +28,21 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'phone',
         'password',
         'role',
         'status',
-        'permission_id',
-        'login_time',
-        'expires_in',
+        'last_name',
+        'document',
+        'registration',
+        'zipcode',
+        'state',
+        'city',
+        'neighborhood',
+        'street',
+        'number',
+        'complement',
+        'vindi_id',
     ];
 
     /**
@@ -54,14 +62,5 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'expires_in' => 'datetime:d/m/Y H:i',
     ];
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function permission()
-    {
-        return $this->belongsTo(Permission::class);
-    }
 }

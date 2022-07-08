@@ -15,27 +15,26 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('permission_id');
             $table->string('name');
+            $table->string('last_name')->nullable();
+            $table->string('document', 20)->nullable()->unique();
+            $table->string('registration', 30)->nullable()->unique();
             $table->string('email')->unique();
-            $table->enum('role', ['admin', 'member'])
-                ->default('admin');
+            $table->string('phone', 20);
             $table->timestamp('email_verified_at')->nullable();
+            $table->enum('role', ['admin', 'member'])->default('admin');
+            $table->enum('status', ['active', 'blocked'])->default('active');
+            $table->string('zipcode', 10)->nullable();
+            $table->char('state', 2)->nullable();
+            $table->string('city')->nullable();
+            $table->string('neighborhood')->nullable();
+            $table->string('street')->nullable();
+            $table->string('number', 10)->nullable();
+            $table->string('complement')->nullable();
+            $table->unsignedBigInteger('vindi_id')->nullable();
             $table->string('password');
-            $table->enum('status', ['pending_password', 'active', 'blocked', 'blocked_by_time'])
-                ->default('pending_password');
-            $table->dateTime('expires_in')->nullable();
-            $table->integer('login_time')->nullable();
             $table->rememberToken();
             $table->timestamps();
-        });
-
-        Schema::table('users', function (Blueprint $table) {
-            $table->foreign('permission_id', 'fk_u_permission_id')
-                ->references('id')
-                ->on('permissions')
-                ->onUpdate('RESTRICT')
-                ->onDelete('RESTRICT');
         });
     }
 
@@ -46,10 +45,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropForeign('fk_u_permission_id');
-        });
-
         Schema::dropIfExists('users');
     }
 };

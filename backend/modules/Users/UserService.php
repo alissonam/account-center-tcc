@@ -36,16 +36,9 @@ class UserService extends Service
             ], 403);
         }
 
-        $abilities = $user->permission->abilities ?? [];
+        $abilities = [$user->role] ?? [];
 
         $token = $user->createToken('Api token', $abilities);
-
-        if ($user->login_time && !$user->expires_in) {
-            $time      = $user->login_time ?: 0;
-            $expiresIn = (new \DateTime())->add(new \DateInterval("PT${time}M"));
-
-            $user->update(['expires_in' => $expiresIn]);
-        }
 
         return self::buildReturn([
             'token' => $token->plainTextToken
@@ -105,10 +98,6 @@ class UserService extends Service
             $data['status'] = User::STATUS_ACTIVE;
         }
 
-        $data = self::prepareData($data, [
-            'expires_in' => fn($value) => self::formatDatetimeToSave($value),
-        ]);
-
         $user = User::create($data);
 
         if (!$definedPassword) {
@@ -143,10 +132,6 @@ class UserService extends Service
             unset($data['password']);
         }
 
-        $data = self::prepareData($data, [
-            'expires_in' => fn($value) => self::formatDatetimeToSave($value),
-        ]);
-
         $user->update($data);
 
         return self::buildReturn($user);
@@ -178,7 +163,7 @@ class UserService extends Service
             ], 403);
         }
 
-        $abilities = $user->permission->abilities ?? [];
+        $abilities = [$user->role];
 
         $token        = $user->createToken('Forgot password', $abilities);
         $user->status = User::STATUS_PENDING_PASSWORD;
