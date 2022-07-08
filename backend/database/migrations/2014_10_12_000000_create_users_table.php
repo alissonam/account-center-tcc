@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('phone', 20)->nullable();
             $table->timestamp('email_verified_at')->nullable();
-            $table->enum('role', ['admin', 'member'])->default('admin');
+            $table->enum('role', ['admin', 'member'])->default('member');
             $table->enum('status', ['active', 'blocked'])->default('active');
             $table->string('zipcode', 10)->nullable();
             $table->char('state', 2)->nullable();
