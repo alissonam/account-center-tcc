@@ -18,7 +18,6 @@ class User extends Authenticatable
     const STATUS_PENDING_PASSWORD = 'pending_password';
     const STATUS_ACTIVE           = 'active';
     const STATUS_BLOCKED          = 'blocked';
-    const STATUS_BLOCKED_BY_TIME  = 'blocked_by_time';
 
     /**
      * The attributes that are mass assignable.
@@ -42,7 +41,6 @@ class User extends Authenticatable
         'street',
         'number',
         'complement',
-        'vindi_id',
     ];
 
     /**

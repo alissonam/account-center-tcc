@@ -55,14 +55,13 @@ class UserRequest extends Request
         $pendingPassword = User::STATUS_PENDING_PASSWORD;
         $active          = User::STATUS_ACTIVE;
         $blocked         = User::STATUS_BLOCKED;
-        $blockedByTime   = User::STATUS_BLOCKED_BY_TIME;
 
         return [
             'email'         => 'string|email',
             'name'          => '',
             'role'          => '',
             'password'      => 'nullable|string|min:6',
-            'status'        => "in:$pendingPassword,$active,$blocked,$blockedByTime",
+            'status'        => "in:$pendingPassword,$active,$blocked",
         ];
     }
 
