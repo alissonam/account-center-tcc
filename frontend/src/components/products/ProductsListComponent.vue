@@ -25,7 +25,7 @@
       <q-td key="status" :props="props">
         <q-chip
           text-color="white"
-          :label="t(`${props.row.status}`)"
+          :label="t(`product.status.${props.row.status}`)"
           :color="props.row.status === 'active' ? 'positive' : 'negative'"
         />
       </q-td>

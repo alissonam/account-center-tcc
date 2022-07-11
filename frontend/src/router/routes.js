@@ -83,14 +83,14 @@ const products = [
   {
     path: '/products/create',
     name: 'products_create',
-    component: () => import('pages/Users/UsersForm'),
+    component: () => import('pages/Products/ProductFormPage'),
     beforeEnter: checkPermission,
     meta: { permission: ['admin'] }
   },
   {
     path: '/products/update/:id',
     name: 'products_update',
-    component: () => import('pages/Users/UsersForm'),
+    component: () => import('pages/Products/ProductFormPage'),
     beforeEnter: checkPermission,
     meta: { permission: ['admin'] }
   }
