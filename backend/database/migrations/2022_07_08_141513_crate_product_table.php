@@ -22,7 +22,6 @@ return new class extends Migration
             $table->string('app_url')->nullable();
             $table->string('api_token')->nullable();
             $table->text('description')->nullable();
-            $table->string('logo')->nullable();
             $table->timestamps();
         });
     }
