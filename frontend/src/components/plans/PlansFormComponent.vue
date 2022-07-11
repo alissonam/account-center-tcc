@@ -76,20 +76,6 @@
               </template>
             </q-select>
           </div>
-          <div>
-            <v-jsoneditor
-              v-model="plan.payload"
-              :plus="false"
-              :options="jsonOptions"
-              height="700px"
-              @error="(value) => {
-                checkIfJsonIsValid(value)
-              }"
-              @input="(value) => {
-                checkIfJsonIsValid(value)
-              }"
-            />
-          </div>
         </div>
       </div>
       <div align="right">
@@ -115,7 +101,6 @@ import { createPlan, updatePlan, getPlan } from 'src/services/plan/plan-api'
 import { getProducts } from 'src/services/product/product-api'
 import { Notify, Loading } from 'quasar'
 import { formatResponseError } from "src/services/utils/error-formatter";
-import VJsoneditor from 'v-jsoneditor'
 
 const router = useRouter()
 const route = useRoute()
@@ -124,12 +109,6 @@ let saving = ref(false)
 let plan = ref({
   hidden: false,
   preferential: false,
-})
-
-let jsonOptions = ref({
-  mode: 'code',
-  indentation: 2,
-  mainMenuBar: false
 })
 
 const planForm = ref(null)
@@ -168,7 +147,9 @@ async function submitPlan() {
 async function getPlanFunction() {
   Loading.show()
   try {
-    const response = await getPlan(route.params.id)
+    const response = await getPlan(route.params.id, {
+      with: [ 'product']
+    })
     plan.value = response
   } catch (e) {
     Notify.create({
@@ -192,20 +173,6 @@ async function filterProducts(val, update, abort) {
       type: 'negative'
     })
     abort()
-  }
-}
-
-async function checkIfJsonIsValid (value) {
-  const isValid = isJson(value)
-  return isValid || 'JSON inválido'
-}
-
-function isJson (jsonToTest) {
-  try {
-    JSON.parse(jsonToTest)
-    return true
-  } catch (e) {
-    return false
   }
 }
 </script>
