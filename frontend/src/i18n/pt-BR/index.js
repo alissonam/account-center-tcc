@@ -17,5 +17,15 @@ export default {
   permissions: {
     users: 'Usuários',
     permissions:'Permissões',
+  },
+  plan: {
+    hidden: {
+      0: 'Não',
+      1: 'Sim',
+    },
+    preferential: {
+      0: 'Não',
+      1: 'Sim',
+    }
   }
 }

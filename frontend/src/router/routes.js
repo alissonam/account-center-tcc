@@ -72,6 +72,30 @@ const users = [
   }
 ]
 
+const plans = [
+  {
+    path: '/plans',
+    name: 'plans',
+    component: () => import('pages/Plans/PlansList'),
+    beforeEnter: checkPermission,
+    meta: { permission: ['admin'] }
+  },
+  {
+    path: '/plans/create',
+    name: 'plans_create',
+    component: () => import('pages/Plans/PlansForm'),
+    beforeEnter: checkPermission,
+    meta: { permission: ['admin'] }
+  },
+  {
+    path: '/plans/update/:id',
+    name: 'plans_update',
+    component: () => import('pages/Plans/PlansForm'),
+    beforeEnter: checkPermission,
+    meta: { permission: ['admin'] }
+  }
+]
+
 const routes = [
   {
     path: '/',
@@ -90,6 +114,7 @@ const routes = [
       },
       ...permissions,
       ...users,
+      ...plans,
     ]
   },
   {
