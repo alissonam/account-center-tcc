@@ -72,6 +72,30 @@ const users = [
   }
 ]
 
+const products = [
+  {
+    path: '/products',
+    name: 'products',
+    component: () => import('pages/Products/ProductsListPage'),
+    beforeEnter: checkPermission,
+    meta: { permission: ['admin'] }
+  },
+  {
+    path: '/products/create',
+    name: 'products_create',
+    component: () => import('pages/Users/UsersForm'),
+    beforeEnter: checkPermission,
+    meta: { permission: ['admin'] }
+  },
+  {
+    path: '/products/update/:id',
+    name: 'products_update',
+    component: () => import('pages/Users/UsersForm'),
+    beforeEnter: checkPermission,
+    meta: { permission: ['admin'] }
+  }
+]
+
 const routes = [
   {
     path: '/',
@@ -89,6 +113,7 @@ const routes = [
         component: () => import('pages/Index')
       },
       ...permissions,
+      ...products,
       ...users,
     ]
   },

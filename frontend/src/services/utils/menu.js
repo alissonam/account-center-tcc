@@ -10,6 +10,14 @@ const generalItems = [
     permission: "allowed"
   },
   {
+    label: 'Produtos',
+    icon: 'o_dashboard',
+    to: {
+      name: 'products'
+    },
+    permission: "allowed"
+  },
+  {
     label: 'Acesso ao Sistema',
     icon: 'o_manage_accounts',
     children: [
