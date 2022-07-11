@@ -11,7 +11,7 @@ const generalItems = [
   },
   {
     label: 'Produtos',
-    icon: 'o_dashboard',
+    icon: 'o_shopping_basket',
     to: {
       name: 'products'
     },
