@@ -156,7 +156,7 @@
         </div>
         <div class="col q-mb-lg">
           <q-input
-            label="Barrio"
+            label="Bairro"
             v-model="user.neighborhood"
             hide-bottom-space
             dense
@@ -221,7 +221,6 @@ import {validateCPForCNPJ} from "src/services/utils/documents";
 
 const router = useRouter()
 const route = useRoute()
-const  uploadURL = process.env.API_URL
 let searchForZipCode = false
 let saving = ref(false)
 
@@ -255,12 +254,6 @@ let user = ref({
   name: '',
   email: null,
   password: null,
-})
-
-const mainPagination = ref({
-  page: 1,
-  rowsPerPage: 10,
-  rowsNumber: 0,
 })
 
 const userForm = ref(null)

@@ -3,6 +3,7 @@
 namespace Plans;
 
 use Illuminate\Database\Eloquent\Model;
+use Products\Product;
 
 /**
  * Class Plan
@@ -32,4 +33,12 @@ class Plan extends Model
     protected $casts = [
         'payload' => 'array',
     ];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
 }
