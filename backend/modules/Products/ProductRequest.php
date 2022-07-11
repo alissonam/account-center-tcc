@@ -38,7 +38,6 @@ class ProductRequest extends Request
             'app_url'     => 'string|max:255',
             'api_token'   => 'string|max: 255',
             'description' => 'string',
-            'logo'        => 'string|max:255',
         ];
     }
 
@@ -56,7 +55,6 @@ class ProductRequest extends Request
             'app_url'     => 'max:255',
             'api_token'   => 'max: 255',
             'description' => '',
-            'logo'        => 'max:255',
         ];
     }
 
