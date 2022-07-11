@@ -12,13 +12,13 @@ export const getPlan = async (id, params) => {
   return data
 }
 
-export const createPlan = async user => {
-  const { data } = await post('/plans', user)
+export const createPlan = async plan => {
+  const { data } = await post('/plans', plan)
   return data
 }
 
-export const updatePlan = async (id, user) => {
-  const { data } = await put(`/plans/${id}`, user)
+export const updatePlan = async (id, plan) => {
+  const { data } = await put(`/plans/${id}`, plan)
   return data
 }
 

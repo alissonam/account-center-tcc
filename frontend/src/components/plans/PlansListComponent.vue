@@ -21,21 +21,23 @@
         :to="{ name: 'plans_create' }"
       />
     </template>
-    <template v-slot:body-cell-hidden="props">
-      <q-td key="hidden" :props="props">
-        <q-chip
-          text-color="white"
-          :label="t(`plan.hidden.${props.row.hidden}`)"
-          :color="props.row.hidden === 0 ? 'warning' : 'negative'"
-        />
-      </q-td>
-    </template>
     <template v-slot:body-cell-preferential="props">
       <q-td key="preferential" :props="props">
         <q-chip
           text-color="white"
+          :icon="props.row.preferential === 0 ? 'close' : 'done'"
           :label="t(`plan.preferential.${props.row.preferential}`)"
-          :color="props.row.preferential === 0 ? 'warning' : 'negative'"
+          :color="props.row.preferential === 0 ? 'negative' : 'positive'"
+        />
+      </q-td>
+    </template>
+    <template v-slot:body-cell-hidden="props">
+      <q-td key="hidden" :props="props">
+        <q-chip
+          text-color="white"
+          :icon="props.row.hidden === 0 ? 'close' : 'done'"
+          :label="t(`plan.hidden.${props.row.hidden}`)"
+          :color="props.row.hidden === 0 ? 'negative' : 'positive'"
         />
       </q-td>
     </template>
@@ -95,18 +97,18 @@ const columns = [
     format: val => val || 'N/I',
   },
   {
-    name: 'hidden',
-    label: 'Visível',
-    align: 'left',
-    field: 'hidden',
-    format: val => t(`plan.hidden.${val}`),
-  },
-  {
     name: 'preferential',
     label: 'Preferencial',
     align: 'left',
     field: 'preferential',
     format: val => t(`plan.preferential.${val}`),
+  },
+  {
+    name: 'hidden',
+    label: 'Visível',
+    align: 'left',
+    field: 'hidden',
+    format: val => t(`plan.hidden.${val}`),
   },
   {
     name: 'actions',
