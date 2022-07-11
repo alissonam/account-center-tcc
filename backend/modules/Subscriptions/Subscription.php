@@ -4,6 +4,8 @@ namespace Subscriptions;
 
 use Illuminate\Database\Eloquent\Model;
 use Plans\Plan;
+use Products\Product;
+use Users\User;
 
 /**
  * Class Subscription
