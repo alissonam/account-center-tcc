@@ -26,7 +26,7 @@ return new class extends Migration
                 ->references('id')
                 ->on('plans')
                 ->onUpdate('RESTRICT')
-                ->onDelete('CASCADE');
+                ->onDelete('RESTRICT');
         });
 
         Schema::table('subscriptions', function (Blueprint $table) {
@@ -34,7 +34,7 @@ return new class extends Migration
                 ->references('id')
                 ->on('products')
                 ->onUpdate('RESTRICT')
-                ->onDelete('CASCADE');
+                ->onDelete('RESTRICT');
         });
 
         Schema::table('subscriptions', function (Blueprint $table) {

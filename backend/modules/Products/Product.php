@@ -27,6 +27,5 @@ class Product extends Model
         'app_url',
         'api_token',
         'description',
-        'logo',
     ];
 }
