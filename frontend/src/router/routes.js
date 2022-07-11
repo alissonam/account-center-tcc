@@ -133,6 +133,11 @@ const routes = [
     path: '/:catchAll(.*)*',
     component: () => import('pages/Error404')
   },
+  {
+    path: '/register',
+    name: 'register',
+    component: () => import('pages/Register/PageRegisterUser')
+  },
 ]
 
 export default routes

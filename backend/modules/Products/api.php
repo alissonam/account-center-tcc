@@ -6,5 +6,5 @@ use Products\ProductController;
 Route::group([
     'middleware' => ['auth:sanctum', 'user_checker']
 ], function () {
-    Route::apiResource('products', ProductController::class)->except(['destroy']);
+    Route::apiResource('products', ProductController::class);
 });
