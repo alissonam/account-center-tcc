@@ -48,13 +48,13 @@ class ProductRequest extends Request
     {
 
         return [
-            'name'        => 'required|string|min:5|max:255',
-            'status'      => ['required', 'string', Rule::in([Product::STATUS_ACTIVE, Product::STATUS_INATIVE])],
-            'code'        => 'string|max:255',
-            'action_url'  => 'string|max:255',
-            'app_url'     => 'string|max:255',
-            'api_token'   => 'string|max: 255',
-            'description' => 'string',
+            'name'        => 'string|min:5|max:255',
+            'status'      => ['string', Rule::in([Product::STATUS_ACTIVE, Product::STATUS_INATIVE])],
+            'code'        => 'max:255',
+            'action_url'  => 'max:255',
+            'app_url'     => 'max:255',
+            'api_token'   => 'max: 255',
+            'description' => '',
         ];
     }
 
