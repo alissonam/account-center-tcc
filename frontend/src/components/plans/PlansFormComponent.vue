@@ -76,9 +76,6 @@
               </template>
             </q-select>
           </div>
-          <div>
-            
-          </div>
         </div>
       </div>
       <div align="right">
