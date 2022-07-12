@@ -169,7 +169,7 @@ async function submitProduct() {
       !route.params.id ? await createProduct(productToSave) : await updateProduct(route.params.id, productToSave)
 
       Notify.create({
-        message: !route.params.id ? 'Produto criado com sucesso!' : 'produto editado com sucesso!',
+        message: !route.params.id ? 'Produto criado com sucesso!' : 'Produto editado com sucesso!',
         type: 'positive'
       })
 
