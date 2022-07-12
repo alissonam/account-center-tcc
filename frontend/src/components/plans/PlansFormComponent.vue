@@ -84,7 +84,7 @@
               v-model="plan.payload"
               mode="tree"
               :expandedOnStart="false"
-              @json-change="onJsonChange"
+              @json-change="val => plan.payload = val"
             />
           </div>
           <div class="col">
@@ -285,9 +285,5 @@ async function filterProducts(val, update, abort) {
     })
     abort()
   }
-}
-
-function onJsonChange (value) {
-  plan.value.payload = value
 }
 </script>
