@@ -16,6 +16,8 @@ class PlanRepository
     {
         return Plan::query()->when($filters['name'] ?? null, function ($query, $name) {
             return $query->where('name', 'like', "%$name%");
+        })->when($filters['product_id'] ?? null, function ($query, $client) {
+            return $query->where('product_id', $client);
         });
     }
 }

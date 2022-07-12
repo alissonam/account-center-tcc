@@ -10,6 +10,14 @@ const generalItems = [
     permission: "allowed"
   },
   {
+    label: 'Inscrições',
+    icon: 'o_bookmark_add',
+    to: {
+      name: 'subscriptions'
+    },
+    permission: ['admin', 'member']
+  },
+  {
     label: 'Acesso ao Sistema',
     icon: 'o_manage_accounts',
     children: [
