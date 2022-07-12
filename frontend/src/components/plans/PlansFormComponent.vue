@@ -220,8 +220,6 @@ let plan = ref({
   description: ''
 })
 
-let hasError = ref(false)
-
 const planForm = ref(null)
 let productsOptions = ref([])
 

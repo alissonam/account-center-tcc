@@ -96,45 +96,49 @@ const users = [
   }
 ]
 
-<<<<<<< HEAD
-const plans = [
-  {
-    path: '/plans',
-    name: 'plans',
-    component: () => import('pages/Plans/PlansList'),
-=======
 const products = [
   {
     path: '/products',
     name: 'products',
     component: () => import('pages/Products/ProductsListPage'),
->>>>>>> 9b119210c64c02ae6bf23618a29c72b0b0828a17
     beforeEnter: checkPermission,
     meta: { permission: ['admin'] }
   },
   {
-<<<<<<< HEAD
-    path: '/plans/create',
-    name: 'plans_create',
-    component: () => import('pages/Plans/PlansForm'),
-=======
     path: '/products/create',
     name: 'products_create',
     component: () => import('pages/Products/ProductFormPage'),
->>>>>>> 9b119210c64c02ae6bf23618a29c72b0b0828a17
     beforeEnter: checkPermission,
     meta: { permission: ['admin'] }
   },
   {
-<<<<<<< HEAD
-    path: '/plans/update/:id',
-    name: 'plans_update',
-    component: () => import('pages/Plans/PlansForm'),
-=======
     path: '/products/update/:id',
     name: 'products_update',
     component: () => import('pages/Products/ProductFormPage'),
->>>>>>> 9b119210c64c02ae6bf23618a29c72b0b0828a17
+    beforeEnter: checkPermission,
+    meta: { permission: ['admin'] }
+  }
+]
+
+const plans = [
+  {
+    path: '/plans',
+    name: 'plans',
+    component: () => import('pages/Plans/PlanList'),
+    beforeEnter: checkPermission,
+    meta: { permission: ['admin'] }
+  },
+  {
+    path: '/plans/create',
+    name: 'plans_create',
+    component: () => import('pages/Plans/PlanForm'),
+    beforeEnter: checkPermission,
+    meta: { permission: ['admin'] }
+  },
+  {
+    path: '/plans/update/:id',
+    name: 'plans_update',
+    component: () => import('pages/Plans/PlanForm'),
     beforeEnter: checkPermission,
     meta: { permission: ['admin'] }
   }
