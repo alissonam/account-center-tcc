@@ -81,7 +81,25 @@
               dense
               outlined
               :rules="[val => val.length <= 255 || 'Não pode ter mais de 255 caracteres']"
-            />
+            >
+              <q-btn
+                round
+                flat
+                icon="exit_to_app"
+                @click="openLink(product.action_url)"
+              >
+                <q-tooltip
+                  class="bg-primary text-body2"
+                  anchor="top middle"
+                  self="bottom middle"
+                  :offset="[10, 10]"
+                  transition-show="rotate"
+                  transition-hide="rotate"
+                >
+                  Acessar Link
+                </q-tooltip>
+              </q-btn>
+            </q-input>
           </div>
           <div class="col q-mb-lg">
             <q-input
@@ -91,7 +109,25 @@
               dense
               outlined
               :rules="[val => val.length <= 255 || 'Não pode ter mais de 255 caracteres']"
-            />
+            >
+              <q-btn
+                round
+                flat
+                icon="exit_to_app"
+                @click="openLink(product.app_url)"
+              >
+                <q-tooltip
+                  class="bg-primary text-body2"
+                  anchor="top middle"
+                  self="bottom middle"
+                  :offset="[10, 10]"
+                  transition-show="rotate"
+                  transition-hide="rotate"
+                >
+                  Acessar Link
+                </q-tooltip>
+              </q-btn>
+            </q-input>
           </div>
         </div>
         <div class="row">
@@ -198,5 +234,11 @@ async function getProductFunction() {
     })
   }
   Loading.hide()
+}
+
+function openLink(value)
+{
+  // Verificar se os links inseridos viram ou não com o protocolo antes... senão, manter como está.
+  window.open("https://www." + value);
 }
 </script>
