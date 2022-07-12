@@ -10,6 +10,14 @@ const generalItems = [
     permission: "allowed"
   },
   {
+    label: 'Produtos',
+    icon: 'o_shopping_basket',
+    to: {
+      name: 'products'
+    },
+    permission: ['admin']
+   },
+   {
     label: 'Inscrições',
     icon: 'o_bookmark_add',
     to: {

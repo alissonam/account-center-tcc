@@ -14,6 +14,12 @@ export default {
       blocked_by_time: 'Bloqueado por tempo',
     }
   },
+  product: {
+    status: {
+      active: 'Ativado',
+      inative: 'Desativado',
+    }
+  },
   permissions: {
     users: 'Usuários',
     permissions:'Permissões',
