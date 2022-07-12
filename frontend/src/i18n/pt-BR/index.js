@@ -16,7 +16,7 @@ export default {
   },
   product: {
     status: {
-      active: 'Ativo',
+      active: 'Ativado',
       inative: 'Desativado',
     }
   },
