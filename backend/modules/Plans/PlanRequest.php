@@ -17,6 +17,7 @@ class PlanRequest extends Request
     {
         return [
             'name' => '',
+            'product_id' => '',
         ];
     }
 

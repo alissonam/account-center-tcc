@@ -48,6 +48,30 @@ const permissions = [
   }
 ]
 
+const subscriptions = [
+  {
+    path: '/subscriptions',
+    name: 'subscriptions',
+    component: () => import('pages/Subscriptions/SubscriptionsList'),
+    beforeEnter: checkPermission,
+    meta: { permission: ['admin', 'member'] }
+  },
+  {
+    path: '/subscriptions/create',
+    name: 'subscriptions_create',
+    component: () => import('pages/Subscriptions/SubscriptionsForm'),
+    beforeEnter: checkPermission,
+    meta: { permission: ['admin', 'member'] }
+  },
+  {
+    path: '/subscriptions/update/:id',
+    name: 'subscriptions_update',
+    component: () => import('pages/Subscriptions/SubscriptionsForm'),
+    beforeEnter: checkPermission,
+    meta: { permission: ['admin', 'member'] }
+  }
+]
+
 const users = [
   {
     path: '/users',
@@ -115,6 +139,7 @@ const routes = [
       ...permissions,
       ...users,
       ...plans,
+      ...subscriptions,
     ]
   },
   {

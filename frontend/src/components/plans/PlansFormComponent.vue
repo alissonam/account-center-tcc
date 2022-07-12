@@ -76,6 +76,9 @@
               </template>
             </q-select>
           </div>
+          <div>
+            
+          </div>
         </div>
       </div>
       <div align="right">
@@ -151,6 +154,8 @@ async function getPlanFunction() {
       with: [ 'product']
     })
     plan.value = response
+    plan.value.hidden === 0 ? plan.value.hidden = false : plan.value.hidden = true
+    plan.value.preferential === 0 ? plan.value.preferential = false : plan.value.preferential = true
   } catch (e) {
     Notify.create({
       message: 'Falha ao buscar plano!',
