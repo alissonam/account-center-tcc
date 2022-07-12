@@ -38,8 +38,8 @@
             outline
             color="negative"
             icon="delete"
-            :loading="removing"
-            :disable="removing"
+            :loading="removing === props.row.id"
+            :disable="removing === props.row.id"
             @click="destroySubscriptionFunction(props.row.id)"
           >
             <q-tooltip>
@@ -59,7 +59,7 @@ import { Notify, Dialog } from 'quasar'
 
 let subscriptionsData = ref([])
 let loading = ref(false)
-let removing = ref(false)
+let removing = ref(null)
 
 const mainPagination = ref({
   page: 1,
@@ -123,7 +123,7 @@ function destroySubscriptionFunction (subscription) {
     message: 'Tem certeza que deseja excluir esta inscrição?',
     cancel: true,
   }).onOk(async () => {
-    removing.value = true
+    removing.value = subscription
     try {
       await destroySubscription(subscription)
       getSubscriptionsFunction()
@@ -138,7 +138,7 @@ function destroySubscriptionFunction (subscription) {
         type: 'negative'
       })
     }
-    removing.value = false
+    removing.value = null
   })
 }
 

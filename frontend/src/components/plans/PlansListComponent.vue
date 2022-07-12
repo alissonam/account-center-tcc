@@ -1,16 +1,16 @@
 <template>
   <q-table
-    title="Produtos"
-    :rows="productsData"
+    title="Planos"
+    :rows="plansData"
     :columns="columns"
     row-key="id"
     v-model:pagination="mainPagination"
     :loading="loading"
     loading-label="Carregando..."
-    no-results-label="Nenhum produto encontrado"
-    no-data-label="Nenhum produto encontrado"
+    no-results-label="Nenhum plano encontrado"
+    no-data-label="Nenhum plano encontrado"
     binary-state-sort
-    @request="getProductsFunction"
+    @request="getPlansFunction"
   >
     <template v-slot:top-right>
       <q-btn
@@ -18,15 +18,26 @@
         label="Cadastrar"
         color="primary"
         outline
-        :to="{ name: 'products_create' }"
+        :to="{ name: 'plans_create' }"
       />
     </template>
-    <template v-slot:body-cell-status="props">
-      <q-td key="status" :props="props">
+    <template v-slot:body-cell-preferential="props">
+      <q-td key="preferential" :props="props">
         <q-chip
           text-color="white"
-          :label="t(`product.status.${props.row.status}`)"
-          :color="props.row.status === 'active' ? 'positive' : 'negative'"
+          :icon="props.row.preferential === 0 ? 'close' : 'done'"
+          :label="t(`plan.preferential.${props.row.preferential}`)"
+          :color="props.row.preferential === 0 ? 'negative' : 'positive'"
+        />
+      </q-td>
+    </template>
+    <template v-slot:body-cell-hidden="props">
+      <q-td key="hidden" :props="props">
+        <q-chip
+          text-color="white"
+          :icon="props.row.hidden === 0 ? 'close' : 'done'"
+          :label="t(`plan.hidden.${props.row.hidden}`)"
+          :color="props.row.hidden === 0 ? 'negative' : 'positive'"
         />
       </q-td>
     </template>
@@ -37,7 +48,7 @@
             outline
             color="primary"
             icon="edit"
-            :to="{ name: 'products_update', params: { 'id': props.row.id } }"
+            :to="{ name: 'plans_update', params: { 'id': props.row.id } }"
           >
             <q-tooltip>
               Editar
@@ -49,7 +60,7 @@
             icon="delete"
             :loading="removing === props.row.id"
             :disable="removing === props.row.id"
-            @click="destroyProductFunction(props.row.id)"
+            @click="destroyPlanFunction(props.row.id)"
           >
             <q-tooltip>
               Excluir
@@ -63,11 +74,11 @@
 
 <script setup>
 import { onMounted, ref } from 'vue'
-import { getProducts, destroyProduct } from 'src/services/product/product-api'
+import { getPlans, destroyPlan } from 'src/services/plan/plan-api'
 import { t } from 'src/services/utils/i18n'
 import { Notify, Dialog } from 'quasar'
 
-let productsData = ref([])
+let plansData = ref([])
 let loading = ref(false)
 let removing = ref(null)
 
@@ -86,18 +97,18 @@ const columns = [
     format: val => val || 'N/I',
   },
   {
-    name: 'code',
-    label: 'Codigo',
+    name: 'preferential',
+    label: 'Preferencial',
     align: 'left',
-    field: 'code',
-    format: val => val || 'N/I',
+    field: 'preferential',
+    format: val => t(`plan.preferential.${val}`),
   },
   {
-    name: 'status',
-    label: 'Status',
+    name: 'hidden',
+    label: 'Visível',
     align: 'left',
-    field: 'status',
-    format: val => t(`product.status.${val}`),
+    field: 'hidden',
+    format: val => t(`plan.hidden.${val}`),
   },
   {
     name: 'actions',
@@ -109,41 +120,41 @@ const columns = [
 ]
 
 onMounted(async () => {
-  await getProductsFunction()
+  await getPlansFunction()
 })
 
-async function getProductsFunction (props) {
+async function getPlansFunction (props) {
   loading.value = true
   try {
     mainPagination.value = props?.pagination || mainPagination.value
-    productsData.value = await getProducts(mainPagination.value)
+    plansData.value = await getPlans(mainPagination.value)
   } catch (e) {
     Notify.create({
-      message: 'Falha ao buscar produtos',
+      message: 'Falha ao buscar planos',
       type: 'negative'
     })
   }
   loading.value = false
 }
 
-function destroyProductFunction (product) {
+function destroyPlanFunction (plan) {
   Dialog.create({
     title: 'Atenção!',
-    message: 'Tem certeza que deseja excluir este produto?',
+    message: 'Tem certeza que deseja excluir este plano?',
     cancel: true,
   }).onOk(async () => {
-    removing.value = product
+    removing.value = plan
     try {
-      await destroyProduct(product)
-      getProductsFunction()
+      await destroyPlan(plan)
+      getPlansFunction()
 
       Notify.create({
-        message: 'Produto excluído com sucesso!',
+        message: 'Plano excluído com sucesso!',
         type: 'positive'
       })
     } catch (e) {
       Notify.create({
-        message: 'Falha ao excluir produto!',
+        message: 'Falha ao excluir plano!',
         type: 'negative'
       })
     }

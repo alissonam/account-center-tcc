@@ -7,3 +7,21 @@ export const getPlans = async (params = { page: '', rowsPerPage: 0 }) => {
   return data.data
 }
 
+export const getPlan = async (id, params) => {
+  const { data } = await get(`/plans/${id}`, params)
+  return data
+}
+
+export const createPlan = async plan => {
+  const { data } = await post('/plans', plan)
+  return data
+}
+
+export const updatePlan = async (id, plan) => {
+  const { data } = await put(`/plans/${id}`, plan)
+  return data
+}
+
+export const destroyPlan = async id => {
+  await destroy(`/plans/${id}`)
+}
