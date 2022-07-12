@@ -1,107 +1,109 @@
 <template>
-  <q-btn
-    color="primary"
-    icon="arrow_back"
-    dense
-    outline
-    rounded
-    :to="{ name: 'subscriptions' }"
-  >
-    <q-tooltip :offset="[5, 5]">
-      Voltar
-    </q-tooltip>
-  </q-btn>
-  <h4 class="q-mt-lg" v-if="!route.params.id">Criar inscrição</h4>
-  <h4 class="q-mt-lg" v-else>Editar inscrição</h4>
-  <q-form
-    ref="subscriptionForm"
-    @submit="submitSubscription()"
-  >
-    <div>
-      <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-4 col-py-xs q-mr-md q-mb-lg">
-          <q-select
-            label="Usuário"
-            map-options
-            emit-value
-            hide-bottom-space
-            clearable
-            :readonly="!!route.params.id"
-            v-model="subscription.user_id"
-            :options="userOptions"
-            :option-label="opt => opt.name || subscription.user?.name || 'N/I'"
-            option-value="id"
-            dense
-            outlined
-            use-input
-            fill-input
-            hide-selected
-            placeholder="Digite para pesquisar"
-            input-debounce="300"
-            :rules="[val => !!val || 'Preenchimento obrigatório']"
-            @filter="filterUsers"
-          />
-        </div>
-        <div class="col-xs-12 col-sm-12 col-md-4 col-py-xs q-mr-md q-mb-lg">
-          <q-select
-            label="Produto"
-            map-options
-            emit-value
-            hide-bottom-space
-            clearable
-            :readonly="!!route.params.id"
-            v-model="subscription.product_id"
-            :options="productOptions"
-            :option-label="opt => opt.name || subscription.product?.name || 'N/I'"
-            option-value="id"
-            dense
-            outlined
-            use-input
-            fill-input
-            hide-selected
-            placeholder="Digite para pesquisar"
-            input-debounce="300"
-            :rules="[val => !!val || 'Preenchimento obrigatório']"
-            @filter="filterProducts"
-          />
-        </div>
-        <div class="col q-mb-lg">
-          <q-select
-            label="Plano"
-            map-options
-            emit-value
-            hide-bottom-space
-            clearable
-            :readonly="!subscription.product_id"
-            v-model="subscription.plan_id"
-            :options="planOptions"
-            :option-label="opt => opt.name || subscription.plan?.name || 'N/I'"
-            option-value="id"
-            dense
-            outlined
-            use-input
-            fill-input
-            hide-selected
-            placeholder="Digite para pesquisar"
-            input-debounce="300"
-            :rules="[val => !!val || 'Preenchimento obrigatório']"
-            @filter="filterPlan"
-          />
+  <div>
+    <q-btn
+      color="primary"
+      icon="arrow_back"
+      dense
+      outline
+      rounded
+      :to="{ name: 'subscriptions' }"
+    >
+      <q-tooltip :offset="[5, 5]">
+        Voltar
+      </q-tooltip>
+    </q-btn>
+    <h4 class="q-mt-lg" v-if="!route.params.id">Criar inscrição</h4>
+    <h4 class="q-mt-lg" v-else>Editar inscrição</h4>
+    <q-form
+      ref="subscriptionForm"
+      @submit="submitSubscription()"
+    >
+      <div>
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-4 col-py-xs q-mr-md q-mb-lg">
+            <q-select
+              label="Usuário"
+              map-options
+              emit-value
+              hide-bottom-space
+              clearable
+              :readonly="!!route.params.id"
+              v-model="subscription.user_id"
+              :options="userOptions"
+              :option-label="opt => opt.name || subscription.user?.name || 'N/I'"
+              option-value="id"
+              dense
+              outlined
+              use-input
+              fill-input
+              hide-selected
+              placeholder="Digite para pesquisar"
+              input-debounce="300"
+              :rules="[val => !!val || 'Preenchimento obrigatório']"
+              @filter="filterUsers"
+            />
+          </div>
+          <div class="col-xs-12 col-sm-12 col-md-4 col-py-xs q-mr-md q-mb-lg">
+            <q-select
+              label="Produto"
+              map-options
+              emit-value
+              hide-bottom-space
+              clearable
+              :readonly="!!route.params.id"
+              v-model="subscription.product_id"
+              :options="productOptions"
+              :option-label="opt => opt.name || subscription.product?.name || 'N/I'"
+              option-value="id"
+              dense
+              outlined
+              use-input
+              fill-input
+              hide-selected
+              placeholder="Digite para pesquisar"
+              input-debounce="300"
+              :rules="[val => !!val || 'Preenchimento obrigatório']"
+              @filter="filterProducts"
+            />
+          </div>
+          <div class="col q-mb-lg">
+            <q-select
+              label="Plano"
+              map-options
+              emit-value
+              hide-bottom-space
+              clearable
+              :readonly="!subscription.product_id"
+              v-model="subscription.plan_id"
+              :options="planOptions"
+              :option-label="opt => opt.name || subscription.plan?.name || 'N/I'"
+              option-value="id"
+              dense
+              outlined
+              use-input
+              fill-input
+              hide-selected
+              placeholder="Digite para pesquisar"
+              input-debounce="300"
+              :rules="[val => !!val || 'Preenchimento obrigatório']"
+              @filter="filterPlan"
+            />
+          </div>
         </div>
       </div>
-    </div>
-    <div align="right">
-      <q-btn
-        outline
-        label="Salvar"
-        icon="save"
-        type="submit"
-        color="primary"
-        :disable="saving"
-        :loading="saving"
-      />
-    </div>
-  </q-form>
+      <div align="right">
+        <q-btn
+          outline
+          label="Salvar"
+          icon="save"
+          type="submit"
+          color="primary"
+          :disable="saving"
+          :loading="saving"
+        />
+      </div>
+    </q-form>
+  </div>
 </template>
 
 <script setup>
