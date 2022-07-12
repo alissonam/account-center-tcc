@@ -77,6 +77,112 @@
             </q-select>
           </div>
         </div>
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-6 col-py-xs q-mr-md q-mb-lg">
+            <div class="text-h6">JSON</div>
+            <Vue3JsonEditor
+              v-model="plan.payload"
+              mode="tree"
+              :expandedOnStart="false"
+              @json-change="onJsonChange"
+            />
+          </div>
+          <div class="col">
+            <div class="text-h6">HTML</div>
+            <q-editor
+              v-model="plan.description"
+              flat
+              content-class="bg-blue-1"
+              toolbar-text-color="white"
+              toolbar-toggle-color="yellow-8"
+              toolbar-bg="primary"
+              min-height="355px"
+              :toolbar="[
+                [
+                  {
+                    icon: $q.iconSet.editor.align,
+                    fixedLabel: true,
+                    fixedIcon: true,
+                    options: [
+                      'left',
+                      'center',
+                      'right',
+                      'justify'
+                    ]
+                  },
+                  {
+                    icon: 'filter_1',
+                    fixedLabel: true,
+                    fixedIcon: true,
+                    options: [
+                      'bold',
+                      'italic',
+                      'strike',
+                      'underline'
+                    ]
+                  },
+                  {
+                    icon: $q.iconSet.editor.formatting,
+                    fixedLabel: true,
+                    fixedIcon: true,
+                    options: [
+                      'p',
+                      'h1',
+                      'h2',
+                      'h3',
+                      'h4',
+                      'h5',
+                      'h6',
+                      'code'
+                    ]
+                  },
+                  {
+                    icon: $q.iconSet.editor.fontSize,
+                    fixedLabel: true,
+                    fixedIcon: true,
+                    options: [
+                      'size-1',
+                      'size-2',
+                      'size-3',
+                      'size-4',
+                      'size-5',
+                      'size-6',
+                      'size-7'
+                    ]
+                  },
+                  {
+                    icon: $q.iconSet.editor.font,
+                    fixedLabel: true,
+                    fixedIcon: true,
+                    options: [
+                      'default_font',
+                      'arial',
+                      'arial_black',
+                      'comic_sans',
+                      'courier_new',
+                      'impact',
+                      'lucida_grande',
+                      'times_new_roman',
+                      'verdana'
+                    ]
+                  },
+                ],
+                ['quote', 'unordered', 'ordered', 'outdent', 'indent'],
+                ['undo', 'redo', 'fullscreen']
+              ]"
+              :fonts="{
+                arial: 'Arial',
+                arial_black: 'Arial Black',
+                comic_sans: 'Comic Sans MS',
+                courier_new: 'Courier New',
+                impact: 'Impact',
+                lucida_grande: 'Lucida Grande',
+                times_new_roman: 'Times New Roman',
+                verdana: 'Verdana'
+              }"
+            />
+          </div>
+        </div>
       </div>
       <div align="right">
         <q-btn
@@ -101,6 +207,7 @@ import { createPlan, updatePlan, getPlan } from 'src/services/plan/plan-api'
 import { getProducts } from 'src/services/product/product-api'
 import { Notify, Loading } from 'quasar'
 import { formatResponseError } from "src/services/utils/error-formatter";
+import { Vue3JsonEditor } from 'vue3-json-editor'
 
 const router = useRouter()
 const route = useRoute()
@@ -109,7 +216,11 @@ let saving = ref(false)
 let plan = ref({
   hidden: false,
   preferential: false,
+  payload: {},
+  description: ''
 })
+
+let hasError = ref(false)
 
 const planForm = ref(null)
 let productsOptions = ref([])
@@ -176,5 +287,9 @@ async function filterProducts(val, update, abort) {
     })
     abort()
   }
+}
+
+function onJsonChange (value) {
+  plan.value.payload = value
 }
 </script>

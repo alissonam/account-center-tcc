@@ -123,11 +123,7 @@ let productOptions = ref([])
 let userOptions = ref([])
 let planOptions = ref([])
 
-let subscription = ref({
-  name: '',
-  email: null,
-  password: null,
-})
+let subscription = ref({})
 
 const subscriptionForm = ref(null)
 

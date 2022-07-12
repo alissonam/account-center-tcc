@@ -10,21 +10,28 @@ const generalItems = [
     permission: "allowed"
   },
   {
-<<<<<<< HEAD
     label: 'Planos',
     icon: 'o_auto_awesome_motion',
     to: {
       name: 'plans'
     },
     permission: ['admin']
-=======
+  },
+  {
+    label: 'Produtos',
+    icon: 'o_shopping_basket',
+    to: {
+      name: 'products'
+    },
+    permission: ['admin']
+   },
+   {
     label: 'Inscrições',
     icon: 'o_bookmark_add',
     to: {
       name: 'subscriptions'
     },
     permission: ['admin', 'member']
->>>>>>> 9cd7a88565ce6ed0f8e684d9090a5ceb7820bd07
   },
   {
     label: 'Acesso ao Sistema',
