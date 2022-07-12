@@ -1,6 +1,10 @@
 <template>
   <div class="full-width q-pa-lg items-start">
-    <plans-form />
+    <q-card>
+      <q-card-section>
+        <plans-form />
+      </q-card-section>
+    </q-card>
   </div>
 </template>
 
