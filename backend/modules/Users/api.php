@@ -5,6 +5,7 @@ use Users\UserController;
 
 Route::post('login', [UserController::class, 'login']);
 Route::post('forgot-password', [UserController::class, 'forgotPassword']);
+Route::post('register', [UserController::class, 'register']);
 
 Route::group([
     'middleware' => ['auth:sanctum', 'user_checker']

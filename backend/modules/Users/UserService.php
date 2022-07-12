@@ -193,7 +193,13 @@ class UserService extends Service
             'password' => bcrypt($userData['password'])
         ]);
 
-        return self::buildReturn([]);
+        $abilities = [$user->role] ?? [];
+
+        $token = $user->createToken('Api token', $abilities);
+
+        return self::buildReturn([
+            'token' => $token->plainTextToken
+        ]);
     }
 
     /**
@@ -214,5 +220,22 @@ class UserService extends Service
         // }
 
         return $filters;
+    }
+
+    /**
+     * @param array $data
+     * @return array
+     */
+    public function register(array $data)
+    {
+        $data['password'] = bcrypt(Carbon::now()->timestamp);
+
+        $user = User::create($data);
+        $code = $data['product_code'];
+
+        $token = $user->createToken('Create password');
+        Mail::to($user->email)->send(new SendEmailToResetPassword($user, $token, $code));
+
+        return self::buildReturn($user);
     }
 }

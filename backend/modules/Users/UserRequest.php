@@ -89,6 +89,19 @@ class UserRequest extends Request
     /**
      * @return string[]
      */
+    public function validateToRegister()
+    {
+        return [
+            'name'          => 'required',
+            'email'         => 'required|email',
+            'phone'         => 'required',
+            'product_code'  => '',
+        ];
+    }
+
+    /**
+     * @return string[]
+     */
     public function validateToForgotPassword()
     {
         return [

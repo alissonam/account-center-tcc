@@ -149,4 +149,15 @@ class UserController extends Controller
 
         return $this->response($result['response'], $result['status']);
     }
+
+    /**
+     * @param UserRequest $request
+     * @return mixed
+     */
+    public function register(UserRequest $request)
+    {
+        $result = $this->userService->register($request->validated());
+
+        return $this->response($result['response'], $result['status']);
+    }
 }

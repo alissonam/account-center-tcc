@@ -20,10 +20,11 @@ class SendEmailToResetPassword extends Mailable
      *
      * @return void
      */
-    public function __construct(User $user, $token)
+    public function __construct(User $user, $token, $code)
     {
         $this->user = $user;
         $this->token = $token;
+        $this->code = $code;
     }
 
     /**
@@ -38,6 +39,9 @@ class SendEmailToResetPassword extends Mailable
         $fromName = env('MAIL_FROM_NAME');
         $url = str_replace('__token__', $this->token->plainTextToken, $url);
 
+        if ($this->code){
+            $url = $url.'?code='.$this->code;
+        }
         return $this->from($fromEmail, $fromName)
             ->subject('Definição de senha')
             ->markdown('mails.reset-password')

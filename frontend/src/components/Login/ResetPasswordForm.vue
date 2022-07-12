@@ -87,6 +87,7 @@
 
 <script>
 import { postResetPassword } from 'src/services/login/login-api.js'
+import {loadLoggedUser} from "boot/user";
 
 export default {
   data () {
@@ -122,13 +123,17 @@ export default {
       this.loading = true
       try {
         const { data } = await postResetPassword(this.formData, this.$route.params.token)
+        console.log(data)
         this.$q.notify({
           type: 'positive',
           message: data.message || 'Senha alterada com sucesso',
         })
         this.loading = false
 
-        this.$router.push({ name: 'login' })
+        localStorage.setItem('isUserLogged', 'true')
+        localStorage.setItem('userToken', data.token)
+        await loadLoggedUser()
+        this.$router.push({ name: 'dashboard' })
       } catch (error) {
         const message = error.response.data.message
         this.$q.notify({
