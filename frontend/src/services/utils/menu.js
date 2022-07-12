@@ -16,6 +16,14 @@ const generalItems = [
       name: 'products'
     },
     permission: ['admin']
+   },
+   {
+    label: 'Inscrições',
+    icon: 'o_bookmark_add',
+    to: {
+      name: 'subscriptions'
+    },
+    permission: ['admin', 'member']
   },
   {
     label: 'Acesso ao Sistema',
