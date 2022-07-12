@@ -47,8 +47,8 @@
             outline
             color="negative"
             icon="delete"
-            :loading="removing"
-            :disable="removing"
+            :loading="removing === props.row.id"
+            :disable="removing === props.row.id"
             @click="destroyProductFunction(props.row.id)"
           >
             <q-tooltip>
@@ -69,8 +69,7 @@ import { Notify, Dialog } from 'quasar'
 
 let productsData = ref([])
 let loading = ref(false)
-let removing = ref(false)
-let changingStatus = ref(false)
+let removing = ref(null)
 
 const mainPagination = ref({
   page: 1,
@@ -127,15 +126,15 @@ async function getProductsFunction (props) {
   loading.value = false
 }
 
-function destroyProductFunction (client) {
+function destroyProductFunction (product) {
   Dialog.create({
     title: 'Atenção!',
     message: 'Tem certeza que deseja excluir este produto?',
     cancel: true,
   }).onOk(async () => {
-    removing.value = true
+    removing.value = product
     try {
-      await destroyProduct(client)
+      await destroyProduct(product)
       getProductsFunction()
 
       Notify.create({
@@ -148,7 +147,7 @@ function destroyProductFunction (client) {
         type: 'negative'
       })
     }
-    removing.value = false
+    removing.value = null
   })
 }
 </script>

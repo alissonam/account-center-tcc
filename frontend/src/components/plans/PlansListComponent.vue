@@ -58,8 +58,8 @@
             outline
             color="negative"
             icon="delete"
-            :loading="removing"
-            :disable="removing"
+            :loading="removing === props.row.id"
+            :disable="removing === props.row.id"
             @click="destroyPlanFunction(props.row.id)"
           >
             <q-tooltip>
@@ -80,7 +80,7 @@ import { Notify, Dialog } from 'quasar'
 
 let plansData = ref([])
 let loading = ref(false)
-let removing = ref(false)
+let removing = ref(null)
 
 const mainPagination = ref({
   page: 1,
@@ -143,7 +143,7 @@ function destroyPlanFunction (plan) {
     message: 'Tem certeza que deseja excluir este plano?',
     cancel: true,
   }).onOk(async () => {
-    removing.value = true
+    removing.value = plan
     try {
       await destroyPlan(plan)
       getPlansFunction()
@@ -158,7 +158,7 @@ function destroyPlanFunction (plan) {
         type: 'negative'
       })
     }
-    removing.value = false
+    removing.value = null
   })
 }
 </script>
