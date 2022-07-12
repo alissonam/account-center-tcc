@@ -15,7 +15,7 @@ const generalItems = [
     to: {
       name: 'products'
     },
-    permission: "allowed"
+    permission: ['admin']
   },
   {
     label: 'Acesso ao Sistema',
