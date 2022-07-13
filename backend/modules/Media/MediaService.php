@@ -78,11 +78,9 @@ class MediaService extends Service
             ]);
         }
 
+        $mediaToRemove = [];
         if (in_array($data['media_type'], Media::REPLACEABLE_TYPES)) {
             $mediaToRemove = MediaRepository::mediaByRelationshipType($data['media_type'], $data['subject_id'])->get();
-            foreach ($mediaToRemove as $item) {
-                self::deleteMedia($item);
-            }
         }
 
         $createdMedia = [];
@@ -96,6 +94,12 @@ class MediaService extends Service
                 Str::uuid() . '.' . $extension,
                 $data['is_public']
             );
+
+            if (!$storage) {
+                throw self::exception([
+                    'message' => 'Falha ao realizar upload para storage'
+                ]);
+            }
 
             $media = Media::create([
                 'media_type'   => $data['media_type'],
@@ -111,6 +115,10 @@ class MediaService extends Service
             $media['url'] = self::generateTemporaryUrl($media);
 
             array_push($createdMedia, $media);
+        }
+
+        foreach ($mediaToRemove as $item) {
+            self::deleteMedia($item);
         }
 
         return self::buildReturn($createdMedia);
@@ -181,7 +189,11 @@ class MediaService extends Service
      */
     public static function generateTemporaryUrl(Media $media, $hoursToTempUrl = self::HOURS_TO_TEMP_URL)
     {
-        return Storage::temporaryUrl($media->path, now()->addHours($hoursToTempUrl));
+        try {
+            return Storage::temporaryUrl($media->path , now()->addHours($hoursToTempUrl));
+        } catch (\Throwable) {
+            throw self::exception(['message' => 'Falha na conexão com storage de arquivos']);
+        }
     }
 
     /**
