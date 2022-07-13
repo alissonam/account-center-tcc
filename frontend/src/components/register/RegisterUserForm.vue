@@ -1,12 +1,14 @@
 <template>
-  <q-form @submit="login()">
+  <q-form
+    ref="accountForm"
+    @submit="submitRegister()">
     <div class="login-container column justify-between">
       <div class="justify-center text-center">
         <h1 class="login-title">
           Registre-se
         </h1>
       </div>
-      <div class="row">
+      <div class="row" v-if="!userCreate">
         <div class="col-xs-12 col-sm-12 col-md-12 col-py-xs q-mr-md q-mb-lg">
           <q-input
             label="Nome"
@@ -43,14 +45,25 @@
           />
         </div>
       </div>
+      <div v-else>
+        <h5
+          class="text-center text-bold"
+          style="color: #3e7b27">
+          Cadastro criado com sucesso!!
+          <br>Por favor verifique seu e-mail para definir senha
+        </h5>
+      </div>
       <div class="text-left q-pa-lg q-gutter-lg">
         <q-btn
+          v-if="!userCreate"
           style="background: #1976D2; color: white; text-align: center"
           type="submit"
           class="q-ma-sm q-px-xl q-py-sm"
           label="Registrar"
           icon-right="keyboard_arrow_right"
           push
+          :disable="saving"
+          :loading="saving"
         />
       </div>
     </div>
@@ -58,9 +71,36 @@
 </template>
 
 <script setup>
-import { ref } from "vue"
+
+import { onMounted, ref } from "vue"
+import { useRouter, useRoute } from "vue-router"
+import { createRegister } from "src/services/user/user-api";
 
 let account = ref({})
+let accountForm = ref(null)
+const router = useRouter()
+const route = useRoute()
+let saving = ref(false)
+let userCreate = ref(false)
+
+async function submitRegister() {
+  saving.value = true
+  try {
+    const validated = accountForm.value.validate()
+    if (validated) {
+      account.value.product_code = route.query.code || null
+      await createRegister(account.value)
+      userCreate.value = true
+      account.value = {}
+    }
+  } catch (error) {
+    Notify.create({
+      message: formatResponseError(error) || 'Falha ao realizar o cadastro',
+      type: 'negative'
+    })
+  }
+  saving.value = false
+}
 
 </script>
 

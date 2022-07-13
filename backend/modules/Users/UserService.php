@@ -74,7 +74,7 @@ class UserService extends Service
      */
     public function index(array $filters)
     {
-        $filters = UserService::injectLoggedUserFilters($filters);
+        $filters    = UserService::injectLoggedUserFilters($filters);
         $usersQuery = UserRepository::index($filters);
 
         return self::buildReturn(
@@ -90,6 +90,10 @@ class UserService extends Service
      */
     public function store(array $data)
     {
+        self::prepareData($data, [
+            'phone' => fn($value) => self::onlyNumbers($value),
+        ]);
+
         $definedPassword  = $data['password'] ?? false;
         $randomPassword   = Carbon::now()->timestamp;
         $data['password'] = bcrypt(!$definedPassword ? $randomPassword : $data['password']);
@@ -115,6 +119,10 @@ class UserService extends Service
      */
     public function update(User $user, array $data)
     {
+        self::prepareData($data, [
+            'phone' => fn($value) => self::onlyNumbers($value),
+        ]);
+
         if (isset($data['email'])) {
             /** @var User $userWithEmail */
             $userWithEmail = UserRepository::searchFromEmail($data['email'])->first();
@@ -193,7 +201,13 @@ class UserService extends Service
             'password' => bcrypt($userData['password'])
         ]);
 
-        return self::buildReturn([]);
+        $abilities = [$user->role] ?? [];
+
+        $token = $user->createToken('Api token', $abilities);
+
+        return self::buildReturn([
+            'token' => $token->plainTextToken
+        ]);
     }
 
     /**
@@ -214,5 +228,26 @@ class UserService extends Service
         // }
 
         return $filters;
+    }
+
+    /**
+     * @param array $data
+     * @return array
+     */
+    public function register(array $data)
+    {
+        self::prepareData($data, [
+            'phone' => fn($value) => self::onlyNumbers($value),
+        ]);
+
+        $data['password'] = bcrypt(Carbon::now()->timestamp);
+
+        $user = User::create($data);
+        $code = $data['product_code'];
+
+        $token = $user->createToken('Create password');
+        Mail::to($user->email)->send(new SendEmailToResetPassword($user, $token, $code));
+
+        return self::buildReturn($user);
     }
 }

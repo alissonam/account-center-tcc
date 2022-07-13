@@ -30,3 +30,8 @@ export const getLoggedUser = async () => {
   const { data } = await get('/users/logged-user')
   return data
 }
+
+export const createRegister = async user => {
+  const { data } = await post(`/register/`, user)
+  return data
+}
