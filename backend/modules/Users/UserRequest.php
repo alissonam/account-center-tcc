@@ -93,8 +93,8 @@ class UserRequest extends Request
     {
         return [
             'name'          => 'required',
-            'email'         => 'required|email',
-            'phone'         => 'required',
+            'email'         => 'required|string|email|unique:users',
+            'phone'         => 'required|string',
             'product_code'  => '',
         ];
     }

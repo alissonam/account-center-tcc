@@ -72,7 +72,7 @@
 
 <script setup>
 
-import { onMounted, ref, reactive } from "vue"
+import { onMounted, ref } from "vue"
 import { useRouter, useRoute } from "vue-router"
 import { createRegister } from "src/services/user/user-api";
 

@@ -74,7 +74,7 @@ class UserService extends Service
      */
     public function index(array $filters)
     {
-        $filters = UserService::injectLoggedUserFilters($filters);
+        $filters    = UserService::injectLoggedUserFilters($filters);
         $usersQuery = UserRepository::index($filters);
 
         return self::buildReturn(
@@ -90,6 +90,10 @@ class UserService extends Service
      */
     public function store(array $data)
     {
+        self::prepareData($data, [
+            'phone' => fn($value) => self::onlyNumbers($value),
+        ]);
+
         $definedPassword  = $data['password'] ?? false;
         $randomPassword   = Carbon::now()->timestamp;
         $data['password'] = bcrypt(!$definedPassword ? $randomPassword : $data['password']);

@@ -87,7 +87,7 @@
 
 <script>
 import { postResetPassword } from 'src/services/login/login-api.js'
-import {loadLoggedUser} from "boot/user";
+import { loadLoggedUser } from "boot/user"
 
 export default {
   data () {
@@ -123,7 +123,6 @@ export default {
       this.loading = true
       try {
         const { data } = await postResetPassword(this.formData, this.$route.params.token)
-        console.log(data)
         this.$q.notify({
           type: 'positive',
           message: data.message || 'Senha alterada com sucesso',
