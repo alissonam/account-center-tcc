@@ -80,7 +80,7 @@
               hide-bottom-space
               dense
               outlined
-              :rules="[val => val.length <= 255 || 'Não pode ter mais de 255 caracteres']"
+              :rules="[val => (val || '').length <= 255 || 'Não pode ter mais de 255 caracteres']"
             >
               <q-btn
                 round
@@ -108,7 +108,7 @@
               hide-bottom-space
               dense
               outlined
-              :rules="[val => val.length <= 255 || 'Não pode ter mais de 255 caracteres']"
+              :rules="[val => (val || '').length <= 255 || 'Não pode ter mais de 255 caracteres']"
             >
               <q-btn
                 round
@@ -138,9 +138,39 @@
               hide-bottom-space
               dense
               outlined
-              :rules="[val => val.length <= 255 || 'Não pode ter mais de 255 caracteres']"
+              :rules="[val => (val || '').length <= 255 || 'Não pode ter mais de 255 caracteres']"
             />
           </div>
+        </div>
+      </div>
+      <div class="row">
+        <div v-if="product.id">
+          <q-chip
+            text-color="white"
+            :label="productLogo ? 'Logo de produto cadastrado' : 'Sem Logo de produto cadastrado'"
+            :color="productLogo ? 'positive' : 'negative'"
+          />
+          <q-uploader
+            ref="attachmentUploader"
+            dense
+            hide-bottom-space
+            class="row"
+            max-file-size="3000000"
+            batch
+            :url="`${uploadURL}/media`"
+            :headers="[{ name: 'Authorization', value: `Bearer ${token}` }]"
+            label="Clique para selecionar ou arraste arquivos aqui"
+            no-thumbnails
+            auto-upload
+            color="primary"
+            accept=".jpg,.png,.jpeg,.gif"
+            :form-fields="() => [
+                  {name: 'subject_id', value: product.id},
+                  {name: 'media_type', value: 'product_logo'}
+                ]"
+            @start="() => closeLabel = 'Cancelar'"
+            @uploaded="getLogoFunction(product.id)"
+          />
         </div>
       </div>
       <div align="right">
@@ -163,11 +193,17 @@ import { onMounted, ref } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { createProduct, updateProduct, getProduct } from 'src/services/product/product-api'
 import { Notify, Loading } from 'quasar'
-import { formatResponseError } from "src/services/utils/error-formatter";
+import { formatResponseError } from "src/services/utils/error-formatter"
+import { getMedia } from "src/services/media/media-api"
+import { userToken } from "src/services/utils/local-storage"
 
 const router = useRouter()
 const route = useRoute()
 let saving = ref(false)
+let productLogo = ref(null)
+
+const token = localStorage.getItem('userToken')
+const uploadURL = process.env.API_URL
 
 const statusOptions = [
   {
@@ -195,6 +231,7 @@ const productForm = ref(null)
 onMounted(async () => {
   if (route.params.id) {
     await getProductFunction()
+    getLogoFunction(route.params.id)
   }
 })
 
@@ -240,5 +277,20 @@ function openLink(value)
 {
   // Verificar se os links inseridos viram ou não com o protocolo antes... senão, manter como está.
   window.open("https://www." + value);
+}
+
+async function getLogoFunction(productId){
+  try {
+    let result = await getMedia({
+      media_type: 'product_logo',
+      subject_id: productId
+    })
+    productLogo.value = result[0]
+  } catch (error) {
+    Notify.create({
+      message: formatResponseError(error) || 'Falha ao carregar logo',
+      type: 'negative'
+    })
+  }
 }
 </script>

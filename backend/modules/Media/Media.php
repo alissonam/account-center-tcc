@@ -2,6 +2,7 @@
 
 namespace Media;
 
+use Products\Product;
 use Users\User;
 use Illuminate\Database\Eloquent\Model;
 
@@ -16,7 +17,7 @@ class Media extends Model
      */
     const MEDIA_TYPE_USER_PROFILE = 'user_profile';
     const MEDIA_TYPE_PROJECT_LOGO = 'project_logo';
-
+    const MEDIA_TYPE_PRODUCT_LOGO = 'product_logo';
     /**
      * Mapeamento media x model.
      *
@@ -26,6 +27,7 @@ class Media extends Model
     const SUBJECT_TYPES_MAPPING = [
         self::MEDIA_TYPE_USER_PROFILE => User::class,
         self::MEDIA_TYPE_PROJECT_LOGO => null,
+        self::MEDIA_TYPE_PRODUCT_LOGO => Product::class
     ];
 
     /**
@@ -35,6 +37,7 @@ class Media extends Model
     const REPLACEABLE_TYPES = [
         self::MEDIA_TYPE_USER_PROFILE,
         self::MEDIA_TYPE_PROJECT_LOGO,
+        self::MEDIA_TYPE_PRODUCT_LOGO
     ];
 
     protected $table = 'media';
