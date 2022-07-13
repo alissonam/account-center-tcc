@@ -82,18 +82,13 @@ const router = useRouter()
 const route = useRoute()
 let saving = ref(false)
 let userCreate = ref(false)
-let productCode = ref(null)
-
-onMounted(() => {
-  productCode.value = route.query.code
-})
 
 async function submitRegister() {
   saving.value = true
   try {
     const validated = accountForm.value.validate()
     if (validated) {
-      account.value.product_code = productCode.value ? productCode.value : null
+      account.value.product_code = route.query.code || null
       await createRegister(account.value)
       userCreate.value = true
       account.value = {}

@@ -119,6 +119,10 @@ class UserService extends Service
      */
     public function update(User $user, array $data)
     {
+        self::prepareData($data, [
+            'phone' => fn($value) => self::onlyNumbers($value),
+        ]);
+
         if (isset($data['email'])) {
             /** @var User $userWithEmail */
             $userWithEmail = UserRepository::searchFromEmail($data['email'])->first();
@@ -232,6 +236,10 @@ class UserService extends Service
      */
     public function register(array $data)
     {
+        self::prepareData($data, [
+            'phone' => fn($value) => self::onlyNumbers($value),
+        ]);
+
         $data['password'] = bcrypt(Carbon::now()->timestamp);
 
         $user = User::create($data);
