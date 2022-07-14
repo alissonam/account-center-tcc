@@ -42,7 +42,7 @@
                 :color="subscriptionsData[i]?.product_id == product.id ? 'primary' : 'positive'"
                 :icon="subscriptionsData[i]?.product_id == product.id ? 'rocket_launch' : 'assignment'"
                 :class="productsData[i].id === applyShadow ? shadow : ''"
-                :disable="loading"
+                :disable="loading || loadingSubscriptions"
                 size="18px"
                 rounded
                 outline
@@ -68,6 +68,7 @@ let subscriptionsData = ref([])
 let loggedUser = ref(null)
 let applyShadow = ref(null)
 let loading = ref(false)
+let loadingSubscriptions = ref(false)
 let shadow = computed(() => "shadow-24")
 let windowWidth = ref(window.innerWidth)
 
@@ -120,7 +121,7 @@ async function getLoggedUserFunction () {
 }
 
 async function getSubscriptionsFunction () {
-  loading.value = true
+  loadingSubscriptions.value = true
   try {
     const params = {
       mainPagination: mainPagination.value,
@@ -133,7 +134,7 @@ async function getSubscriptionsFunction () {
       type: 'negative'
     })
   }
-  loading.value = false
+  loadingSubscriptions.value = false
 }
 
 async function accessProduct (product) {
