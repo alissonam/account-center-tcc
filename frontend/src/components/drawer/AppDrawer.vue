@@ -1,5 +1,6 @@
 <template>
   <q-drawer
+    v-if="loggedUser.role === 'admin'"
     v-model="drawerOpen"
     show-if-above
     bordered
@@ -15,6 +16,7 @@
 <script setup>
 import { ref } from 'vue'
 import sidebarMenu from './DrawerMenuSimplex'
+import { loggedUser } from 'boot/user'
 
 const drawerOpen = ref(false)
 const drawerSide = ref('left')

@@ -257,7 +257,7 @@ async function getPlanFunction() {
   Loading.show()
   try {
     const response = await getPlan(route.params.id, {
-      with: [ 'product']
+      with: ['product']
     })
     plan.value = response
     plan.value.hidden === 0 ? plan.value.hidden = false : plan.value.hidden = true

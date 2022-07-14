@@ -3,6 +3,7 @@
 namespace Products;
 
 use Illuminate\Database\Eloquent\Model;
+use Media\Media;
 
 /**
  * Class Product
@@ -28,4 +29,9 @@ class Product extends Model
         'api_token',
         'description',
     ];
+
+    public function logo()
+    {
+        return $this->morphOne(Media::class, 'subject');
+    }
 }

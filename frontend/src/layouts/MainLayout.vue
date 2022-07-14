@@ -4,6 +4,7 @@
       <q-toolbar>
         <div class="full-width q-pt-sm">
           <q-btn
+            v-if="loggedUser.role === 'admin'"
             flat
             dense
             round
@@ -48,7 +49,7 @@
 <script setup>
 import AppDrawer from 'src/components/drawer/AppDrawer.vue'
 import { postLogoutUser } from "src/services/login/login-api"
-import { resetLoggedUser, resetUserInLocalStorage } from "boot/user"
+import { resetLoggedUser, resetUserInLocalStorage, loggedUser } from "boot/user"
 import { useRouter } from 'vue-router'
 import { Notify } from "quasar"
 import { ref } from "vue";
