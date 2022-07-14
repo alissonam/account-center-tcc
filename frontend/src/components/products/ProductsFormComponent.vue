@@ -275,8 +275,9 @@ async function getProductFunction() {
 
 function openLink(value)
 {
-  // Verificar se os links inseridos viram ou não com o protocolo antes... senão, manter como está.
-  window.open("https://www." + value);
+  value.includes("https://www.")
+  ? window.open(value)
+  : window.open("https://www." + value)
 }
 
 async function getLogoFunction(productId){
