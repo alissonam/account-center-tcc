@@ -3,6 +3,7 @@
 namespace Subscriptions;
 
 use App\Http\Services\Service;
+use Users\UserService;
 
 /**
  * Class SubscriptionService
@@ -16,6 +17,7 @@ class SubscriptionService extends Service
      */
     public function index(array $filters)
     {
+        $filters = UserService::injectLoggedUserFilters($filters);
         $subscriptionsQuery = SubscriptionRepository::index($filters);
 
         return self::buildReturn(
