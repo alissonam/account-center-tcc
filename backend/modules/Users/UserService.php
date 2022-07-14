@@ -222,10 +222,9 @@ class UserService extends Service
             return $filters;
         }
 
-        // Injetar filtros de acordo com usuário logado
-        // if ($loggedUser->role === User::USER_ROLE_MEMBER) {
-        //     $filters['member_id'] = $loggedUser->id;
-        // }
+        if ($loggedUser->role === User::USER_ROLE_MEMBER) {
+            $filters['user_id'] = $loggedUser->id;
+        }
 
         return $filters;
     }
