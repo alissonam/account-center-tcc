@@ -3,7 +3,7 @@
     <h4 class="q-ma-lg">Produtos</h4>
     <q-card
       style="min-height: 250px;"
-      :class="productsData[i].id === applyShadow ? shadow : (width > 400 ? 'q-ma-xl' : 'q-ma-md')"
+      :class="productsData[i].id === applyShadow ? 'shadow-24' : (width > 400 ? 'q-ma-xl' : 'q-ma-md')"
       v-on:mouseover="applyShadow = product.id"
       v-on:mouseleave="applyShadow = null"
       v-for="(product, i) in productsData"
@@ -19,8 +19,8 @@
             <q-img
               style="height: 200px; max-width: 200px; border-radius: 50%"
               class="q-mt-md"
-              :class="productsData[i].id === applyShadow ? shadow : ''"
-              :src="product?.logoUrl"
+              :class="productsData[i].id === applyShadow ? 'shadow-24' : ''"
+              :src="product?.logoUrl || 'https://cdn.quasar.dev/img/parallax2.jpg'"
               no-native-menu
             />
           </div>
@@ -40,7 +40,7 @@
                 :label="subscriptionsData[i]?.product_id == product.id ? 'Acessar' : 'Assinar'"
                 :color="subscriptionsData[i]?.product_id == product.id ? 'primary' : 'positive'"
                 :icon="subscriptionsData[i]?.product_id == product.id ? 'rocket_launch' : 'assignment'"
-                :class="productsData[i].id === applyShadow ? shadow : ''"
+                :class="productsData[i].id === applyShadow ? 'shadow-24' : ''"
                 :disable="loading || loadingSubscriptions"
                 size="18px"
                 rounded
@@ -59,16 +59,14 @@
 import { onMounted, onUnmounted, ref, computed } from 'vue'
 import { getProducts } from 'src/services/product/product-api'
 import { getSubscriptions } from 'src/services/subscription/subscription-api'
-import { getLoggedUser } from 'src/services/user/user-api'
+import { loggedUser } from 'boot/user'
 import { Notify } from 'quasar'
 
 let productsData = ref([])
 let subscriptionsData = ref([])
-let loggedUser = ref(null)
 let applyShadow = ref(null)
 let loading = ref(false)
 let loadingSubscriptions = ref(false)
-let shadow = computed(() => "shadow-24")
 let windowWidth = ref(window.innerWidth)
 
 const onWidthChange = () => windowWidth.value = window.innerWidth
@@ -84,7 +82,6 @@ const mainPagination = ref({
 
 onMounted(async () => {
   await getProductsFunction()
-  await getLoggedUserFunction()
   await getSubscriptionsFunction()
 })
 
@@ -106,25 +103,12 @@ async function getProductsFunction () {
   loading.value = false
 }
 
-async function getLoggedUserFunction () {
-  loading.value = true
-  try {
-    loggedUser.value = await getLoggedUser()
-  } catch (e) {
-    Notify.create({
-      message: 'Falha ao buscar usuário logado',
-      type: 'negative'
-    })
-  }
-  loading.value = false
-}
-
 async function getSubscriptionsFunction () {
   loadingSubscriptions.value = true
   try {
     const params = {
       mainPagination: mainPagination.value,
-      user_id: loggedUser.value.id
+      user_id: loggedUser.id
     }
     subscriptionsData.value = await getSubscriptions(params)
   } catch (e) {
