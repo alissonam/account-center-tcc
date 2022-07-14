@@ -59,7 +59,6 @@
 import { onMounted, onUnmounted, ref, computed } from 'vue'
 import { getProducts } from 'src/services/product/product-api'
 import { getSubscriptions } from 'src/services/subscription/subscription-api'
-import { loggedUser } from 'boot/user'
 import { Notify } from 'quasar'
 
 let productsData = ref([])
@@ -106,11 +105,7 @@ async function getProductsFunction () {
 async function getSubscriptionsFunction () {
   loadingSubscriptions.value = true
   try {
-    const params = {
-      mainPagination: mainPagination.value,
-      user_id: loggedUser.id
-    }
-    subscriptionsData.value = await getSubscriptions(params)
+    subscriptionsData.value = await getSubscriptions(mainPagination.value)
   } catch (e) {
     Notify.create({
       message: 'Falha ao buscar inscrições',
