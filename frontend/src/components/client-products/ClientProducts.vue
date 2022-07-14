@@ -3,8 +3,7 @@
     <h4 class="q-ma-lg">Produtos</h4>
     <q-card
       style="min-height: 250px;"
-      class="q-ma-xl"
-      :class="productsData[i].id === applyShadow ? shadow : ''"
+      :class="productsData[i].id === applyShadow ? shadow : (width > 400 ? 'q-ma-xl' : 'q-ma-md')"
       v-on:mouseover="applyShadow = product.id"
       v-on:mouseleave="applyShadow = null"
       v-for="(product, i) in productsData"
@@ -14,7 +13,7 @@
         <div class="row q-gutter-md">
           <div
             class="col-xs-12 col-sm-12 col-md-3 q-my-auto"
-            :class="product.id % 2 == 0 ? 'order-first' : width > 1023 ? 'order-last' : 'order-first'"
+            :class="product.id % 2 == 0 ? 'order-first' : (width > 1023 ? 'order-last' : 'order-first')"
             align="center"
           >
             <q-img
