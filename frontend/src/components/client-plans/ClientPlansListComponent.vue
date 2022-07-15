@@ -5,43 +5,45 @@
     </div>
     <div class="q-pa-md" v-else>
       <h3 class="row items-center justify-center" style="color: #0a457d" > {{ productData.name}}</h3>
-      <q-card
+      <div style="display: flex">
+        <q-card
         class="q-ma-md card"
         v-for="(plan, i) in planData"
         :key="i"
-      >
-        <q-item-section
-          class="items-center justify-center"
         >
+          <q-item-section
+            class="items-center justify-center"
+          >
           <q-img
             :src="productLogo?.url || 'logo.jpeg'"
             style="width: 2cm; margin: 15px"
           />
-        </q-item-section>
-        <q-item>
-          <q-item-section>
-            <q-item-label align="center">
-              <h5 style="color: #0a457d; margin: 12px; align: center;"> {{ plan.name }}</h5>
-            </q-item-label>
           </q-item-section>
-        </q-item>
-        <div class="col-12 col-md-7 q-py-xs q-px-sm" style="text-align: center">
-          <q-separator/>
-          <div v-html="plan.description"/>
-        </div>
-        <q-card-actions align="center" class="q-pa-md q-gutter-sm">
-          <q-btn
-            class="button"
-            padding="xs lg"
-            :key="`btn_size_dense_rd_${size}`"
-            type="submit"
-            label="Assinar"
-            push
-            rounded
-            size="lg"
-          />
-        </q-card-actions>
-      </q-card>
+          <q-item>
+            <q-item-section>
+              <q-item-label align="center">
+                <h5 style="color: #0a457d; margin: 12px; align: center;"> {{ plan.name }}</h5>
+              </q-item-label>
+            </q-item-section>
+          </q-item>
+          <div class="q-pa-md text-center" style="text-align: center; padding-bottom: 70px">
+            <q-separator/>
+            <div v-html="plan.description"/>
+          </div>
+          <q-card-actions align="center" class="q-pa-md q-gutter-sm">
+            <q-btn
+              class="button"
+              padding="xs lg"
+              :key="`btn_size_dense_rd_${size}`"
+              type="submit"
+              label="Assinar"
+              push
+              rounded
+              size="lg"
+            />
+          </q-card-actions>
+        </q-card>
+      </div>
     </div>
   </div>
 </template>
@@ -130,6 +132,8 @@ async function getLogoProductFunction(productId) {
   color: #faf8f8;
   width: 90%;
   transition-duration: 0.4s;
+  position: absolute;
+  bottom: 30px;
 }
 
 .button:hover {
