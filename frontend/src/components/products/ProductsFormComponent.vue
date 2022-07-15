@@ -76,13 +76,71 @@
         </div>
         <div class="row">
           <div class="col-xs-12 col-sm-12 col-md-12 col-py-xs q-mr-md q-mb-lg">
-            <q-input
-              type="textarea"
-              label="Descrição"
+            <div class="text-h6">HTML</div>
+            <q-editor
               v-model="product.description"
-              hide-bottom-space
-              dense
-              outlined
+              flat
+              content-class="bg-blue-1"
+              toolbar-text-color="white"
+              toolbar-toggle-color="yellow-8"
+              toolbar-bg="primary"
+              min-height="355px"
+              :toolbar="[
+                [
+                  {
+                    icon: $q.iconSet.editor.align,
+                    fixedLabel: true,
+                    fixedIcon: true,
+                    options: [
+                      'left',
+                      'center',
+                      'right',
+                      'justify'
+                    ]
+                  },
+                  {
+                    icon: 'filter_1',
+                    fixedLabel: true,
+                    fixedIcon: true,
+                    options: [
+                      'bold',
+                      'italic',
+                      'strike',
+                      'underline'
+                    ]
+                  },
+                  {
+                    icon: $q.iconSet.editor.formatting,
+                    fixedLabel: true,
+                    fixedIcon: true,
+                    options: [
+                      'p',
+                      'h1',
+                      'h2',
+                      'h3',
+                      'h4',
+                      'h5',
+                      'h6',
+                      'code'
+                    ]
+                  },
+                  {
+                    icon: $q.iconSet.editor.fontSize,
+                    fixedLabel: true,
+                    fixedIcon: true,
+                    options: [
+                      'size-1',
+                      'size-2',
+                      'size-3',
+                      'size-4',
+                      'size-5',
+                      'size-6',
+                      'size-7'
+                    ]
+                  },
+                ],
+                ['undo', 'redo', 'fullscreen']
+              ]"
             />
           </div>
         </div>

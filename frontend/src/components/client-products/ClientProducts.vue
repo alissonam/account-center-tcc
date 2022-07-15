@@ -29,12 +29,13 @@
             :class="product.id % 2 == 0 ? 'order-last' : 'order-first'"
             align="center"
           >
-            <div class="q-pa-md text-h5 text-center">
+            <div class="q-pa-md text-h4">
               {{ product.name }}
             </div>
-            <div class="q-pa-md text-body1 text-center">
-              {{ product.description }}
-            </div>
+            <q-card-section
+              class="q-pa-md text-center"
+              v-html="product.description"
+            />
             <div class="q-mt-xl">
               <q-btn
                 :label="subscriptionsData[i]?.product_id == product.id ? 'Acessar' : 'Assinar'"

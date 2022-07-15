@@ -159,36 +159,9 @@
                       'size-7'
                     ]
                   },
-                  {
-                    icon: $q.iconSet.editor.font,
-                    fixedLabel: true,
-                    fixedIcon: true,
-                    options: [
-                      'default_font',
-                      'arial',
-                      'arial_black',
-                      'comic_sans',
-                      'courier_new',
-                      'impact',
-                      'lucida_grande',
-                      'times_new_roman',
-                      'verdana'
-                    ]
-                  },
                 ],
-                ['quote', 'unordered', 'ordered', 'outdent', 'indent'],
                 ['undo', 'redo', 'fullscreen']
               ]"
-              :fonts="{
-                arial: 'Arial',
-                arial_black: 'Arial Black',
-                comic_sans: 'Comic Sans MS',
-                courier_new: 'Courier New',
-                impact: 'Impact',
-                lucida_grande: 'Lucida Grande',
-                times_new_roman: 'Times New Roman',
-                verdana: 'Verdana'
-              }"
             />
           </div>
         </div>
