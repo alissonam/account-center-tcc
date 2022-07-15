@@ -3,6 +3,9 @@
 namespace Subscriptions;
 
 use App\Http\Services\Service;
+use Plans\Plan;
+use Products\Product;
+use Users\User;
 use Users\UserService;
 
 /**
@@ -33,6 +36,14 @@ class SubscriptionService extends Service
      */
     public function store(array $data)
     {
+        $plan = Plan::find($data['plan_id']);
+        $data['product_id'] = Product::find($plan->product_id)->id;
+
+        $userLogged = auth()->user();
+        if ($userLogged->role === User::USER_ROLE_MEMBER){
+            $data['user_id'] = $userLogged->id;
+        }
+
         $subscription = Subscription::create($data);
 
         return self::buildReturn($subscription);
