@@ -20,7 +20,7 @@
               style="height: 200px; max-width: 200px; border-radius: 50%"
               class="q-mt-md"
               :class="productsData[i].id === applyShadow ? 'shadow-24' : ''"
-              :src="product?.logoUrl || 'https://cdn.quasar.dev/img/parallax2.jpg'"
+              :src="product?.logoUrl || defaultImage"
               no-native-menu
             />
           </div>
@@ -59,6 +59,7 @@
 import { onMounted, onUnmounted, ref, computed } from 'vue'
 import { getProducts } from 'src/services/product/product-api'
 import { getSubscriptions } from 'src/services/subscription/subscription-api'
+import defaultImage from 'src/assets/images/default-image.png'
 import { Notify } from 'quasar'
 
 let productsData = ref([])
