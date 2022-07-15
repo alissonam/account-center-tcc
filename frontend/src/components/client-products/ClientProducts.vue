@@ -20,7 +20,7 @@
               style="height: 200px; max-width: 200px; border-radius: 50%"
               class="q-mt-md"
               :class="productsData[i].id === applyShadow ? 'shadow-24' : ''"
-              :src="product?.logoUrl || 'https://cdn.quasar.dev/img/parallax2.jpg'"
+              :src="product?.logoUrl || defaultImage"
               no-native-menu
             />
           </div>
@@ -29,12 +29,13 @@
             :class="product.id % 2 == 0 ? 'order-last' : 'order-first'"
             align="center"
           >
-            <div class="q-pa-md text-h5 text-center">
+            <div class="q-pa-md text-h4">
               {{ product.name }}
             </div>
-            <div class="q-pa-md text-body1 text-center">
-              {{ product.description }}
-            </div>
+            <q-card-section
+              class="q-pa-md text-center"
+              v-html="product.description"
+            />
             <div class="q-mt-xl">
               <q-btn
                 :label="subscriptionsData[i]?.product_id == product.id ? 'Acessar' : 'Assinar'"
@@ -59,6 +60,7 @@
 import { onMounted, onUnmounted, ref, computed } from 'vue'
 import { getProducts } from 'src/services/product/product-api'
 import { getSubscriptions } from 'src/services/subscription/subscription-api'
+import defaultImage from 'src/assets/images/default-image.png'
 import { Notify } from 'quasar'
 
 let productsData = ref([])

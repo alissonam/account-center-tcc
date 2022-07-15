@@ -46,7 +46,7 @@
               :rules="[val => !!val || 'Preenchimento obrigatório']"
             />
           </div>
-          <div class="col">
+          <div class="col-xs-12 col-sm-12 col-md-4 col-py-xs q-mr-md">
             <q-select
               :readonly="route.params.id"
               v-model="plan.product_id"
@@ -75,6 +75,15 @@
                 </q-item>
               </template>
             </q-select>
+          </div>
+          <div class="col q-mb-lg">
+            <q-input
+              label="Vindi ID"
+              v-model="plan.vindi_id"
+              hide-bottom-space
+              dense
+              outlined
+            />
           </div>
         </div>
         <div class="row">
@@ -150,36 +159,9 @@
                       'size-7'
                     ]
                   },
-                  {
-                    icon: $q.iconSet.editor.font,
-                    fixedLabel: true,
-                    fixedIcon: true,
-                    options: [
-                      'default_font',
-                      'arial',
-                      'arial_black',
-                      'comic_sans',
-                      'courier_new',
-                      'impact',
-                      'lucida_grande',
-                      'times_new_roman',
-                      'verdana'
-                    ]
-                  },
                 ],
-                ['quote', 'unordered', 'ordered', 'outdent', 'indent'],
                 ['undo', 'redo', 'fullscreen']
               ]"
-              :fonts="{
-                arial: 'Arial',
-                arial_black: 'Arial Black',
-                comic_sans: 'Comic Sans MS',
-                courier_new: 'Courier New',
-                impact: 'Impact',
-                lucida_grande: 'Lucida Grande',
-                times_new_roman: 'Times New Roman',
-                verdana: 'Verdana'
-              }"
             />
           </div>
         </div>

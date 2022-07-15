@@ -20,7 +20,7 @@ class SendEmailToResetPassword extends Mailable
      *
      * @return void
      */
-    public function __construct(User $user, $token, $code)
+    public function __construct(User $user, $token, $code = null)
     {
         $this->user = $user;
         $this->token = $token;
