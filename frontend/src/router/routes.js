@@ -156,7 +156,7 @@ const clientProducts = [
 
 const clientPlans = [
   {
-    path: '/client-plans',
+    path: '/client-plans/:code',
     name: 'client_plans',
     component: () => import('pages/ClientPlans/ClientPlansList'),
     beforeEnter: checkPermission,
