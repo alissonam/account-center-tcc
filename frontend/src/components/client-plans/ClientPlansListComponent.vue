@@ -1,4 +1,18 @@
 <template>
+  <div>
+    <q-btn
+      color="primary"
+      icon="arrow_back"
+      dense
+      outline
+      rounded
+      :to="{ name: 'client_products' }"
+    >
+      <q-tooltip :offset="[5, 5]">
+        Voltar
+      </q-tooltip>
+    </q-btn>
+  </div>
   <div class="row items-center justify-center">
     <div v-if="!existProduct">
       <h5> Não foi possivel carregar os planos do produto</h5>
@@ -80,7 +94,7 @@ async function getProductFunction(productCode) {
       getLogoProductFunction(productData.value.id)
       existProduct.value = true
     } else {
-      existProduct = false
+      existProduct.value = false
     }
   } catch (e) {
     Notify.create({
@@ -95,7 +109,6 @@ async function getPlanFunction(productId) {
   loading.value = true
   try {
     const result = await getPlans({
-      with: [ 'product' ],
       product_id: productId
     })
     planData.value = result
