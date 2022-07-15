@@ -80,7 +80,7 @@ const route = useRoute()
 let existProduct = ref(false)
 
 onMounted(async () => {
-  productCode.value = route.query.code
+  productCode.value = route.params.code
   await getProductFunction(productCode.value)
 })
 
