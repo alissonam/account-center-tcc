@@ -154,6 +154,16 @@ const clientProducts = [
   },
 ]
 
+const clientPlans = [
+  {
+    path: '/client-plans',
+    name: 'client_plans',
+    component: () => import('pages/ClientPlans/ClientPlansList'),
+    beforeEnter: checkPermission,
+    meta: { permission: ['member', 'admin'] }
+  }
+]
+
 const routes = [
   {
     path: '/',
@@ -176,6 +186,7 @@ const routes = [
       ...plans,
       ...subscriptions,
       ...clientProducts,
+      ...clientPlans
     ]
   },
   {

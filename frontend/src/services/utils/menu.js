@@ -26,6 +26,14 @@ const generalItems = [
     permission: ['admin']
   },
   {
+    label: 'Planos',
+    icon: 'o_auto_awesome_motion',
+    to: {
+      name: 'client_plans'
+    },
+    permission: ['member']
+  },
+  {
     label: 'Produtos',
     icon: 'o_shopping_basket',
     to: {
