@@ -69,6 +69,7 @@ class UserRequest extends Request
 
         return [
             'email'         => 'string|email',
+            'phone'         => '',
             'name'          => '',
             'last_name'     => '',
             'role'          => '',

@@ -20,7 +20,7 @@
     >
       <div>
         <div class="row">
-          <div class="col-xs-12 col-sm-12 col-md-4 col-py-xs q-mr-md q-mb-lg">
+          <div class="col-xs-12 col-sm-12 col-md-3 col-py-xs q-mr-md q-mb-lg">
             <q-select
               label="Usuário"
               map-options
@@ -43,7 +43,7 @@
               @filter="filterUsers"
             />
           </div>
-          <div class="col-xs-12 col-sm-12 col-md-4 col-py-xs q-mr-md q-mb-lg">
+          <div class="col-xs-12 col-sm-12 col-md-3 col-py-xs q-mr-md q-mb-lg">
             <q-select
               label="Produto"
               map-options
@@ -66,7 +66,7 @@
               @filter="filterProducts"
             />
           </div>
-          <div class="col q-mb-lg">
+          <div class="col-xs-12 col-sm-12 col-md-3 col-py-xs q-mr-md q-mb-lg">
             <q-select
               label="Plano"
               map-options
@@ -87,6 +87,15 @@
               input-debounce="300"
               :rules="[val => !!val || 'Preenchimento obrigatório']"
               @filter="filterPlan"
+            />
+          </div>
+          <div class="col q-mb-lg">
+            <q-input
+              label="Vindi ID"
+              v-model="subscription.vindi_id"
+              hide-bottom-space
+              dense
+              outlined
             />
           </div>
         </div>

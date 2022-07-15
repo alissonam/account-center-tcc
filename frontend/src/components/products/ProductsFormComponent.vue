@@ -33,15 +33,29 @@
               ]"
             />
           </div>
-          <div class="col-xs-12 col-sm-12 col-md-4 col-py-xs q-mr-md q-mb-lg">
-            <q-input
-              label="Código"
-              v-model="product.code"
-              hide-bottom-space
-              dense
-              outlined
-              :rules="[val => val.length <= 255 || 'Não pode ter mais de 255 caracteres']"
-            />
+          <div class="row col-xs-12 col-sm-12 col-md-4 col-py-xs q-mr-md q-mb-lg">
+            <div
+              class="col-xs-12 col-sm-12 col-md-6 col-py-xs q-mr-md"
+              :class="width > 1023 ? '' : 'q-mb-lg'"
+            >
+              <q-input
+                label="Código"
+                v-model="product.code"
+                hide-bottom-space
+                dense
+                outlined
+                :rules="[val => val.length <= 255 || 'Não pode ter mais de 255 caracteres']"
+              />
+            </div>
+            <div class="col">
+              <q-input
+                label="Vindi ID"
+                v-model="product.vindi_id"
+                hide-bottom-space
+                dense
+                outlined
+              />
+            </div>
           </div>
           <div class="col q-mb-lg">
             <q-select
@@ -189,7 +203,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue'
+import { onMounted, onUnmounted, ref, computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { createProduct, updateProduct, getProduct } from 'src/services/product/product-api'
 import { Notify, Loading } from 'quasar'
@@ -204,6 +218,12 @@ let productLogo = ref(null)
 
 const token = localStorage.getItem('userToken')
 const uploadURL = process.env.API_URL
+
+let windowWidth = ref(window.innerWidth)
+const onWidthChange = () => windowWidth.value = window.innerWidth
+onMounted(() => window.addEventListener('resize', onWidthChange))
+onUnmounted(() => window.removeEventListener('resize', onWidthChange))
+const width = computed(() => windowWidth.value)
 
 const statusOptions = [
   {
