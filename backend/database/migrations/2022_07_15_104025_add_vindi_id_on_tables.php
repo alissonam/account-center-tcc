@@ -18,11 +18,11 @@ return new class extends Migration
         });
 
         Schema::table('plans', function (Blueprint $table) {
-            $table->unsignedBigInteger('vindi_id')->after('id')->nullable();
+            $table->unsignedBigInteger('vindi_id')->after('product_id')->nullable();
         });
 
         Schema::table('subscriptions', function (Blueprint $table) {
-            $table->unsignedBigInteger('vindi_id')->after('id')->nullable();
+            $table->unsignedBigInteger('vindi_id')->after('user_id')->nullable();
         });
 
         Schema::table('users', function (Blueprint $table) {
