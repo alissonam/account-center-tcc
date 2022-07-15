@@ -1,6 +1,6 @@
 <template>
   <div class="row items-center justify-center">
-    <div v-if="!productExist">
+    <div v-if="!existProduct">
       <h5> Não foi possivel carregar os planos do produto</h5>
     </div>
     <div class="q-pa-md" v-else>
@@ -55,14 +55,13 @@ import { formatResponseError } from "src/services/utils/error-formatter"
 import { getProducts } from "src/services/product/product-api"
 import { useRoute } from "vue-router"
 
-
 let productCode = ref(null)
 let planData = ref([])
 const loading = ref(false)
 let productLogo = ref(null)
 let productData = ref({})
 const route = useRoute()
-let productExist = ref(false)
+let existProduct = ref(false)
 
 onMounted(async () => {
   productCode.value = route.query.code
@@ -72,15 +71,14 @@ onMounted(async () => {
 async function getProductFunction(productCode) {
   loading.value = true
   try {
-    productCode = 123
     const result = await getProducts({ code: productCode })
     productData.value = result[0]
     if (productData.value) {
       getPlanFunction(productData.value.id)
       getLogoProductFunction(productData.value.id)
-      productExist.value = true
+      existProduct.value = true
     } else {
-      productExist = false
+      existProduct = false
     }
   } catch (e) {
     Notify.create({
