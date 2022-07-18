@@ -65,7 +65,7 @@ class SubscriptionService extends Service
     {
         $userLogged = auth()->user();
 
-        if ($userLogged->role === User::USER_ROLE_MEMBER && !Hash::check($data['password'], $user->password ?? null)) {
+        if ($userLogged->role === User::USER_ROLE_MEMBER && !Hash::check($data['password'], $userLogged->password ?? null)) {
             throw self::exception([
                 'message' => 'Senha incorreta!'
             ], 403);
