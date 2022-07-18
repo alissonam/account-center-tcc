@@ -3,7 +3,6 @@
 namespace Subscriptions;
 
 use App\Http\Services\Service;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Plans\Plan;
 use Products\Product;
