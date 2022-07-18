@@ -28,6 +28,16 @@ class Product extends Model
         'app_url',
         'api_token',
         'description',
+        'vindi_id',
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'status'    => 'boolean',
     ];
 
     public function logo()

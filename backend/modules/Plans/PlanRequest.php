@@ -29,6 +29,7 @@ class PlanRequest extends Request
         return [
             'name'          => 'required|min:2',
             'product_id'    => 'required',
+            'vindi_id'      => '',
             'payload'       => '',
             'description'   => '',
             'hidden'        => '',
@@ -43,8 +44,9 @@ class PlanRequest extends Request
     public function validateToUpdate()
     {
         return [
-            'name'      => 'min:2',
+            'name'          => 'min:2',
             'product_id'    => '',
+            'vindi_id'      => '',
             'payload'       => '',
             'description'   => '',
             'hidden'        => '',

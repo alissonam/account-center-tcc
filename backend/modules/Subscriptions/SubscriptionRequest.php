@@ -27,6 +27,7 @@ class SubscriptionRequest extends Request
         return [
             'plan_id'       => 'required',
             'user_id'       => '',
+            'vindi_id'      => '',
         ];
     }
 
@@ -36,7 +37,8 @@ class SubscriptionRequest extends Request
     public function validateToUpdate()
     {
         return [
-            'plan_id' => '',
+            'plan_id'   => '',
+            'vindi_id'  => '',
         ];
     }
 }

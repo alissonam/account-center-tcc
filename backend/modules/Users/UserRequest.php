@@ -55,6 +55,7 @@ class UserRequest extends Request
             'street'        => '',
             'number'        => '',
             'complement'    => '',
+            'vindi_id'      => '',
         ];
     }
 
@@ -84,6 +85,7 @@ class UserRequest extends Request
             'street'        => '',
             'number'        => '',
             'complement'    => '',
+            'vindi_id'      => '',
         ];
     }
 
