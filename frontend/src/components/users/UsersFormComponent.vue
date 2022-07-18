@@ -120,6 +120,15 @@
               :rules="[val => !!val || 'Preenchimento obrigatório']"
             />
           </div>
+          <div class="col q-mb-lg">
+            <q-input
+              label="Vindi ID"
+              v-model="user.vindi_id"
+              hide-bottom-space
+              dense
+              outlined
+            />
+          </div>
         </div>
         <div class="row justify-between q-mb-md">
           <div class="text-h6">Dados do endereço</div>

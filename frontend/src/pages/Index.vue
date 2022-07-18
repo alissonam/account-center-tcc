@@ -1,11 +1,14 @@
 <template>
   <q-page padding class="q-gutter-y-md">
-    <div class="q-pa-md">
+    <div v-if="loggedUser.role !== 'member'" class="q-pa-md">
       <img
         src="~assets/logo.jpeg"
         style="max-width:90%;"
         class="absolute-center"
       >
+    </div>
+    <div v-else class="full-width q-pa-lg items-start">
+      <client-products />
     </div>
   </q-page>
 <!--  <q-page padding class="q-gutter-y-md">-->
@@ -43,10 +46,7 @@
 </template>
 
 <script setup>
-// import ChartJsBar from 'src/components/charts/BarChart.vue';
-// import ChartJsLine from 'src/components/charts/LineChart.vue';
-// import PolarArea from 'src/components/charts/PolarAreaChart.vue';
-// import ChartJsRadar from 'src/components/charts/RadarChart.vue';
-// import WidgetInfoBox from 'src/components/widgets/WidgetInfoBox.vue';
+import { loggedUser } from 'boot/user'
+import ClientProducts from "components/client-products/ClientProducts";
 
 </script>

@@ -33,15 +33,29 @@
               ]"
             />
           </div>
-          <div class="col-xs-12 col-sm-12 col-md-4 col-py-xs q-mr-md q-mb-lg">
-            <q-input
-              label="Código"
-              v-model="product.code"
-              hide-bottom-space
-              dense
-              outlined
-              :rules="[val => val.length <= 255 || 'Não pode ter mais de 255 caracteres']"
-            />
+          <div class="row col-xs-12 col-sm-12 col-md-4 col-py-xs q-mr-md q-mb-lg">
+            <div
+              class="col-xs-12 col-sm-12 col-md-6 col-py-xs q-mr-md"
+              :class="width > 1023 ? '' : 'q-mb-lg'"
+            >
+              <q-input
+                label="Código"
+                v-model="product.code"
+                hide-bottom-space
+                dense
+                outlined
+                :rules="[val => val.length <= 255 || 'Não pode ter mais de 255 caracteres']"
+              />
+            </div>
+            <div class="col">
+              <q-input
+                label="Vindi ID"
+                v-model="product.vindi_id"
+                hide-bottom-space
+                dense
+                outlined
+              />
+            </div>
           </div>
           <div class="col q-mb-lg">
             <q-select
@@ -62,13 +76,71 @@
         </div>
         <div class="row">
           <div class="col-xs-12 col-sm-12 col-md-12 col-py-xs q-mr-md q-mb-lg">
-            <q-input
-              type="textarea"
-              label="Descrição"
+            <div class="text-h6">HTML</div>
+            <q-editor
               v-model="product.description"
-              hide-bottom-space
-              dense
-              outlined
+              flat
+              content-class="bg-blue-1"
+              toolbar-text-color="white"
+              toolbar-toggle-color="yellow-8"
+              toolbar-bg="primary"
+              min-height="355px"
+              :toolbar="[
+                [
+                  {
+                    icon: $q.iconSet.editor.align,
+                    fixedLabel: true,
+                    fixedIcon: true,
+                    options: [
+                      'left',
+                      'center',
+                      'right',
+                      'justify'
+                    ]
+                  },
+                  {
+                    icon: 'filter_1',
+                    fixedLabel: true,
+                    fixedIcon: true,
+                    options: [
+                      'bold',
+                      'italic',
+                      'strike',
+                      'underline'
+                    ]
+                  },
+                  {
+                    icon: $q.iconSet.editor.formatting,
+                    fixedLabel: true,
+                    fixedIcon: true,
+                    options: [
+                      'p',
+                      'h1',
+                      'h2',
+                      'h3',
+                      'h4',
+                      'h5',
+                      'h6',
+                      'code'
+                    ]
+                  },
+                  {
+                    icon: $q.iconSet.editor.fontSize,
+                    fixedLabel: true,
+                    fixedIcon: true,
+                    options: [
+                      'size-1',
+                      'size-2',
+                      'size-3',
+                      'size-4',
+                      'size-5',
+                      'size-6',
+                      'size-7'
+                    ]
+                  },
+                ],
+                ['undo', 'redo', 'fullscreen']
+              ]"
             />
           </div>
         </div>
@@ -189,7 +261,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue'
+import { onMounted, onUnmounted, ref, computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { createProduct, updateProduct, getProduct } from 'src/services/product/product-api'
 import { Notify, Loading } from 'quasar'
@@ -204,6 +276,12 @@ let productLogo = ref(null)
 
 const token = localStorage.getItem('userToken')
 const uploadURL = process.env.API_URL
+
+let windowWidth = ref(window.innerWidth)
+const onWidthChange = () => windowWidth.value = window.innerWidth
+onMounted(() => window.addEventListener('resize', onWidthChange))
+onUnmounted(() => window.removeEventListener('resize', onWidthChange))
+const width = computed(() => windowWidth.value)
 
 const statusOptions = [
   {

@@ -26,8 +26,7 @@ class SubscriptionRequest extends Request
     {
         return [
             'plan_id'       => 'required',
-            'product_id'    => 'required',
-            'user_id'       => 'required',
+            'user_id'       => '',
         ];
     }
 

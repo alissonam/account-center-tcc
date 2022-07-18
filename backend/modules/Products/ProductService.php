@@ -4,6 +4,7 @@ namespace Products;
 
 use App\Http\Services\Service;
 use Products\ProductRepository;
+use GuzzleHttp\Client;
 
 /**
  * Class ProductService
@@ -59,5 +60,23 @@ class ProductService extends Service
         $product->delete();
 
         return self::buildReturn();
+    }
+
+    /**
+     * @param Product $product
+     * @return array
+     */
+    public static function sendDataToProduct(Product $product, array $data)
+    {
+        $client  = new Client();
+        $url = $product->action_url;
+        $options['headers'] = [
+            'Content-Type'         => 'application/json',
+            'Accept'               => 'application/json',
+            'x-access-token'       => $product->api_token,
+        ];
+        $options['json'] = $data;
+
+        $client->post($url, $options);
     }
 }

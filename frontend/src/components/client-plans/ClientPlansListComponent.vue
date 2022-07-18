@@ -6,7 +6,7 @@
       dense
       outline
       rounded
-      :to="{ name: 'client_products' }"
+      :to="{ name: 'dashboard' }"
     >
       <q-tooltip :offset="[5, 5]">
         Voltar
@@ -80,7 +80,7 @@ const route = useRoute()
 let existProduct = ref(false)
 
 onMounted(async () => {
-  productCode.value = route.query.code
+  productCode.value = route.params.code
   await getProductFunction(productCode.value)
 })
 
