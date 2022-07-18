@@ -33,6 +33,10 @@ class PlanService extends Service
     {
         $plan = Plan::create($data);
 
+        if ($data['preferential'] === true) {
+            PlanRepository::plansOfProduct($plan->product_id, $plan->id)->update(['preferential' => false]);
+        }
+
         return self::buildReturn($plan);
     }
 
@@ -44,6 +48,10 @@ class PlanService extends Service
     public function update(Plan $plan, array $data)
     {
         $plan->update($data);
+
+        if ($data['preferential'] === true) {
+            PlanRepository::plansOfProduct($plan->product_id, $plan->id)->update(['preferential' => false]);
+        }
 
         return self::buildReturn($plan);
     }
