@@ -19,17 +19,23 @@
       @submit="submitPlan()"
     >
       <div class="row q-mb-lg">
-        <div class="col">
+        <div class="col q-gutter-md">
           <q-toggle
-            label="Preferencial"
+            label="Preferencial:"
             left-label
             v-model="plan.preferential"
             color="green"
           />
           <q-toggle
-            label="Visível"
+            label="Visível:"
             left-label
             v-model="plan.hidden"
+            color="green"
+          />
+          <q-toggle
+            label="Padrão:"
+            left-label
+            v-model="plan.default"
             color="green"
           />
         </div>
@@ -196,8 +202,6 @@ const route = useRoute()
 let saving = ref(false)
 
 let plan = ref({
-  hidden: false,
-  preferential: false,
   payload: {},
   description: ''
 })
@@ -242,8 +246,6 @@ async function getPlanFunction() {
       with: ['product']
     })
     plan.value = response
-    plan.value.hidden === 0 ? plan.value.hidden = false : plan.value.hidden = true
-    plan.value.preferential === 0 ? plan.value.preferential = false : plan.value.preferential = true
   } catch (e) {
     Notify.create({
       message: 'Falha ao buscar plano!',

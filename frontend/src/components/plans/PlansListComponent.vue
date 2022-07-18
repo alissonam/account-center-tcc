@@ -25,9 +25,9 @@
       <q-td key="preferential" :props="props">
         <q-chip
           text-color="white"
-          :icon="props.row.preferential === 0 ? 'close' : 'done'"
+          :icon="props.row.preferential ? 'done' : 'close'"
           :label="t(`plan.preferential.${props.row.preferential}`)"
-          :color="props.row.preferential === 0 ? 'negative' : 'positive'"
+          :color="props.row.preferential ? 'positive' : 'negative'"
         />
       </q-td>
     </template>
@@ -35,9 +35,19 @@
       <q-td key="hidden" :props="props">
         <q-chip
           text-color="white"
-          :icon="props.row.hidden === 0 ? 'close' : 'done'"
+          :icon="props.row.hidden ? 'done' : 'close'"
           :label="t(`plan.hidden.${props.row.hidden}`)"
-          :color="props.row.hidden === 0 ? 'negative' : 'positive'"
+          :color="props.row.hidden ? 'positive' : 'negative'"
+        />
+      </q-td>
+    </template>
+    <template v-slot:body-cell-default="props">
+      <q-td key="default" :props="props">
+        <q-chip
+          text-color="white"
+          :icon="props.row.default ? 'done' : 'close'"
+          :label="t(`plan.default.${props.row.default}`)"
+          :color="props.row.default ? 'positive' : 'negative'"
         />
       </q-td>
     </template>
@@ -109,6 +119,13 @@ const columns = [
     align: 'left',
     field: 'hidden',
     format: val => t(`plan.hidden.${val}`),
+  },
+  {
+    name: 'default',
+    label: 'Padrão',
+    align: 'left',
+    field: 'default',
+    format: val => t(`plan.default.${val}`),
   },
   {
     name: 'actions',
