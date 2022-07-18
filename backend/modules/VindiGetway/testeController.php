@@ -18,7 +18,8 @@ class testeController extends Controller
 
         $customerService = new CustomerService($user);
         // $customer = $customerService->storeCustomer();
-        $customer = $customerService->archiveCustomer();
+        $user->idVindi = 1515058;
+        $customer = $customerService->updateCustomer();
         dd("teste", $customer);
     }
 }

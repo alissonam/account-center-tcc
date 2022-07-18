@@ -37,12 +37,12 @@ class CustomerService extends ApiVindiService {
 
     public function archiveCustomer()
     {
-        return $this->vindiService->delete($this->accountCenterUser->idVindi);
+        $this->vindiService->delete($this->accountCenterUser->idVindi);
     }
 
     public function unarchiveCustomer()
     {
-        return $this->vindiService->unarchive($this->accountCenterToCustomer->idVindi);
+        $this->vindiService->unarchive($this->accountCenterUser->idVindi);
     }
 
     private function customerToAccountCenterUser($customer)
