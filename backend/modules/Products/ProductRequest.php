@@ -46,7 +46,6 @@ class ProductRequest extends Request
      */
     public function validateToUpdate()
     {
-
         return [
             'name'        => 'string|min:5|max:255',
             'status'      => ['string', Rule::in([Product::STATUS_ACTIVE, Product::STATUS_INATIVE])],
@@ -57,5 +56,4 @@ class ProductRequest extends Request
             'description' => '',
         ];
     }
-
 }
