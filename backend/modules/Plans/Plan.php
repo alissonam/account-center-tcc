@@ -22,6 +22,7 @@ class Plan extends Model
         'description',
         'hidden',
         'preferential',
+        'default',
         'product_id'
     ];
 

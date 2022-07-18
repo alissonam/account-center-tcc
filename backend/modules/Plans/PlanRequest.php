@@ -33,6 +33,7 @@ class PlanRequest extends Request
             'description'   => '',
             'hidden'        => '',
             'preferential'  => '',
+            'default'       => '',
         ];
     }
 
@@ -48,6 +49,7 @@ class PlanRequest extends Request
             'description'   => '',
             'hidden'        => '',
             'preferential'  => '',
+            'default'       => '',
         ];
     }
 }
