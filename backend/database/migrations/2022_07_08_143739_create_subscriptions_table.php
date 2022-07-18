@@ -53,17 +53,18 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('plans', function (Blueprint $table) {
+        Schema::table('subscriptions', function (Blueprint $table) {
             $table->dropForeign('fk_s_plan_id');
         });
 
-        Schema::table('products', function (Blueprint $table) {
+        Schema::table('subscriptions', function (Blueprint $table) {
             $table->dropForeign('fk_s_product_id');
         });
 
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('subscriptions', function (Blueprint $table) {
             $table->dropForeign('fk_s_user_id');
         });
+
         Schema::dropIfExists('subscriptions');
     }
 };
