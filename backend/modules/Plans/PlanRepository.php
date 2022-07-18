@@ -20,4 +20,15 @@ class PlanRepository
             return $query->where('product_id', $client);
         });
     }
+
+    /**
+     * @param $id
+     * @return int
+     */
+    public static function updatePreferential($id)
+    {
+        return Plan::query()->where('id', $id)
+            ->update(['preferential' => 0]);
+    }
+
 }
