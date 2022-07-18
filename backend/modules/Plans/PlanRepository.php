@@ -22,13 +22,14 @@ class PlanRepository
     }
 
     /**
-     * @param $id
-     * @return int
+     * @param $productId
+     * @param $exceptPlanId
+     * @return \Illuminate\Database\Eloquent\Builder
      */
-    public static function updatePreferential($id)
+    public static function plansOfProduct($productId, $exceptPlanId)
     {
-        return Plan::query()->where('id', $id)
-            ->update(['preferential' => 0]);
+        return Plan::query()->where('product_id', $productId)
+            ->where('id', '!=',  $exceptPlanId);
     }
 
 }

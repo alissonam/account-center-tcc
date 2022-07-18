@@ -34,7 +34,7 @@ class PlanService extends Service
         $plan = Plan::create($data);
 
         if ($data['preferential'] === true) {
-            self::updatePreferential($data, $plan->id);
+            PlanRepository::plansOfProduct($plan->product_id, $plan->id)->update(['preferential' => false]);
         }
 
         return self::buildReturn($plan);
@@ -50,7 +50,7 @@ class PlanService extends Service
         $plan->update($data);
 
         if ($data['preferential'] === true) {
-            self::updatePreferential($data, $plan->id);
+            PlanRepository::plansOfProduct($plan->product_id, $plan->id)->update(['preferential' => false]);
         }
 
         return self::buildReturn($plan);
@@ -65,23 +65,5 @@ class PlanService extends Service
         $plan->delete();
 
         return self::buildReturn();
-    }
-
-    /**
-     * @param $data
-     * @param $planId
-     */
-    public function updatePreferential($data, $planId)
-    {
-        $filter = [
-            'product_id' => $data['product_id']
-        ];
-        $plan   = PlanRepository::index($filter);
-        $result = $plan->get();
-
-        foreach ($result as $plan) {
-            if ($planId != $plan->id)
-            PlanRepository::updatePreferential($plan->id);
-        }
     }
 }
