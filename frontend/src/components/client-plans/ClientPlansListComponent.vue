@@ -6,7 +6,7 @@
       dense
       outline
       rounded
-      :to="{ name: 'client_products' }"
+      :to="{ name: 'dashboard' }"
     >
       <q-tooltip :offset="[5, 5]">
         Voltar
