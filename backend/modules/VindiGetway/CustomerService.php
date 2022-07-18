@@ -24,7 +24,7 @@ class CustomerService extends ApiVindiService {
     {
         $customer = $this->accountCenterToCustomer();
         $storedVindiCustomer = $this->vindiService->create($customer);
-        $this->accountCenterUser->idVindi = $storedVindiCustomer['id'];
+        $this->accountCenterUser->idVindi = $storedVindiCustomer->id;
         return $this->accountCenterUser;
     }
 
@@ -61,7 +61,7 @@ class CustomerService extends ApiVindiService {
             'neighborhood' => $customer->address->neighborhood,
             'city' => $customer->address->city,
             'state' => $customer->address->state,
-            'idVindi' => $customer->id
+            'vindi_id' => $customer->id
         ]);
 
         return $user;
@@ -69,7 +69,7 @@ class CustomerService extends ApiVindiService {
 
     private function accountCenterToCustomer() {
         $customer = [
-            'id'            => $this->accountCenterUser->idVindi ?? null,
+            'id'            => $this->accountCenterUser->vindi_id ?? null,
             'name'          => $this->accountCenterUser->name.$this->accountCenterUser->last_name,
             'email'         => $this->accountCenterUser->email,
             'code'          => $this->accountCenterUser->id,
