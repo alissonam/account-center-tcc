@@ -39,15 +39,14 @@ class SubscriptionService extends Service
     {
         $plan = Plan::find($data['plan_id']);
         $data['product_id'] = Product::find($plan->product_id)->id;
-        $user = auth()->user();
+        $userLogged = auth()->user();
 
-        if (!Hash::check($data['password'], $user->password ?? null)) {
+        if (!Hash::check($data['password'], $userLogged->password ?? null && $userLogged->role === User::USER_ROLE_MEMBER)) {
             throw self::exception([
                 'message' => 'Senha incorreta!'
             ], 403);
         }
 
-        $userLogged = auth()->user();
         if ($userLogged->role === User::USER_ROLE_MEMBER){
             $data['user_id'] = $userLogged->id;
         }
@@ -66,7 +65,7 @@ class SubscriptionService extends Service
     {
         $user = auth()->user();
 
-        if (!Hash::check($data['password'], $user->password ?? null)) {
+        if (!Hash::check($data['password'], $user->password ?? null && $userLogged->role === User::USER_ROLE_MEMBER)) {
             throw self::exception([
                 'message' => 'Senha incorreta!'
             ], 403);
