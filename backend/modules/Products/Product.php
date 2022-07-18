@@ -31,15 +31,6 @@ class Product extends Model
         'vindi_id',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'status'    => 'boolean',
-    ];
-
     public function logo()
     {
         return $this->morphOne(Media::class, 'subject');
