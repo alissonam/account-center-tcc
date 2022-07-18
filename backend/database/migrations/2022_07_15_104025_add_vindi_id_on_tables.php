@@ -38,19 +38,19 @@ return new class extends Migration
     public function down()
     {
         Schema::table('products', function (Blueprint $table) {
-            $table->unsignedBigInteger('vindi_id');
+            $table->dropColumn('vindi_id');
         });
 
         Schema::table('plans', function (Blueprint $table) {
-            $table->unsignedBigInteger('vindi_id');
+            $table->dropColumn('vindi_id');
         });
 
         Schema::table('subscriptions', function (Blueprint $table) {
-            $table->unsignedBigInteger('vindi_id');
+            $table->dropColumn('vindi_id');
         });
 
         Schema::table('users', function (Blueprint $table) {
-            $table->unsignedBigInteger('vindi_id');
+            $table->dropColumn('vindi_id');
         });
     }
 };

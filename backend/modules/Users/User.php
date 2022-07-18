@@ -12,7 +12,7 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    const USER_ROLE_ADMIN      = 'admin';
+    const USER_ROLE_ADMIN     = 'admin';
     const USER_ROLE_MEMBER    = 'member';
 
     const STATUS_PENDING_PASSWORD = 'pending_password';
