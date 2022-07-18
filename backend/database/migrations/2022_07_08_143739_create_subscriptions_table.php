@@ -27,17 +27,13 @@ return new class extends Migration
                 ->on('plans')
                 ->onUpdate('RESTRICT')
                 ->onDelete('RESTRICT');
-        });
 
-        Schema::table('subscriptions', function (Blueprint $table) {
             $table->foreign('product_id', 'fk_s_product_id')
                 ->references('id')
                 ->on('products')
                 ->onUpdate('RESTRICT')
                 ->onDelete('RESTRICT');
-        });
 
-        Schema::table('subscriptions', function (Blueprint $table) {
             $table->foreign('user_id', 'fk_s_user_id')
                 ->references('id')
                 ->on('users')
@@ -53,17 +49,12 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('plans', function (Blueprint $table) {
+        Schema::table('subscriptions', function (Blueprint $table) {
             $table->dropForeign('fk_s_plan_id');
-        });
-
-        Schema::table('products', function (Blueprint $table) {
             $table->dropForeign('fk_s_product_id');
-        });
-
-        Schema::table('users', function (Blueprint $table) {
             $table->dropForeign('fk_s_user_id');
         });
+
         Schema::dropIfExists('subscriptions');
     }
 };

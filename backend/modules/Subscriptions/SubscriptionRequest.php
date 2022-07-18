@@ -28,6 +28,7 @@ class SubscriptionRequest extends Request
             'plan_id'       => 'required',
             'user_id'       => '',
             'vindi_id'      => '',
+            'password'      => 'nullable|string|min:6',
         ];
     }
 
@@ -39,6 +40,7 @@ class SubscriptionRequest extends Request
         return [
             'plan_id'   => '',
             'vindi_id'  => '',
+            'password'  => 'nullable|string|min:6',
         ];
     }
 }

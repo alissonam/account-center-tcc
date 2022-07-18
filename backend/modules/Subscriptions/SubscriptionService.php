@@ -3,6 +3,7 @@
 namespace Subscriptions;
 
 use App\Http\Services\Service;
+use Illuminate\Support\Facades\Hash;
 use Plans\Plan;
 use Products\Product;
 use Users\User;
@@ -38,8 +39,14 @@ class SubscriptionService extends Service
     {
         $plan = Plan::find($data['plan_id']);
         $data['product_id'] = Product::find($plan->product_id)->id;
-
         $userLogged = auth()->user();
+
+        if ($userLogged->role === User::USER_ROLE_MEMBER && !Hash::check($data['password'], $userLogged->password ?? null)) {
+            throw self::exception([
+                'message' => 'Senha incorreta!'
+            ], 403);
+        }
+
         if ($userLogged->role === User::USER_ROLE_MEMBER){
             $data['user_id'] = $userLogged->id;
         }
@@ -56,6 +63,14 @@ class SubscriptionService extends Service
      */
     public function update(Subscription $subscription, array $data)
     {
+        $userLogged = auth()->user();
+
+        if ($userLogged->role === User::USER_ROLE_MEMBER && !Hash::check($data['password'], $user->password ?? null)) {
+            throw self::exception([
+                'message' => 'Senha incorreta!'
+            ], 403);
+        }
+
         $subscription->update($data);
 
         return self::buildReturn($subscription);
