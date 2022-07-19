@@ -11,11 +11,11 @@ const generalItems = [
   },
   {
     label: 'Produtos',
-    icon: 'o_widgets',
+    icon: 'o_shopping_basket',
     to: {
-      name: 'client_products'
+      name: 'products'
     },
-    permission: ['admin', 'member']
+    permission: ['admin']
   },
   {
     label: 'Planos',
@@ -34,14 +34,6 @@ const generalItems = [
     permission: ['member']
   },
   {
-    label: 'Produtos',
-    icon: 'o_shopping_basket',
-    to: {
-      name: 'products'
-    },
-    permission: ['admin']
-   },
-   {
     label: 'Inscrições',
     icon: 'o_bookmark_add',
     to: {

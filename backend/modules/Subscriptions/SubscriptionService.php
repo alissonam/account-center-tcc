@@ -6,6 +6,7 @@ use App\Http\Services\Service;
 use Illuminate\Support\Facades\Hash;
 use Plans\Plan;
 use Products\Product;
+use Products\ProductService;
 use Users\User;
 use Users\UserService;
 
@@ -39,6 +40,7 @@ class SubscriptionService extends Service
     {
         $plan = Plan::find($data['plan_id']);
         $data['product_id'] = Product::find($plan->product_id)->id;
+        $product = Product::find($data['product_id']);
         $userLogged = auth()->user();
 
         if ($userLogged->role === User::USER_ROLE_MEMBER && !Hash::check($data['password'], $userLogged->password ?? null)) {
@@ -51,6 +53,29 @@ class SubscriptionService extends Service
             $data['user_id'] = $userLogged->id;
         }
 
+        $json = [
+            'action' => 'create_account',
+            'user'   => [
+                'id'           => $userLogged->id,
+                'name'         => $userLogged->name,
+                'last_name'    => $userLogged->last_name,
+                'document'     => $userLogged->document,
+                'registration' => $userLogged->registration,
+                'email'        => $userLogged->email,
+                'phone'        => $userLogged->phone,
+                'zipcode'      => $userLogged->zipcode,
+                'state'        => $userLogged->state,
+                'city'         => $userLogged->city,
+                'neighborhood' => $userLogged->neighborhood,
+                'street'       => $userLogged->street,
+                'number'       => $userLogged->number,
+                'complement'   => $userLogged->complement,
+                'password'     => $data['password'],
+            ],
+            'payload' => $plan->payload
+        ];
+
+        ProductService::sendDataToProduct($product, $json);
         $subscription = Subscription::create($data);
 
         return self::buildReturn($subscription);
