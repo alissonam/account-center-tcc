@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h4 class="q-ma-lg">Produtos</h4>
+    <h1 class="q-ma-lg">Produtos</h1>
     <q-card
       style="min-height: 250px;"
       :class="productsData[i].id === applyShadow ? 'shadow-24' : (width > 400 ? 'q-ma-xl' : 'q-ma-md')"
@@ -58,11 +58,13 @@
 
 <script setup>
 import { onMounted, onUnmounted, ref, computed } from 'vue'
+import { useRouter } from 'vue-router'
 import { getProducts } from 'src/services/product/product-api'
 import { getSubscriptions } from 'src/services/subscription/subscription-api'
 import defaultImage from 'src/assets/images/default-image.png'
 import { Notify } from 'quasar'
 
+const router = useRouter()
 let productsData = ref([])
 let subscriptionsData = ref([])
 let applyShadow = ref(null)
@@ -107,7 +109,11 @@ async function getProductsFunction () {
 async function getSubscriptionsFunction () {
   loadingSubscriptions.value = true
   try {
-    subscriptionsData.value = await getSubscriptions(mainPagination.value)
+    const params = {
+      mainPagination: mainPagination.value,
+      status: 'active'
+    }
+    subscriptionsData.value = await getSubscriptions(params)
   } catch (e) {
     Notify.create({
       message: 'Falha ao buscar inscrições',
@@ -118,13 +124,10 @@ async function getSubscriptionsFunction () {
 }
 
 async function accessProduct (product) {
-  product.action_url.includes("https://www.")
-  ? window.open(product.action_url)
-  : window.open("https://www." + product.action_url)
+  window.open(product.action_url)
 }
 
 async function subscribeInProduct (product) {
-  // Aguardar finalização da tela de planos para realizar essa ação
-  console.log('assinar')
+  router.push({ name: 'client_plans', params: { code: product.code }})
 }
 </script>

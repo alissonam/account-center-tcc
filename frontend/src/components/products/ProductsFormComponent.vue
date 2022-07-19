@@ -353,9 +353,7 @@ async function getProductFunction() {
 
 function openLink(value)
 {
-  value.includes("https://www.")
-  ? window.open(value)
-  : window.open("https://www." + value)
+  window.open(value)
 }
 
 async function getLogoFunction(productId){
