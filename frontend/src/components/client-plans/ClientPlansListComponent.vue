@@ -1,67 +1,69 @@
 <template>
   <div>
-    <q-btn
-      color="primary"
-      icon="arrow_back"
-      dense
-      outline
-      rounded
-      :to="{ name: 'dashboard' }"
-    >
-      <q-tooltip :offset="[5, 5]">
-        Voltar
-      </q-tooltip>
-    </q-btn>
-  </div>
-  <div class="row items-center justify-center">
-    <div v-if="!existProduct">
-      <h5> Não foi possivel carregar os planos do produto</h5>
+    <div>
+      <q-btn
+        color="primary"
+        icon="arrow_back"
+        dense
+        outline
+        rounded
+        :to="{ name: 'dashboard' }"
+      >
+        <q-tooltip :offset="[5, 5]">
+          Voltar
+        </q-tooltip>
+      </q-btn>
     </div>
-    <div class="q-pa-md" v-else>
-      <h3 class="row items-center justify-center" style="color: #0a457d" > {{ productData.name}}</h3>
-      <div style="display: flex">
-        <q-card
-        class="q-ma-md card"
-        v-for="(plan, i) in planData"
-        :key="i"
-        >
-          <q-item-section
-            class="items-center justify-center"
+    <div class="row items-center justify-center">
+      <div v-if="!existProduct">
+        <h5> Não foi possivel carregar os planos do produto</h5>
+      </div>
+      <div class="q-pa-md" v-else>
+        <h3 class="row items-center justify-center" style="color: #0a457d" > {{ productData.name}}</h3>
+        <div style="display: flex">
+          <q-card
+          class="q-ma-md card"
+          v-for="(plan, i) in planData"
+          :key="i"
           >
-          <q-img
-            :src="productLogo?.url || 'logo.jpeg'"
-            style="width: 2cm; margin: 15px"
-          />
-          </q-item-section>
-          <q-item>
-            <q-item-section>
-              <q-item-label align="center">
-                <h5 style="color: #0a457d; margin: 12px; align: center;"> {{ plan.name }}</h5>
-              </q-item-label>
-            </q-item-section>
-          </q-item>
-          <div class="q-pa-md text-center" style="text-align: center; padding-bottom: 70px">
-            <q-separator/>
-            <div v-html="plan.description"/>
-          </div>
-          <q-card-actions align="center" class="q-pa-md q-gutter-sm">
-            <q-btn
-              class="button"
-              padding="xs lg"
-              :key="`btn_size_dense_rd_${size}`"
-              type="submit"
-              label="Assinar"
-              push
-              rounded
-              size="lg"
-              @click="openModalConfirmationSubscription.openModal(planData[i])"
+            <q-item-section
+              class="items-center justify-center"
+            >
+            <q-img
+              :src="productLogo?.url || 'logo.jpeg'"
+              style="width: 2cm; margin: 15px"
             />
-          </q-card-actions>
-        </q-card>
-          <client-plan-confirmation-subscription-component
-           ref="openModalConfirmationSubscription"
-           @submit="getSubscriptionFunction()"
-          />
+            </q-item-section>
+            <q-item>
+              <q-item-section>
+                <q-item-label align="center">
+                  <h5 style="color: #0a457d; margin: 12px; align: center;"> {{ plan.name }}</h5>
+                </q-item-label>
+              </q-item-section>
+            </q-item>
+            <div class="q-pa-md text-center" style="text-align: center; padding-bottom: 70px">
+              <q-separator/>
+              <div v-html="plan.description"/>
+            </div>
+            <q-card-actions align="center" class="q-pa-md q-gutter-sm">
+              <q-btn
+                class="button"
+                padding="xs lg"
+                :key="`btn_size_dense_rd_${size}`"
+                type="submit"
+                label="Assinar"
+                push
+                rounded
+                size="lg"
+                @click="openModalConfirmationSubscription.openModal(planData[i])"
+              />
+            </q-card-actions>
+          </q-card>
+            <client-plan-confirmation-subscription-component
+            ref="openModalConfirmationSubscription"
+            @submit="getSubscriptionFunction()"
+            />
+        </div>
       </div>
     </div>
   </div>
