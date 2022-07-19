@@ -57,7 +57,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue'
+import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { Notify } from 'quasar'
 import { getMedia } from "src/services/media/media-api";
@@ -94,13 +94,13 @@ async function createSubscriptionFunction(planId, password){
         'plan_id': planId,
         'password': password
       })
-      userPassword.value = null
-      openModal.value = false
       Notify.create({
         message: 'Inscrição criada com sucesso!',
         type: 'positive'
       })
-
+    userPassword.value = null
+    openModal.value = false
+    emit('submit')
   } catch (error) {
     Notify.create({
       message: formatResponseError(error) || 'Falha ao salvar inscrição',

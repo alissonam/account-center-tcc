@@ -41,17 +41,18 @@
                 </q-item-label>
               </q-item-section>
             </q-item>
-            <div class="q-pa-md text-center" style="text-align: center; padding-bottom: 70px">
+            <div class="q-pa-md text-center" style="text-align: center; padding-bottom: 90px">
               <q-separator/>
               <div v-html="plan.description"/>
             </div>
             <q-card-actions align="center" class="q-pa-md q-gutter-sm">
               <q-btn
                 class="button"
+                :label="subscriptionsData[i]?.status == 'active' ? 'Plano ativo': subscriptionsData[i]?.status == 'awaiting'  ? 'Aguardando Ativação': 'Assinar' "
                 padding="xs lg"
                 :key="`btn_size_dense_rd_${size}`"
+                :disable="subscriptionsData[i]?.status == 'active' || subscriptionsData[i]?.status == 'awaiting'"
                 type="submit"
-                label="Assinar"
                 push
                 rounded
                 size="lg"
@@ -59,10 +60,10 @@
               />
             </q-card-actions>
           </q-card>
-            <client-plan-confirmation-subscription-component
+          <client-plan-confirmation-subscription-component
             ref="openModalConfirmationSubscription"
-            @submit="getSubscriptionFunction()"
-            />
+            @submit="onSubmit()"
+          />
         </div>
       </div>
     </div>
@@ -78,6 +79,7 @@ import { formatResponseError } from "src/services/utils/error-formatter"
 import { getProducts } from "src/services/product/product-api"
 import { useRoute } from "vue-router"
 import ClientPlanConfirmationSubscriptionComponent from "components/client-plans/ClientPlanConfirmationSubscriptionComponent"
+import { getSubscriptions } from "src/services/subscription/subscription-api";
 
 let openModalConfirmationSubscription = ref(null)
 let productCode = ref(null)
@@ -88,11 +90,18 @@ let productData = ref({})
 const route = useRoute()
 let existProduct = ref(false)
 let openModal = ref(false)
+let subscriptionsData = ref([])
+let loadingSubscriptions = ref(false)
 
 onMounted(async () => {
   productCode.value = route.params.code
   await getProductFunction(productCode.value)
+  await getSubscriptionsFunction(productData.value.id)
 })
+
+function onSubmit() {
+  getSubscriptionsFunction(productData.value.id)
+}
 
 async function getProductFunction(productCode) {
   loading.value = true
@@ -145,6 +154,23 @@ async function getLogoProductFunction(productId) {
     })
   }
 
+}
+
+async function getSubscriptionsFunction (productId) {
+  loadingSubscriptions.value = true
+  try {
+    subscriptionsData.value = await getSubscriptions({
+      'product_id': productId,
+      'status': ['active','awaiting']
+    })
+    console.log(subscriptionsData.value )
+  } catch (e) {
+    Notify.create({
+      message: 'Falha ao buscar inscrições',
+      type: 'negative'
+    })
+  }
+  loadingSubscriptions.value = false
 }
 </script>
 
