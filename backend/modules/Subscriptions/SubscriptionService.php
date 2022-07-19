@@ -39,8 +39,8 @@ class SubscriptionService extends Service
     public function store(array $data)
     {
         $plan = Plan::find($data['plan_id']);
-        $data['product_id'] = Product::find($plan->product_id)->id;
-        $product = Product::find($data['product_id']);
+        $data['product_id'] = $plan->product_id;
+        $product = $plan->product;
         $userLogged = auth()->user();
 
         if ($userLogged->role === User::USER_ROLE_MEMBER && !Hash::check($data['password'], $userLogged->password ?? null)) {
