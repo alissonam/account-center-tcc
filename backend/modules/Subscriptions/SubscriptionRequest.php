@@ -3,6 +3,7 @@
 namespace Subscriptions;
 
 use App\Http\Requests\Request;
+use Illuminate\Validation\Rule;
 
 /**
  * Class SubscriptionRequest
@@ -29,6 +30,8 @@ class SubscriptionRequest extends Request
             'user_id'       => '',
             'vindi_id'      => '',
             'password'      => 'nullable|string|min:6',
+            'status'        => ['required', 'string', Rule::in([Subscription::STATUS_ACTIVE, Subscription::STATUS_INATIVE, Subscription::STATUS_AWAITING])],
+            'finished_in'   => '',
         ];
     }
 
@@ -38,9 +41,11 @@ class SubscriptionRequest extends Request
     public function validateToUpdate()
     {
         return [
-            'plan_id'   => '',
-            'vindi_id'  => '',
-            'password'  => 'nullable|string|min:6',
+            'plan_id'     => '',
+            'vindi_id'    => '',
+            'password'    => 'nullable|string|min:6',
+            'status'      => ['required', 'string', Rule::in([Subscription::STATUS_ACTIVE, Subscription::STATUS_INATIVE, Subscription::STATUS_AWAITING])],
+            'finished_in' => '',
         ];
     }
 }
