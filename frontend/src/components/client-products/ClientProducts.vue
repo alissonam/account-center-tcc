@@ -77,12 +77,6 @@ onMounted(() => window.addEventListener('resize', onWidthChange))
 onUnmounted(() => window.removeEventListener('resize', onWidthChange))
 const width = computed(() => windowWidth.value)
 
-const mainPagination = ref({
-  page: 1,
-  rowsPerPage: 10,
-  rowsNumber: 0,
-})
-
 onMounted(async () => {
   await getProductsFunction()
   await getSubscriptionsFunction()
@@ -91,12 +85,10 @@ onMounted(async () => {
 async function getProductsFunction () {
   loading.value = true
   try {
-    const params = {
-      mainPagination: mainPagination.value,
+    productsData.value = await getProducts({
       with: ['logo'],
       status: 'active'
-    }
-    productsData.value = await getProducts(params)
+    })
   } catch (e) {
     Notify.create({
       message: 'Falha ao buscar produtos',
@@ -109,11 +101,9 @@ async function getProductsFunction () {
 async function getSubscriptionsFunction () {
   loadingSubscriptions.value = true
   try {
-    const params = {
-      mainPagination: mainPagination.value,
+    subscriptionsData.value = await getSubscriptions({
       status: 'active'
-    }
-    subscriptionsData.value = await getSubscriptions(params)
+    })
   } catch (e) {
     Notify.create({
       message: 'Falha ao buscar inscrições',
