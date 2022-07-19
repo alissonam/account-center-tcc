@@ -78,8 +78,8 @@ class SubscriptionService extends Service
             'payload' => $plan->payload
         ];
 
-        ProductService::sendDataToProduct($product, $json);
         $subscription = Subscription::create($data);
+        ProductService::sendDataToProduct($product, $json);
 
         return self::buildReturn($subscription);
     }
