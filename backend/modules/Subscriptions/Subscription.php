@@ -13,6 +13,10 @@ use Users\User;
  */
 class Subscription extends Model
 {
+
+    const STATUS_ACTIVE           = 'active';
+    const STATUS_AWAITING         = 'awaiting';
+    const STATUS_INATIVE          = 'inative';
     /**
      * The attributes that are mass assignable.
      *
@@ -23,6 +27,8 @@ class Subscription extends Model
         'product_id',
         'user_id',
         'vindi_id',
+        'status',
+        'finished_in'
     ];
 
     /**
