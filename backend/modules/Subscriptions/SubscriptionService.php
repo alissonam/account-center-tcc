@@ -6,6 +6,7 @@ use App\Http\Services\Service;
 use Illuminate\Support\Facades\Hash;
 use Plans\Plan;
 use Products\Product;
+use Products\ProductService;
 use Users\User;
 use Users\UserService;
 
@@ -38,7 +39,8 @@ class SubscriptionService extends Service
     public function store(array $data)
     {
         $plan = Plan::find($data['plan_id']);
-        $data['product_id'] = Product::find($plan->product_id)->id;
+        $data['product_id'] = $plan->product_id;
+        $product = $plan->product;
         $userLogged = auth()->user();
 
         if ($userLogged->role === User::USER_ROLE_MEMBER && !Hash::check($data['password'], $userLogged->password ?? null)) {
@@ -49,9 +51,35 @@ class SubscriptionService extends Service
 
         if ($userLogged->role === User::USER_ROLE_MEMBER){
             $data['user_id'] = $userLogged->id;
+            $userToSubscription = $userLogged;
+        } else {
+            $userToSubscription = User::find($data['user_id']);
         }
 
+        $json = [
+            'action' => 'create_account',
+            'user'   => [
+                'id'           => $userToSubscription->id,
+                'name'         => $userToSubscription->name,
+                'last_name'    => $userToSubscription->last_name,
+                'document'     => $userToSubscription->document,
+                'registration' => $userToSubscription->registration,
+                'email'        => $userToSubscription->email,
+                'phone'        => $userToSubscription->phone,
+                'zipcode'      => $userToSubscription->zipcode,
+                'state'        => $userToSubscription->state,
+                'city'         => $userToSubscription->city,
+                'neighborhood' => $userToSubscription->neighborhood,
+                'street'       => $userToSubscription->street,
+                'number'       => $userToSubscription->number,
+                'complement'   => $userToSubscription->complement,
+                'password'     => $data['password'],
+            ],
+            'payload' => $plan->payload
+        ];
+
         $subscription = Subscription::create($data);
+        ProductService::sendDataToProduct($product, $json);
 
         return self::buildReturn($subscription);
     }
