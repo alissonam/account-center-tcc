@@ -51,25 +51,28 @@ class SubscriptionService extends Service
 
         if ($userLogged->role === User::USER_ROLE_MEMBER){
             $data['user_id'] = $userLogged->id;
+            $userToSubscription = $userLogged;
+        } else {
+            $userToSubscription = User::find($data['user_id']);
         }
 
         $json = [
             'action' => 'create_account',
             'user'   => [
-                'id'           => $userLogged->id,
-                'name'         => $userLogged->name,
-                'last_name'    => $userLogged->last_name,
-                'document'     => $userLogged->document,
-                'registration' => $userLogged->registration,
-                'email'        => $userLogged->email,
-                'phone'        => $userLogged->phone,
-                'zipcode'      => $userLogged->zipcode,
-                'state'        => $userLogged->state,
-                'city'         => $userLogged->city,
-                'neighborhood' => $userLogged->neighborhood,
-                'street'       => $userLogged->street,
-                'number'       => $userLogged->number,
-                'complement'   => $userLogged->complement,
+                'id'           => $userToSubscription->id,
+                'name'         => $userToSubscription->name,
+                'last_name'    => $userToSubscription->last_name,
+                'document'     => $userToSubscription->document,
+                'registration' => $userToSubscription->registration,
+                'email'        => $userToSubscription->email,
+                'phone'        => $userToSubscription->phone,
+                'zipcode'      => $userToSubscription->zipcode,
+                'state'        => $userToSubscription->state,
+                'city'         => $userToSubscription->city,
+                'neighborhood' => $userToSubscription->neighborhood,
+                'street'       => $userToSubscription->street,
+                'number'       => $userToSubscription->number,
+                'complement'   => $userToSubscription->complement,
                 'password'     => $data['password'],
             ],
             'payload' => $plan->payload
