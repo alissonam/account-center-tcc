@@ -54,9 +54,14 @@
               push
               rounded
               size="lg"
+              @click="openModalConfirmationSubscription.openModal(planData[i])"
             />
           </q-card-actions>
         </q-card>
+          <client-plan-confirmation-subscription-component
+           ref="openModalConfirmationSubscription"
+           @submit="getSubscriptionFunction()"
+          />
       </div>
     </div>
   </div>
@@ -70,7 +75,9 @@ import { getMedia } from "src/services/media/media-api"
 import { formatResponseError } from "src/services/utils/error-formatter"
 import { getProducts } from "src/services/product/product-api"
 import { useRoute } from "vue-router"
+import ClientPlanConfirmationSubscriptionComponent from "components/client-plans/ClientPlanConfirmationSubscriptionComponent"
 
+let openModalConfirmationSubscription = ref(null)
 let productCode = ref(null)
 let planData = ref([])
 const loading = ref(false)
@@ -78,6 +85,7 @@ let productLogo = ref(null)
 let productData = ref({})
 const route = useRoute()
 let existProduct = ref(false)
+let openModal = ref(false)
 
 onMounted(async () => {
   productCode.value = route.params.code
