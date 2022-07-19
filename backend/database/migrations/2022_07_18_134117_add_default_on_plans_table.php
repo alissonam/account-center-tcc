@@ -14,11 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('plans', function (Blueprint $table) {
-            $table->foreign('product_id', 'fk_p_product_id')
-                ->references('id')
-                ->on('products')
-                ->onUpdate('RESTRICT')
-                ->onDelete('CASCADE');
+            $table->boolean('default')->default(false)->after('preferential');
         });
     }
 
@@ -30,7 +26,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('plans', function (Blueprint $table) {
-            $table->dropForeign('fk_p_product_id');
+            $table->dropColumn('default');
         });
     }
 };

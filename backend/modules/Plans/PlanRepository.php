@@ -20,4 +20,16 @@ class PlanRepository
             return $query->where('product_id', $client);
         });
     }
+
+    /**
+     * @param $productId
+     * @param $exceptPlanId
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public static function plansOfProduct($productId, $exceptPlanId)
+    {
+        return Plan::query()->where('product_id', $productId)
+            ->where('id', '!=',  $exceptPlanId);
+    }
+
 }

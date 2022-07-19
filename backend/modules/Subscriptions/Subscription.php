@@ -22,6 +22,7 @@ class Subscription extends Model
         'plan_id',
         'product_id',
         'user_id',
+        'vindi_id',
     ];
 
     /**

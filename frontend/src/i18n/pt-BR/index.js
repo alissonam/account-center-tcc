@@ -26,12 +26,16 @@ export default {
   },
   plan: {
     hidden: {
-      0: 'Não',
-      1: 'Sim',
+      false: 'Não',
+      true: 'Sim',
     },
     preferential: {
-      0: 'Não',
-      1: 'Sim',
+      false: 'Não',
+      true: 'Sim',
+    },
+    default: {
+      false: 'Não',
+      true: 'Sim',
     }
   }
 }
