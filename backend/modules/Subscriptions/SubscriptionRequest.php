@@ -30,7 +30,6 @@ class SubscriptionRequest extends Request
             'user_id'       => '',
             'vindi_id'      => '',
             'password'      => 'nullable|string|min:6',
-            'status'        => '',
         ];
     }
 
