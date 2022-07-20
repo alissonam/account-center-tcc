@@ -41,17 +41,18 @@
                 </q-item-label>
               </q-item-section>
             </q-item>
-            <div class="q-pa-md text-center" style="text-align: center; padding-bottom: 70px">
+            <div class="q-pa-md text-center" style="text-align: center; padding-bottom: 90px">
               <q-separator/>
               <div v-html="plan.description"/>
             </div>
             <q-card-actions align="center" class="q-pa-md q-gutter-sm">
               <q-btn
                 class="button"
+                :label="plan.subscription_status === 'active' ? 'Plano ativo': (plan.subscription_status  ? 'Aguardando Ativação': 'Assinar') "
                 padding="xs lg"
                 :key="`btn_size_dense_rd_${size}`"
+                :disable="['active', 'awaiting'].includes(plan.subscription_status)"
                 type="submit"
-                label="Assinar"
                 push
                 rounded
                 size="lg"
@@ -59,10 +60,10 @@
               />
             </q-card-actions>
           </q-card>
-            <client-plan-confirmation-subscription-component
+          <client-plan-confirmation-subscription-component
             ref="openModalConfirmationSubscription"
-            @submit="getSubscriptionFunction()"
-            />
+            @submit="getSubscriptionsFunction(productData.id)"
+          />
         </div>
       </div>
     </div>
@@ -78,6 +79,7 @@ import { formatResponseError } from "src/services/utils/error-formatter"
 import { getProducts } from "src/services/product/product-api"
 import { useRoute } from "vue-router"
 import ClientPlanConfirmationSubscriptionComponent from "components/client-plans/ClientPlanConfirmationSubscriptionComponent"
+import { getSubscriptions } from "src/services/subscription/subscription-api";
 
 let openModalConfirmationSubscription = ref(null)
 let productCode = ref(null)
@@ -88,10 +90,12 @@ let productData = ref({})
 const route = useRoute()
 let existProduct = ref(false)
 let openModal = ref(false)
+let loadingSubscriptions = ref(false)
 
 onMounted(async () => {
   productCode.value = route.params.code
   await getProductFunction(productCode.value)
+  await getSubscriptionsFunction(productData.value.id)
 })
 
 async function getProductFunction(productCode) {
@@ -100,15 +104,15 @@ async function getProductFunction(productCode) {
     const result = await getProducts({ code: productCode })
     productData.value = result[0]
     if (productData.value) {
-      getPlanFunction(productData.value.id)
+      await getPlanFunction(productData.value.id)
       getLogoProductFunction(productData.value.id)
       existProduct.value = true
     } else {
       existProduct.value = false
     }
-  } catch (e) {
+  } catch (error) {
     Notify.create({
-      message: 'Falha ao buscar produto',
+      message: formatResponseError(error) || 'Falha ao buscar produto',
       type: 'negative'
     })
   }
@@ -122,9 +126,9 @@ async function getPlanFunction(productId) {
       product_id: productId
     })
     planData.value = result
-  } catch (e) {
+  } catch (error) {
     Notify.create({
-      message: 'Falha ao buscar planos',
+      message: formatResponseError(error) || 'Falha ao buscar planos',
       type: 'negative'
     })
   }
@@ -145,6 +149,30 @@ async function getLogoProductFunction(productId) {
     })
   }
 
+}
+
+async function getSubscriptionsFunction (productId) {
+  loadingSubscriptions.value = true
+  try {
+    const subscriptionsData = await getSubscriptions({
+      'product_id': productId,
+      'status': ['active','awaiting']
+    })
+
+    for (const plan of planData.value) {
+      const subscription = subscriptionsData.find(sub => {
+        return ['active','awaiting'].includes(sub.status) && sub.plan_id == plan.id
+      })
+
+      plan.subscription_status = subscription?.status || null
+    }
+  } catch (error) {
+    Notify.create({
+      message: formatResponseError(error) || 'Falha ao buscar inscrições',
+      type: 'negative'
+    })
+  }
+  loadingSubscriptions.value = false
 }
 </script>
 
