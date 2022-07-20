@@ -110,7 +110,7 @@ async function getProductFunction(productCode) {
     } else {
       existProduct.value = false
     }
-  } catch (e) {
+  } catch (error) {
     Notify.create({
       message: formatResponseError(error) || 'Falha ao buscar produto',
       type: 'negative'
@@ -126,7 +126,7 @@ async function getPlanFunction(productId) {
       product_id: productId
     })
     planData.value = result
-  } catch (e) {
+  } catch (error) {
     Notify.create({
       message: formatResponseError(error) || 'Falha ao buscar planos',
       type: 'negative'
@@ -166,7 +166,7 @@ async function getSubscriptionsFunction (productId) {
 
       plan.subscription_status = subscription?.status || null
     }
-  } catch (e) {
+  } catch (error) {
     Notify.create({
       message: formatResponseError(error) || 'Falha ao buscar inscrições',
       type: 'negative'
