@@ -18,7 +18,7 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         $schedule->command('user:block-for-expired-access-time')->everyMinute();
-        $schedule->command('subscription:active-defaults')->everyHour();
+        $schedule->command('subscription:active-defaults')->dailyAt('00:01');
     }
 
     /**

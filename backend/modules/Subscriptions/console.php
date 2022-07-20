@@ -1,11 +1,9 @@
 <?php
 
+use Illuminate\Support\Facades\DB;
 use Subscriptions\Subscription;
 use Illuminate\Support\Facades\Artisan;
-use Plans\Plan;
-use Products\Product;
 use Products\ProductService;
-use Users\User;
 
 /*
 | This file is where you may define all of your Closure based console
@@ -20,7 +18,8 @@ Artisan::command('subscription:active-defaults', function () {
         ->where('subscriptions.status', Subscription::STATUS_AWAITING)
         ->join('plans', 'plans.id', 'subscriptions.plan_id')
         ->where('plans.default', true)
-        ->where('subscriptions.created_at', '<', (new \DateTime())->setTime(0,0))
+        ->where('subscriptions.created_at', '<', (new \DateTime())->setTime(0, 0))
+        ->select('subscriptions.*')
         ->get();
 
     foreach ($subscriptions as $subscription) {
@@ -30,46 +29,59 @@ Artisan::command('subscription:active-defaults', function () {
             ->where('product_id', $subscription->product_id)
             ->first();
 
-        if(!$activeSubscription) {
+        if (!$activeSubscription) {
             continue;
         }
 
         $dayOfActiveSubscription = (new \DateTime($activeSubscription->created_at))->format('d');
-        $dateOfCurrentMonth = (new \DateTime())->format('y-m');
-        $dateToInactive = (new \DateTime("$dateOfCurrentMonth-$dayOfActiveSubscription"))->setTime(0,0);
+        $dateOfCurrentMonth      = (new \DateTime())->format('y-m');
+        $dateToInactive          = (new \DateTime("$dateOfCurrentMonth-$dayOfActiveSubscription"))->setTime(0, 0);
 
-        if ($dateToInactive == (new \DateTime())->setTime(0,0)) {
-            $activeSubscription->update(['status' => Subscription::STATUS_INACTIVE]);
-            $subscription->update(['status' => Subscription::STATUS_ACTIVE]);
+        if ($dateToInactive == (new \DateTime())->setTime(0, 0)) {
+            DB::beginTransaction();
 
-            $userToSubscription = User::find($subscription->user_id);
-            $product = Product::find($subscription->product_id);
-            $plan = Plan::find($subscription->plan_id);
+            try {
+                $activeSubscription->update([
+                    'status'      => Subscription::STATUS_INACTIVE,
+                    'finished_in' => new \DateTime()
+                ]);
+                $subscription->update(['status' => Subscription::STATUS_ACTIVE]);
 
-            $json = [
-                'action' => 'update_subscription',
-                'user'   => [
-                    'id'           => $userToSubscription->id,
-                    'name'         => $userToSubscription->name,
-                    'last_name'    => $userToSubscription->last_name,
-                    'document'     => $userToSubscription->document,
-                    'registration' => $userToSubscription->registration,
-                    'email'        => $userToSubscription->email,
-                    'phone'        => $userToSubscription->phone,
-                    'zipcode'      => $userToSubscription->zipcode,
-                    'state'        => $userToSubscription->state,
-                    'city'         => $userToSubscription->city,
-                    'neighborhood' => $userToSubscription->neighborhood,
-                    'street'       => $userToSubscription->street,
-                    'number'       => $userToSubscription->number,
-                    'complement'   => $userToSubscription->complement
-                ],
-                'payload' => $plan->payload
-            ];
+                $userToSubscription = $subscription->user;
+                $product            = $subscription->product;
+                $plan               = $subscription->plan;
 
-            ProductService::sendDataToProduct($product, $json);
+                $json = [
+                    'action'  => 'update_subscription',
+                    'user'    => [
+                        'id'           => $userToSubscription->id,
+                        'name'         => $userToSubscription->name,
+                        'last_name'    => $userToSubscription->last_name,
+                        'document'     => $userToSubscription->document,
+                        'registration' => $userToSubscription->registration,
+                        'email'        => $userToSubscription->email,
+                        'phone'        => $userToSubscription->phone,
+                        'zipcode'      => $userToSubscription->zipcode,
+                        'state'        => $userToSubscription->state,
+                        'city'         => $userToSubscription->city,
+                        'neighborhood' => $userToSubscription->neighborhood,
+                        'street'       => $userToSubscription->street,
+                        'number'       => $userToSubscription->number,
+                        'complement'   => $userToSubscription->complement
+                    ],
+                    'payload' => $plan->payload
+                ];
 
-            $this->comment("Ativação de inscrições padrões efetuada com sucesso!");
+                ProductService::sendDataToProduct($product, $json);
+
+                DB::commit();
+            } catch (\Throwable $t) {
+                DB::rollBack();
+                $this->comment("Falha na ativação de uma inscrição");
+                // TODO: Colocar notificação slack ou fazer registro do erro
+                continue;
+            }
         }
     }
+    $this->comment("Ativação de inscrições padrões efetuada com sucesso!");
 })->purpose('Efetivar inscrições com planos padrões');
