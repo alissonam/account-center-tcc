@@ -2,6 +2,20 @@
   <q-layout view="lHh Lpr lFf">
     <q-header class="bg-white">
       <q-toolbar>
+        <div
+          class="q-pa-sm absolute-left"
+          v-if="loggedUser.role === 'member'">
+          <img
+            src="~assets/logo.jpeg"
+            style="max-width:20%; margin: 15px"
+          >
+        </div>
+        <div
+          class="q-pa-sm absolute-left"
+          v-if="loggedUser.role === 'member'"
+        >
+          <h6 style="color: #0a457d; margin-left: 75px; font-family: Apple; margin-top: 25px">Kolina Labs</h6>
+        </div>
         <div class="full-width q-pt-sm">
           <q-btn
             v-if="loggedUser.role === 'admin'"
