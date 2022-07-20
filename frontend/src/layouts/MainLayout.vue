@@ -2,6 +2,14 @@
   <q-layout view="lHh Lpr lFf">
     <q-header class="bg-white">
       <q-toolbar>
+        <div
+          class="q-pa-sm absolute-left"
+          v-if="loggedUser.role === 'member'">
+          <img
+            src="~assets/kolina-logo.png"
+            style="height: 40px; "
+          >
+        </div>
         <div class="full-width q-pt-sm">
           <q-btn
             v-if="loggedUser.role === 'admin'"
@@ -14,26 +22,33 @@
             color="grey-6"
             size="20px"
           />
-          <q-btn-dropdown
-            flat
-            round
-            icon="account_circle"
-            color="grey-6"
-            class="absolute-right"
-            size="20px"
-          >
-            <q-list>
-              <q-item
-                clickable
-                v-close-popup
-                @click="logoutUser"
+          <div class="absolute-right">
+              <b
+                class="q-mr-md"
+                style="color: #1061a6"
               >
-                <q-item-section>
-                  <q-item-label>Logout</q-item-label>
-                </q-item-section>
-              </q-item>
-            </q-list>
-          </q-btn-dropdown>
+                {{ loggedUser.name }}
+              </b>
+            <q-btn-dropdown
+              flat
+              round
+              icon="account_circle"
+              color="grey-6"
+              size="20px"
+            >
+              <q-list>
+                <q-item
+                  clickable
+                  v-close-popup
+                  @click="logoutUser"
+                >
+                  <q-item-section>
+                    <q-item-label>Logout</q-item-label>
+                  </q-item-section>
+                </q-item>
+              </q-list>
+            </q-btn-dropdown>
+          </div>
         </div>
       </q-toolbar>
     </q-header>
