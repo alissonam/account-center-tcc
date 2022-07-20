@@ -46,7 +46,7 @@ class SubscriptionRequest extends Request
             'plan_id'     => '',
             'vindi_id'    => '',
             'password'    => 'nullable|string|min:6',
-            'status'      => ['required', 'string', Rule::in([Subscription::STATUS_ACTIVE, Subscription::STATUS_INATIVE, Subscription::STATUS_AWAITING])],
+            'status'      => ['required', 'string', Rule::in([Subscription::STATUS_ACTIVE, Subscription::STATUS_INACTIVE, Subscription::STATUS_AWAITING])],
             'finished_in' => '',
         ];
     }
