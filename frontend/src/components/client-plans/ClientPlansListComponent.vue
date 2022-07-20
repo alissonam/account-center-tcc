@@ -90,7 +90,6 @@ let productData = ref({})
 const route = useRoute()
 let existProduct = ref(false)
 let openModal = ref(false)
-let subscriptionsData = ref([])
 let loadingSubscriptions = ref(false)
 
 onMounted(async () => {
@@ -113,7 +112,7 @@ async function getProductFunction(productCode) {
     }
   } catch (e) {
     Notify.create({
-      message: 'Falha ao buscar produto',
+      message: formatResponseError(error) || 'Falha ao buscar produto',
       type: 'negative'
     })
   }
@@ -129,7 +128,7 @@ async function getPlanFunction(productId) {
     planData.value = result
   } catch (e) {
     Notify.create({
-      message: 'Falha ao buscar planos',
+      message: formatResponseError(error) || 'Falha ao buscar planos',
       type: 'negative'
     })
   }
@@ -155,13 +154,13 @@ async function getLogoProductFunction(productId) {
 async function getSubscriptionsFunction (productId) {
   loadingSubscriptions.value = true
   try {
-    subscriptionsData.value = await getSubscriptions({
+    const subscriptionsData = await getSubscriptions({
       'product_id': productId,
       'status': ['active','awaiting']
     })
 
     for (const plan of planData.value) {
-      const subscription = subscriptionsData.value.find(sub => {
+      const subscription = subscriptionsData.find(sub => {
         return ['active','awaiting'].includes(sub.status) && sub.plan_id == plan.id
       })
 
@@ -169,7 +168,7 @@ async function getSubscriptionsFunction (productId) {
     }
   } catch (e) {
     Notify.create({
-      message: 'Falha ao buscar inscrições',
+      message: formatResponseError(error) || 'Falha ao buscar inscrições',
       type: 'negative'
     })
   }
