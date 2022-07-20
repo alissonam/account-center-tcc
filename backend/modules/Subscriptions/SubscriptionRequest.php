@@ -17,6 +17,10 @@ class SubscriptionRequest extends Request
     public function validateToIndex()
     {
         return [
+            'plan_id'    => '',
+            'user_id'    => '',
+            'product_id' => '',
+            'status'     => ''
         ];
     }
 

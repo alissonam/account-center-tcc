@@ -20,6 +20,20 @@ class SubscriptionRepository
             return $query->where('product_id', $id);
         })->when($filters['user_id'] ?? null, function ($query, $id) {
             return $query->where('user_id', $id);
-        });
+        })->when($filters['status'] ?? null, function ($query, $status) {
+                if (is_array($status)) {
+                    $query->whereIn('status', $status);
+                } else {
+                    $query->where('status', $status);
+                }
+            });
+    }
+
+    public static function activeSubscription($userId, $productId)
+    {
+        return Subscription::query()->where('user_id', $userId)
+            ->where('status', '=',  'active')
+            ->where('product_id', $productId)
+            ->orderBy('id', 'desc');
     }
 }

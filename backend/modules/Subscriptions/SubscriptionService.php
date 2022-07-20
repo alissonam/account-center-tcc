@@ -40,7 +40,6 @@ class SubscriptionService extends Service
     {
         $plan = Plan::find($data['plan_id']);
         $data['product_id'] = $plan->product_id;
-        $product = $plan->product;
         $userLogged = auth()->user();
 
         if ($userLogged->role === User::USER_ROLE_MEMBER && !Hash::check($data['password'], $userLogged->password ?? null)) {
@@ -56,30 +55,49 @@ class SubscriptionService extends Service
             $userToSubscription = User::find($data['user_id']);
         }
 
-        $json = [
-            'action' => 'create_account',
-            'user'   => [
-                'id'           => $userToSubscription->id,
-                'name'         => $userToSubscription->name,
-                'last_name'    => $userToSubscription->last_name,
-                'document'     => $userToSubscription->document,
-                'registration' => $userToSubscription->registration,
-                'email'        => $userToSubscription->email,
-                'phone'        => $userToSubscription->phone,
-                'zipcode'      => $userToSubscription->zipcode,
-                'state'        => $userToSubscription->state,
-                'city'         => $userToSubscription->city,
-                'neighborhood' => $userToSubscription->neighborhood,
-                'street'       => $userToSubscription->street,
-                'number'       => $userToSubscription->number,
-                'complement'   => $userToSubscription->complement,
-                'password'     => $data['password'],
-            ],
-            'payload' => $plan->payload
-        ];
+        $subscriptionActive = SubscriptionRepository::activeSubscription($data['user_id'], $data['product_id'])->first();
+        $product = $plan->product;
 
+        if (!$subscriptionActive){
+            $payload = $plan->payload;
+            if($plan->default){
+                $data['status'] = Subscription::STATUS_ACTIVE;
+            }else {
+                $defaultPlan = $product->plans()->where('default', true)->first();
+                $dataToDefaultPlan = $data;
+                $dataToDefaultPlan['plan_id'] = $defaultPlan->id;
+                $dataToDefaultPlan['status'] = Subscription::STATUS_ACTIVE;
+                Subscription::create($dataToDefaultPlan);
+                $payload = $defaultPlan->payload;
+            }
+            $json = [
+                'action' => 'create_account',
+                'user'   => [
+                    'id'           => $userToSubscription->id,
+                    'name'         => $userToSubscription->name,
+                    'last_name'    => $userToSubscription->last_name,
+                    'document'     => $userToSubscription->document,
+                    'registration' => $userToSubscription->registration,
+                    'email'        => $userToSubscription->email,
+                    'phone'        => $userToSubscription->phone,
+                    'zipcode'      => $userToSubscription->zipcode,
+                    'state'        => $userToSubscription->state,
+                    'city'         => $userToSubscription->city,
+                    'neighborhood' => $userToSubscription->neighborhood,
+                    'street'       => $userToSubscription->street,
+                    'number'       => $userToSubscription->number,
+                    'complement'   => $userToSubscription->complement,
+                    'password'     => $data['password'],
+                ],
+                'payload' => $payload
+            ];
+            try {
+                ProductService::sendDataToProduct($product, $json);
+            }catch (\Throwable) {
+                throw self::exception(['message' => 'Falha na inscrição do produto']);
+            }
+        }
         $subscription = Subscription::create($data);
-        ProductService::sendDataToProduct($product, $json);
 
         return self::buildReturn($subscription);
     }
