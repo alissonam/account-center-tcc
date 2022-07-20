@@ -48,10 +48,10 @@
             <q-card-actions align="center" class="q-pa-md q-gutter-sm">
               <q-btn
                 class="button"
-                :label="subscriptionsData[i]?.status == 'active' ? 'Plano ativo': subscriptionsData[i]?.status == 'awaiting'  ? 'Aguardando Ativação': 'Assinar' "
+                :label="plan.subscription_status === 'active' ? 'Plano ativo': (plan.subscription_status  ? 'Aguardando Ativação': 'Assinar') "
                 padding="xs lg"
                 :key="`btn_size_dense_rd_${size}`"
-                :disable="subscriptionsData[i]?.status == 'active' || subscriptionsData[i]?.status == 'awaiting'"
+                :disable="['active', 'awaiting'].includes(plan.subscription_status)"
                 type="submit"
                 push
                 rounded
@@ -62,7 +62,7 @@
           </q-card>
           <client-plan-confirmation-subscription-component
             ref="openModalConfirmationSubscription"
-            @submit="onSubmit()"
+            @submit="getSubscriptionsFunction(productData.id)"
           />
         </div>
       </div>
@@ -99,17 +99,13 @@ onMounted(async () => {
   await getSubscriptionsFunction(productData.value.id)
 })
 
-function onSubmit() {
-  getSubscriptionsFunction(productData.value.id)
-}
-
 async function getProductFunction(productCode) {
   loading.value = true
   try {
     const result = await getProducts({ code: productCode })
     productData.value = result[0]
     if (productData.value) {
-      getPlanFunction(productData.value.id)
+      await getPlanFunction(productData.value.id)
       getLogoProductFunction(productData.value.id)
       existProduct.value = true
     } else {
@@ -163,7 +159,14 @@ async function getSubscriptionsFunction (productId) {
       'product_id': productId,
       'status': ['active','awaiting']
     })
-    console.log(subscriptionsData.value )
+
+    for (const plan of planData.value) {
+      const subscription = subscriptionsData.value.find(sub => {
+        return ['active','awaiting'].includes(sub.status) && sub.plan_id == plan.id
+      })
+
+      plan.subscription_status = subscription?.status || null
+    }
   } catch (e) {
     Notify.create({
       message: 'Falha ao buscar inscrições',

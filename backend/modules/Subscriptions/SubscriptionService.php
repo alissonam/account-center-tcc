@@ -94,7 +94,7 @@ class SubscriptionService extends Service
             try {
                 ProductService::sendDataToProduct($product, $json);
             }catch (\Throwable) {
-                throw self::exception(['message' => 'Falha na inscrpção do produto']);
+                throw self::exception(['message' => 'Falha na inscrição do produto']);
             }
         }
         $subscription = Subscription::create($data);
