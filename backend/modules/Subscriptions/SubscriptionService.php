@@ -97,7 +97,7 @@ class SubscriptionService extends Service
         } catch (\Throwable $t) {
             DB::rollBack();
             // TODO: adicionar notificação slack ou registro do erro com msg do erro
-            throw $t;//self::exception(['message' => 'Falha na inscrição do produto']);
+            throw self::exception(['message' => 'Falha na inscrição do produto']);
         }
 
         return self::buildReturn($createdSubscription);
