@@ -132,7 +132,7 @@ const columns = [
 
 const statusOptions = [
   {
-    label: 'Activas',
+    label: 'Ativas',
     value: 'active',
   },
   {
