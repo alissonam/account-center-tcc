@@ -12,14 +12,37 @@
     binary-state-sort
     @request="getSubscriptionsFunction"
   >
-    <template v-slot:top-right>
-      <q-btn
-        icon="add"
-        label="Cadastrar"
-        color="primary"
-        outline
-        :to="{ name: 'subscriptions_create' }"
-      />
+    <template v-slot:top>
+      <div class="table-top-row full-width">
+        <div class="row">
+          <div class="col">
+            <h6 class="q-mt-none q-mb-none text-weight-regular">
+              Inscrições
+            </h6>
+          </div>
+          <div class="col">
+            <q-btn
+              class="float-right"
+              icon="add"
+              label="Cadastrar"
+              color="primary"
+              outline
+              :to="{ name: 'subscriptions_create' }"
+            />
+          </div>
+        </div>
+        <div class="row q-mt-md q-gutter-md">
+          <q-btn-toggle
+            v-model="mainPagination.status"
+            spread
+            no-caps
+            size="md"
+            toggle-color="primary"
+            :options="statusOptions"
+            @update:model-value="getSubscriptionsFunction"
+          />
+        </div>
+      </div>
     </template>
     <template v-slot:body-cell-actions="props">
       <q-td key="actions" :props="props">
@@ -56,6 +79,7 @@
 import { onMounted, ref } from 'vue'
 import { getSubscriptions, destroySubscription } from 'src/services/subscription/subscription-api'
 import { Notify, Dialog } from 'quasar'
+import { formatDateBR, parseDate } from 'src/services/utils/date'
 
 let subscriptionsData = ref([])
 let loading = ref(false)
@@ -65,6 +89,7 @@ const mainPagination = ref({
   page: 1,
   rowsPerPage: 10,
   rowsNumber: 0,
+  status: 'active'
 })
 
 const columns = [
@@ -90,11 +115,33 @@ const columns = [
     format: val => val?.name || 'N/I',
   },
   {
+    name: 'finished_in',
+    label: 'Finalizado em',
+    align: 'left',
+    field: 'finished_in',
+    format: val => formatDateBR(val) || 'N/I',
+  },
+  {
     name: 'actions',
     align: 'center',
     label: 'Ações',
     field: 'id',
     sortable: false
+  },
+]
+
+const statusOptions = [
+  {
+    label: 'Activas',
+    value: 'active',
+  },
+  {
+    label: 'Pendentes',
+    value: 'awaiting'
+  },
+  {
+    label: 'Inactivas',
+    value: 'inactive'
   },
 ]
 
