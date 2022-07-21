@@ -214,8 +214,15 @@ async function getSubscriptionsFunction (productId) {
   box-shadow: 0 16px 24px 0 rgba(0, 0, 0, 0.4);
 }
 
+.preferential.card:hover {
+  box-shadow: 0 0 40px 0 rgba(0, 40, 255, 0.800);
+}
+
 .preferential.card, .preferential .q-img, .preferential .q-btn {
   box-shadow: 0 0 20px 0 rgba(0, 30, 255, 0.650);
+  transition: 0.3s;
+  border-radius: 5px;
+  display: inline-block;
 }
 
 </style>
