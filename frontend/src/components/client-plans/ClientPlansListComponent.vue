@@ -16,9 +16,22 @@
     </div>
     <div class="row items-center justify-center">
       <div class="q-pa-md">
-        <h3 class="row items-center justify-center" style="color: #0a457d" > {{ productData.name}}</h3>
+        <h3 class="row items-center justify-center" style="color: #0a457d" > {{ productData?.name}}</h3>
         <div v-if="!existProduct">
-          <h5> Não foi possivel carregar os planos do produto</h5>
+          <q-card class="shadow-24">
+            <q-card-section>
+              <div class="row">
+                <q-icon
+                  class="col"
+                  name="error"
+                  color="negative"
+                  size="4rem"
+                >
+                  <h5> Não foi possivel carregar os planos do produto</h5>
+                </q-icon>
+              </div>
+            </q-card-section>
+          </q-card>
         </div>
         <div class="q-pa-md" v-else>
           <div
