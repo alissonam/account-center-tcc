@@ -140,7 +140,7 @@ const statusOptions = [
     value: 'awaiting'
   },
   {
-    label: 'Inactivas',
+    label: 'Inativas',
     value: 'inactive'
   },
 ]
