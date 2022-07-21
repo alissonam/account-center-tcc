@@ -35,12 +35,12 @@ let showForgotPassword = ref(false)
   min-width: 100vw;
   padding: 20px 20px 5px 20px;
   background: rgb(0, 102, 153);
-  background: radial-gradient(#9bc43e 0%, #0c5ca9 100%);
+  background: linear-gradient(#98c5de 0%, #0a457d 100%);
   display: flex;
 }
 
 .image-container {
-  background: #3e7b27;
+  background: #d3dee5;
   border-radius: 15px;
   margin-bottom: 15px;
   padding: 10px;

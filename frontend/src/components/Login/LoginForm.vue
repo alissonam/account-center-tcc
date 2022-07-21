@@ -11,6 +11,8 @@
           v-model="formData.email"
           label="E-mail"
           type="email"
+          rounded
+          outlined
           dense
           hide-bottom-space
           :rules="[ val => val && val.length > 0 || 'O E-mail é obrigatório']"
@@ -21,6 +23,8 @@
           v-model="formData.password"
           :type="passwordHidden ? 'password' : 'text'"
           label="Senha"
+          rounded
+          outlined
           dense
           hide-bottom-space
           :rules="[ val => val && val.length > 0 || 'A senha é obrigatória']"
@@ -33,8 +37,6 @@
             />
           </template>
         </q-input>
-      </div>
-      <div>
         <a
           class="forgot-password-text"
           @click="$emit('show-forgot-password')"
@@ -42,14 +44,27 @@
           Esqueci minha senha
         </a>
       </div>
-      <div class="text-right padding q-pa-sm">
-        <q-btn
-          type="submit"
-          class="q-ma-sm"
-          color="primary"
-          outline
-          label="Logar"
-        />
+      <div class="row justify-between">
+        <div class="text-right padding q-pa-sm">
+          <q-btn
+            class="q-ma-sm"
+            color="primary"
+            outline
+            rounded
+            label="Registrar-se"
+            @click="goToRegister()"
+          />
+        </div>
+        <div class="text-right padding q-pa-sm">
+          <q-btn
+            type="submit"
+            class="q-ma-sm"
+            color="primary"
+            outline
+            rounded
+            label="Logar"
+          />
+        </div>
       </div>
     </div>
   </q-form>
@@ -97,6 +112,10 @@ const login = async function () {
       type: 'negative'
     })
   }
+}
+
+function goToRegister() {
+  router.push({ name: 'register' })
 }
 </script>
 
