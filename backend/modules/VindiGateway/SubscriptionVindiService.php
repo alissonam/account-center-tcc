@@ -1,8 +1,7 @@
 <?php
-namespace VindiGatway;
+namespace VindiGateway;
 
 use Subscriptions\Subscription;
-use Vindi\Vindi;
 
 class SubscriptionVindiService extends ApiVindiService {
 
@@ -14,7 +13,7 @@ class SubscriptionVindiService extends ApiVindiService {
         $this->accountCenterSubscription = $accountCenterSubscription;
     }
 
-    public function getSubscriptionByPaymentGatwayId($idSubscription)
+    public function getSubscriptionByPaymentGatewayId($idSubscription)
     {
         $subscription = $this->vindiService->get($idSubscription);
         return $this->subscriptionToAccountCenterSubscription($subscription);

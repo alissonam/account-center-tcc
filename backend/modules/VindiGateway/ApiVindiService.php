@@ -1,5 +1,5 @@
 <?php
-namespace VindiGatway;
+namespace VindiGateway;
 
 use Vindi;
 

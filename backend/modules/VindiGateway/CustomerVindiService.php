@@ -1,8 +1,7 @@
 <?php
-namespace VindiGatway;
+namespace VindiGateway;
 
 use Users\User;
-use Vindi\Vindi;
 
 class CustomerVindiService extends ApiVindiService {
 
@@ -14,7 +13,7 @@ class CustomerVindiService extends ApiVindiService {
         $this->accountCenterUser = $accountCenterUser;
     }
 
-    public function getCustomerByPaymentGatwayId($idCustomer)
+    public function getCustomerByPaymentGatewayId($idCustomer)
     {
         $customer = $this->vindiService->get($idCustomer);
         return $this->customerToAccountCenterUser($customer);
