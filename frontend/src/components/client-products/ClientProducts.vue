@@ -1,7 +1,8 @@
 <template>
   <div>
-    <h1 class="q-ma-lg xs-hide sm-hide">Produtos</h1>
-    <h2 class="q-ma-none text-center md-hide lg-hide xl-hide">Produtos</h2>
+    <div class="text-h2 q-ma-lg">
+      <b>Nossos produtos:</b>
+    </div>
     <q-card
       style="min-height: 250px;"
       class="card q-mx-md q-my-xl"
@@ -14,7 +15,7 @@
             <q-img
               style="height: 200px; max-width: 200px; border-radius: 50%"
               class="q-mt-md"
-              :src="product?.logoUrl || defaultImage"
+              :src="product?.logoUrl || 'logo.jpeg'"
               no-native-menu
             />
           </div>
@@ -27,7 +28,7 @@
               <q-img
                 style="height: 200px; max-width: 200px; border-radius: 50%"
                 class="q-mt-md"
-                :src="product?.logoUrl || defaultImage"
+                :src="product?.logoUrl || 'logo.jpeg'"
                 no-native-menu
               />
             </div>
@@ -78,7 +79,6 @@ import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { getProducts } from 'src/services/product/product-api'
 import { getSubscriptions } from 'src/services/subscription/subscription-api'
-import defaultImage from 'src/assets/images/default-image.png'
 import { Loading, Notify } from 'quasar'
 
 const router = useRouter()
@@ -130,7 +130,7 @@ async function accessProduct (product) {
 <style scoped>
 
 .card:hover, .card:hover .q-img, .card:hover .q-btn {
-  box-shadow: 0 20px 30px 0 rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0 30px 0 rgba(0, 0, 0, 1);
 }
 
 </style>

@@ -6,5 +6,5 @@ use Subscriptions\SubscriptionController;
 Route::group([
     'middleware' => ['auth:sanctum', 'user_checker']
 ], function () {
-    Route::apiResource('subscriptions', SubscriptionController::class);
+    Route::apiResource('subscriptions', SubscriptionController::class)->except('destroy');
 });

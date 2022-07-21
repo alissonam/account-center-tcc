@@ -21,7 +21,3 @@ export const updateSubscription = async (id, user) => {
   const { data } = await put(`/subscriptions/${id}`, user)
   return data
 }
-
-export const destroySubscription = async id => {
-  await destroy(`/subscriptions/${id}`)
-}

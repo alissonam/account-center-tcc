@@ -7,7 +7,7 @@
         class="absolute-center"
       >
     </div>
-    <div v-else class="full-width q-pa-lg items-start">
+    <div v-else class="q-pa-lg items-start">
       <client-products />
     </div>
   </q-page>
