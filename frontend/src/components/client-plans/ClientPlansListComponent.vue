@@ -20,11 +20,11 @@
       </div>
       <div class="q-pa-md" v-else>
         <h3 class="row items-center justify-center" style="color: #0a457d" > {{ productData.name}}</h3>
-        <div class="row">
+        <div class="row justify-center">
           <q-card
-            style="min-width: 300px;"
+            style="min-width: 300px; max-width: 400px"
             class="q-mx-md card"
-            :class="plan.preferential ? 'order-first preferential' : 'q-my-xl'"
+            :class="plan.preferential ? 'order-first preferential q-mb-sm' : (windowWidth > 1475 ? 'q-my-xl' : 'q-my-md')"
             v-for="(plan, i) in planData"
             :key="i"
           >
@@ -81,7 +81,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 import { getPlans } from 'src/services/plan/plan-api'
 import { Notify } from 'quasar'
 import { getMedia } from "src/services/media/media-api"
@@ -101,6 +101,11 @@ const route = useRoute()
 let existProduct = ref(false)
 let openModal = ref(false)
 let loadingSubscriptions = ref(false)
+let windowWidth = ref(window.innerWidth)
+
+const onWidthChange = () => windowWidth.value = window.innerWidth
+onMounted(() => window.addEventListener('resize', onWidthChange))
+onUnmounted(() => window.removeEventListener('resize', onWidthChange))
 
 onMounted(async () => {
   productCode.value = route.params.code

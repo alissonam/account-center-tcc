@@ -130,6 +130,16 @@ const clientPlans = [
   }
 ]
 
+const clientProducts = [
+  {
+    path: '/client-products',
+    name: 'client_products',
+    component: () => import('components/client-products/ClientProducts'),
+    beforeEnter: checkPermission,
+    meta: { permission: ['member', 'admin'] }
+  }
+]
+
 const routes = [
   {
     path: '/',
