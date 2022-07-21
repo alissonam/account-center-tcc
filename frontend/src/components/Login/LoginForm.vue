@@ -101,7 +101,7 @@ const login = async function () {
     localStorage.setItem('isUserLogged', 'true')
     localStorage.setItem('userToken', loginInfo.data.token)
     await loadLoggedUser()
-    router.push({ name: 'client_products' })
+    router.push({ name: 'dashboard' })
   } catch (error) {
     Loading.hide()
     const unauthorizedAccess = error.response?.status === 403
