@@ -1,8 +1,23 @@
 <template>
   <q-form
     ref="accountForm"
-    @submit="submitRegister()">
+    @submit="submitRegister()"
+  >
     <div class="login-container column justify-between">
+      <div>
+        <q-btn
+          color="primary"
+          icon="arrow_back"
+          dense
+          outline
+          rounded
+          :to="{ name: 'login' }"
+        >
+          <q-tooltip :offset="[5, 5]">
+            Voltar
+          </q-tooltip>
+        </q-btn>
+      </div>
       <div class="justify-center text-center">
         <h1 class="login-title">
           Registre-se
@@ -56,11 +71,13 @@
       <div class="text-left q-pa-lg q-gutter-lg">
         <q-btn
           v-if="!userCreate"
-          style="background: #1976D2; color: white; text-align: center"
           type="submit"
+          color="primary"
           class="q-ma-sm q-px-xl q-py-sm"
           label="Registrar"
           icon-right="keyboard_arrow_right"
+          rounded
+          outline
           push
           :disable="saving"
           :loading="saving"

@@ -5,8 +5,9 @@
         class="items-center justify-center"
       >
         <q-img
+          class="q-ma-md"
           :src="productLogo?.url || 'logo.jpeg'"
-          style="width: 2cm; margin: 15px"
+          style="height: 80px; max-width: 80px; border-radius: 50%"
         />
       </q-item-section>
       <div class="row items-center justify-center">
