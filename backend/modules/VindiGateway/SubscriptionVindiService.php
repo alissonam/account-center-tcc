@@ -1,4 +1,5 @@
 <?php
+
 namespace VindiGateway;
 
 use Subscriptions\Subscription;
