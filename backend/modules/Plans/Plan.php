@@ -20,7 +20,7 @@ class Plan extends Model
         'name',
         'payload',
         'description',
-        'hidden',
+        'visible',
         'preferential',
         'default',
         'product_id',
@@ -34,7 +34,7 @@ class Plan extends Model
      */
     protected $casts = [
         'payload'      => 'array',
-        'hidden'       => 'boolean',
+        'visible'      => 'boolean',
         'preferential' => 'boolean',
         'default'      => 'boolean',
     ];

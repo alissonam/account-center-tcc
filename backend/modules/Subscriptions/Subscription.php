@@ -13,6 +13,10 @@ use Users\User;
  */
 class Subscription extends Model
 {
+    const STATUS_ACTIVE   = 'active';
+    const STATUS_AWAITING = 'awaiting';
+    const STATUS_INACTIVE = 'inactive';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -23,6 +27,8 @@ class Subscription extends Model
         'product_id',
         'user_id',
         'vindi_id',
+        'status',
+        'finished_in'
     ];
 
     /**
@@ -33,7 +39,7 @@ class Subscription extends Model
         return $this->belongsTo(Plan::class);
     }
 
-     /**
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function product()
@@ -41,7 +47,7 @@ class Subscription extends Model
         return $this->belongsTo(Product::class);
     }
 
-     /**
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function user()

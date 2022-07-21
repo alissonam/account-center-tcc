@@ -4,6 +4,7 @@ namespace Products;
 
 use Illuminate\Database\Eloquent\Model;
 use Media\Media;
+use Plans\Plan;
 
 /**
  * Class Product
@@ -34,5 +35,13 @@ class Product extends Model
     public function logo()
     {
         return $this->morphOne(Media::class, 'subject');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function plans()
+    {
+        return $this->hasMany(Plan::class);
     }
 }

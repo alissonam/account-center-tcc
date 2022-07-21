@@ -28,6 +28,7 @@ sed -i "s|@FRONT_PORT|$CONTAINER_FRONT_EXTERNAL_PORT|;" $PROJECT_BACK_DIR/.env
 
 cp $PROJECT_FRONT_DIR/.env.example $PROJECT_FRONT_DIR/.env
 sed -i "s|@API_PORT|$CONTAINER_BACK_EXTERNAL_PORT|;" $PROJECT_FRONT_DIR/.env
+sed -i "s|@FRONT_PORT|$CONTAINER_FRONT_EXTERNAL_PORT|;" $PROJECT_FRONT_DIR/.env
 
 cp docker-compose.override.homolog.yaml docker-compose.override.yaml
 
