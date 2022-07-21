@@ -42,26 +42,12 @@ const generalItems = [
     permission: ['admin', 'member']
   },
   {
-    label: 'Acesso ao Sistema',
-    icon: 'o_manage_accounts',
-    children: [
-      {
-        label: 'Usuários',
-        icon: 'o_account_circle',
-        to: {
-          name: 'users'
-        },
-        permission: ['admin']
-      },
-      {
-        label: 'Permissões',
-        icon: 'fingerprint',
-        to: {
-          name: 'permissions'
-        },
-        permission: ['admin']
-      }
-    ]
+    label: 'Usuários',
+    icon: 'o_account_circle',
+    to: {
+      name: 'users'
+    },
+    permission: ['admin']
   },
 ]
 
