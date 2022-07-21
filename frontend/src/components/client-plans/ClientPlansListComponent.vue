@@ -20,9 +20,10 @@
       </div>
       <div class="q-pa-md" v-else>
         <h3 class="row items-center justify-center" style="color: #0a457d" > {{ productData.name}}</h3>
-        <div style="display: flex">
+        <div class="row">
           <q-card
-            class="q-ma-md card"
+            style="min-width: 300px;"
+            class="q-mx-md card"
             :class="plan.preferential ? 'order-first preferential' : 'q-my-xl'"
             v-for="(plan, i) in planData"
             :key="i"
@@ -201,13 +202,9 @@ async function getSubscriptionsFunction (productId) {
 }
 
 .card {
-  max-width: 800px;
-  min-width: 300px;
-  min-height: 600px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4);
   transition: 0.3s;
   border-radius: 5px;
-  display: inline-block;
 }
 
 .card:hover {
@@ -222,7 +219,6 @@ async function getSubscriptionsFunction (productId) {
   box-shadow: 0 0 20px 0 rgba(0, 30, 255, 0.650);
   transition: 0.3s;
   border-radius: 5px;
-  display: inline-block;
 }
 
 </style>
