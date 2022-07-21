@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace VindiWebhooks;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 
-class VindiController extends Controller
+class VindiReceptorController extends Controller
 {
     /**
      * chose te funcionality of system to call
@@ -21,7 +22,7 @@ class VindiController extends Controller
             $eventType = $request['event']['type'];
             switch ($eventType) {
                 case 'bill_paid':
-                    dd("BillPaid");
+                    SubscriptionWebhookService::payedSubscription($request["event"]["data"]);
                     break;
             }
         } catch (\Throwable $error) {

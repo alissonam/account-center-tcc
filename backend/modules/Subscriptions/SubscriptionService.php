@@ -3,6 +3,7 @@
 namespace Subscriptions;
 
 use App\Http\Services\Service;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Plans\Plan;
 use Products\Product;
@@ -131,5 +132,31 @@ class SubscriptionService extends Service
         $subscription->delete();
 
         return self::buildReturn();
+    }
+
+    /**
+     * this function get subscription by vindi_id
+     * @param int $vindi_id
+     * @return Subscription
+     */
+    public static function getByVindiId($vindi_id)
+    {
+        return SubscriptionRepository::getByVindiId($vindi_id)->first();
+    }
+
+    /**
+     * this function deactive all actives subscription in specific product of user
+     * @param int $user_id
+     * @param int $product_id
+     */
+    public static function deactiveAllActiveSubscriptionInProductOfUser($user_id, $product_id)
+    {
+        $subscriptions = SubscriptionRepository::getAllSubscriptionInProductOfUser($user_id, $product_id, Subscription::STATUS_INACTIVE);
+        $subscriptions->update(
+            [
+                'status' => Subscription::STATUS_INACTIVE,
+                'finished_in' => new Carbon()
+            ]
+        );
     }
 }
