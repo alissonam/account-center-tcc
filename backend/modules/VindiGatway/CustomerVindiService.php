@@ -1,10 +1,10 @@
 <?php
-namespace VindiGetway;
+namespace VindiGatway;
 
 use Users\User;
 use Vindi\Vindi;
 
-class CustomerService extends ApiVindiService {
+class CustomerVindiService extends ApiVindiService {
 
     private $accountCenterUser = null;
 
@@ -14,7 +14,7 @@ class CustomerService extends ApiVindiService {
         $this->accountCenterUser = $accountCenterUser;
     }
 
-    public function getCustomerByPaymentGetwayId($idCustomer)
+    public function getCustomerByPaymentGatwayId($idCustomer)
     {
         $customer = $this->vindiService->get($idCustomer);
         return $this->customerToAccountCenterUser($customer);
@@ -24,7 +24,7 @@ class CustomerService extends ApiVindiService {
     {
         $customer = $this->accountCenterToCustomer();
         $storedVindiCustomer = $this->vindiService->create($customer);
-        $this->accountCenterUser->idVindi = $storedVindiCustomer->id;
+        $this->accountCenterUser->vindi_id = $storedVindiCustomer->id;
         return $this->accountCenterUser;
     }
 
@@ -37,12 +37,12 @@ class CustomerService extends ApiVindiService {
 
     public function archiveCustomer()
     {
-        $this->vindiService->delete($this->accountCenterUser->idVindi);
+        $this->vindiService->delete($this->accountCenterUser->vindi_id);
     }
 
     public function unarchiveCustomer()
     {
-        $this->vindiService->unarchive($this->accountCenterUser->idVindi);
+        $this->vindiService->unarchive($this->accountCenterUser->vindi_id);
     }
 
     private function customerToAccountCenterUser($customer)
