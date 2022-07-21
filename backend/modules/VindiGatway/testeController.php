@@ -20,13 +20,13 @@ class testeController extends Controller
         Subscription $subscription
         )
     {
-        // // dd($user);
+        // dd($user);
         // $customerService = PaymentGatway::Customer($user);
-        // // $customerVindi = $customerService->storecustomer();
-        // $user->vindi_id = 1517640;
-        // //$user->email = "william.nahirnei@gmail.com";
-        // //$customer = $customerService->updateCustomer();
-        // // $customer = $customerService->archiveCustomer();
+        // $customerVindi = $customerService->storecustomer();
+        // $user->vindi_id = 1517700;
+        // $user->email = "william.nahirnei@gmail.com";
+        // $customer = $customerService->updateCustomer();
+        // $customer = $customerService->archiveCustomer();
         // $customer = $customerService->unarchiveCustomer();
         // dd("teste", $customer);
 
@@ -35,8 +35,8 @@ class testeController extends Controller
         $subscriptionService = PaymentGatway::Subscription($subscription);
         //dd($subscriptionService);
         // $subscriptionVindi = $subscriptionService->storeSubscription();
-        $subscription->vindi_id = 682369;
+        $subscription->vindi_id = 682382;
         $subscriptionVindi = $subscriptionService->cancelSubscription();
-        dd("teste", $subscriptionVindi);
+        dd("teste", $subscription);
     }
 }
