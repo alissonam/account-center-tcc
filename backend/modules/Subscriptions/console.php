@@ -51,8 +51,8 @@ Artisan::command('subscription:active-defaults', function () {
                 $product            = $subscription->product;
                 $plan               = $subscription->plan;
 
-                $json = [
-                    'action'  => 'update_subscription',
+                ProductService::sendDataToProduct($product, [
+                    'action'  => 'subscription',
                     'user'    => [
                         'id'           => $userToSubscription->id,
                         'name'         => $userToSubscription->name,
@@ -70,9 +70,7 @@ Artisan::command('subscription:active-defaults', function () {
                         'complement'   => $userToSubscription->complement
                     ],
                     'payload' => $plan->payload
-                ];
-
-                ProductService::sendDataToProduct($product, $json);
+                ]);
 
                 DB::commit();
             } catch (\Throwable $t) {
