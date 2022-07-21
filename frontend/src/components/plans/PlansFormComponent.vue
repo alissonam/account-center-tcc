@@ -102,7 +102,7 @@
               @json-change="val => plan.payload = val"
             />
           </div>
-          <div class="col">
+          <div class="col q-mb-md">
             <div class="text-h6">HTML</div>
             <q-editor
               v-model="plan.description"
@@ -111,7 +111,6 @@
               toolbar-text-color="white"
               toolbar-toggle-color="yellow-8"
               toolbar-bg="primary"
-              min-height="355px"
               :toolbar="[
                 [
                   {

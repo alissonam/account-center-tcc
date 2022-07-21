@@ -20,19 +20,29 @@
       </div>
       <div class="q-pa-md" v-else>
         <h3 class="row items-center justify-center" style="color: #0a457d" > {{ productData.name}}</h3>
-        <div style="display: flex">
+        <div class="row justify-center">
           <q-card
-          class="q-ma-md card"
-          v-for="(plan, i) in planData"
-          :key="i"
+            style="min-width: 300px; max-width: 400px"
+            class="q-mx-md card"
+            :class="plan.preferential ? 'order-first preferential q-mb-sm' : (windowWidth > 1475 ? 'q-my-xl' : 'q-my-md')"
+            v-for="(plan, i) in planData"
+            :key="i"
           >
             <q-item-section
               class="items-center justify-center"
             >
-            <q-img
-              :src="productLogo?.url || 'logo.jpeg'"
-              style="width: 2cm; margin: 15px"
-            />
+              <div
+                v-if="plan.preferential"
+                class="text-subtitle1 q-pa-sm"
+                style="color: #00ff5d;"
+              >
+                <b>Recomendado</b>
+              </div>
+              <q-img
+                class="q-ma-md"
+                :src="productLogo?.url || 'logo.jpeg'"
+                style="height: 80px; max-width: 80px; border-radius: 50%"
+              />
             </q-item-section>
             <q-item>
               <q-item-section>
@@ -71,7 +81,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 import { getPlans } from 'src/services/plan/plan-api'
 import { Notify } from 'quasar'
 import { getMedia } from "src/services/media/media-api"
@@ -91,6 +101,11 @@ const route = useRoute()
 let existProduct = ref(false)
 let openModal = ref(false)
 let loadingSubscriptions = ref(false)
+let windowWidth = ref(window.innerWidth)
+
+const onWidthChange = () => windowWidth.value = window.innerWidth
+onMounted(() => window.addEventListener('resize', onWidthChange))
+onUnmounted(() => window.removeEventListener('resize', onWidthChange))
 
 onMounted(async () => {
   productCode.value = route.params.code
@@ -192,17 +207,23 @@ async function getSubscriptionsFunction (productId) {
 }
 
 .card {
-  max-width: 800px;
-  min-width: 300px;
-  min-height: 600px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4);
   transition: 0.3s;
   border-radius: 5px;
-  display: inline-block;
 }
 
 .card:hover {
-  box-shadow: 0 16px 24px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 16px 24px 0 rgba(0, 0, 0, 0.4);
+}
+
+.preferential.card:hover {
+  box-shadow: 0 0 40px 0 rgba(0, 40, 255, 0.800);
+}
+
+.preferential.card, .preferential .q-img, .preferential .q-btn {
+  box-shadow: 0 0 20px 0 rgba(0, 30, 255, 0.650);
+  transition: 0.3s;
+  border-radius: 5px;
 }
 
 </style>

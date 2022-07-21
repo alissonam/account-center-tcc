@@ -12,14 +12,46 @@
     binary-state-sort
     @request="getUsersFunction"
   >
-    <template v-slot:top-right>
-      <q-btn
-        icon="add"
-        label="Cadastrar"
-        color="primary"
-        outline
-        :to="{ name: 'users_create' }"
-      />
+    <template v-slot:top>
+      <div class="table-top-row full-width">
+        <div class="row">
+          <div class="col">
+            <h6 class="q-mt-none q-mb-none text-weight-regular">
+              Usuários
+            </h6>
+          </div>
+          <div class="col">
+            <q-btn
+              class="float-right"
+              icon="add"
+              label="Cadastrar"
+              color="primary"
+              outline
+              :to="{ name: 'users_create' }"
+            />
+          </div>
+        </div>
+        <div class="row q-mt-md q-gutter-md">
+          <q-btn-toggle
+            v-model="mainPagination.role"
+            spread
+            no-caps
+            padding="0px 20px 0px 20px"
+            size="md"
+            toggle-color="primary"
+            :options="roleOptions"
+            @update:model-value="getUsersFunction"
+          />
+          <q-input
+            v-model="mainPagination.name"
+            label="Nome"
+            class="col-2"
+            debounce="500"
+            dense
+            @update:model-value="getUsersFunction"
+          />
+        </div>
+      </div>
     </template>
     <template v-slot:body-cell-status="props">
       <q-td key="status" :props="props">
@@ -90,6 +122,7 @@ const mainPagination = ref({
   page: 1,
   rowsPerPage: 10,
   rowsNumber: 0,
+  role: 'member'
 })
 
 const columns = [
@@ -127,6 +160,17 @@ const columns = [
     label: 'Ações',
     field: 'id',
     sortable: false
+  },
+]
+
+const roleOptions = [
+  {
+    label: 'Clientes',
+    value: 'member',
+  },
+  {
+    label: 'Administradores',
+    value: 'admin'
   },
 ]
 

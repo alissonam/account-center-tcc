@@ -24,30 +24,6 @@ const checkPermission = (to, from, next) => {
   }
 }
 
-const permissions = [
-  {
-    path: '/permissions',
-    name: 'permissions',
-    component: () => import('pages/Permissions/PermissionsList'),
-    beforeEnter: checkPermission,
-    meta: { permission: ['admin'] }
-  },
-  {
-    path: '/permissions/create',
-    name: 'permissions_create',
-    component: () => import('pages/Permissions/PermissionsForm'),
-    beforeEnter: checkPermission,
-    meta: { permission: ['admin'] }
-  },
-  {
-    path: '/permissions/update/:id',
-    name: 'permissions_update',
-    component: () => import('pages/Permissions/PermissionsForm'),
-    beforeEnter: checkPermission,
-    meta: { permission: ['admin'] }
-  }
-]
-
 const subscriptions = [
   {
     path: '/subscriptions',
@@ -154,6 +130,16 @@ const clientPlans = [
   }
 ]
 
+const clientProducts = [
+  {
+    path: '/client-products',
+    name: 'client_products',
+    component: () => import('components/client-products/ClientProducts'),
+    beforeEnter: checkPermission,
+    meta: { permission: ['member', 'admin'] }
+  }
+]
+
 const routes = [
   {
     path: '/',
@@ -170,12 +156,12 @@ const routes = [
         name: 'dashboard',
         component: () => import('pages/Index')
       },
-      ...permissions,
       ...products,
       ...users,
       ...plans,
       ...subscriptions,
-      ...clientPlans
+      ...clientPlans,
+      ...clientProducts
     ]
   },
   {
