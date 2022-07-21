@@ -48,30 +48,21 @@
               />
             </div>
             <div class="col">
-              <q-input
-                label="Vindi ID"
-                v-model="product.vindi_id"
+              <q-select
+                label="Status"
+                map-options
+                emit-value
                 hide-bottom-space
+                clearable
+                v-model="product.status"
+                :options="statusOptions"
+                option-label="label"
+                option-value="value"
                 dense
                 outlined
+                :rules="[val => !!val || 'Preenchimento obrigatório']"
               />
             </div>
-          </div>
-          <div class="col q-mb-lg">
-            <q-select
-              label="Status"
-              map-options
-              emit-value
-              hide-bottom-space
-              clearable
-              v-model="product.status"
-              :options="statusOptions"
-              option-label="label"
-              option-value="value"
-              dense
-              outlined
-              :rules="[val => !!val || 'Preenchimento obrigatório']"
-            />
           </div>
         </div>
         <div class="row">
