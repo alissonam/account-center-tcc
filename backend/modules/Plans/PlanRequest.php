@@ -32,7 +32,7 @@ class PlanRequest extends Request
             'vindi_id'      => '',
             'payload'       => '',
             'description'   => '',
-            'hidden'        => '',
+            'visible'       => '',
             'preferential'  => '',
             'default'       => '',
         ];
@@ -49,7 +49,7 @@ class PlanRequest extends Request
             'vindi_id'      => '',
             'payload'       => '',
             'description'   => '',
-            'hidden'        => '',
+            'visible'       => '',
             'preferential'  => '',
             'default'       => '',
         ];
