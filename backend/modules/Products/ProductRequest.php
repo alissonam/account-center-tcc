@@ -38,7 +38,6 @@ class ProductRequest extends Request
             'app_url'     => 'string|max:255',
             'api_token'   => 'string|max: 255',
             'description' => 'string',
-            'vindi_id'    => '',
         ];
     }
 
@@ -55,7 +54,6 @@ class ProductRequest extends Request
             'app_url'     => 'max:255',
             'api_token'   => 'max: 255',
             'description' => '',
-            'vindi_id'    => '',
         ];
     }
 }
