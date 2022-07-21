@@ -31,13 +31,13 @@
         />
       </q-td>
     </template>
-    <template v-slot:body-cell-hidden="props">
-      <q-td key="hidden" :props="props">
+    <template v-slot:body-cell-visible="props">
+      <q-td key="visible" :props="props">
         <q-chip
           text-color="white"
-          :icon="props.row.hidden ? 'done' : 'close'"
-          :label="t(`plan.hidden.${props.row.hidden}`)"
-          :color="props.row.hidden ? 'positive' : 'negative'"
+          :icon="props.row.visible ? 'done' : 'close'"
+          :label="t(`plan.visible.${props.row.visible}`)"
+          :color="props.row.visible ? 'positive' : 'negative'"
         />
       </q-td>
     </template>
@@ -114,11 +114,11 @@ const columns = [
     format: val => t(`plan.preferential.${val}`),
   },
   {
-    name: 'hidden',
+    name: 'visible',
     label: 'Visível',
     align: 'left',
-    field: 'hidden',
-    format: val => t(`plan.hidden.${val}`),
+    field: 'visible',
+    format: val => t(`plan.visible.${val}`),
   },
   {
     name: 'default',
