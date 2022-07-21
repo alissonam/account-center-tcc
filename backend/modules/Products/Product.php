@@ -29,7 +29,6 @@ class Product extends Model
         'app_url',
         'api_token',
         'description',
-        'vindi_id',
     ];
 
     public function logo()
