@@ -13,38 +13,49 @@
     @request="getPlansFunction"
   >
     <template v-slot:top>
-      <div class="col row justify-between">
-        <q-select
-          class="col-3"
-          v-model="mainPagination.product_id"
-          :options="productsData"
-          label="Produtos"
-          color="primary"
-          map-options
-          emit-value
-          outlined
-          dense
-          :option-label="opt => opt.name"
-          option-value="id"
-          clearable
-          use-input
-          fill-input
-          hide-selected
-          placeholder="Digite para pesquisar"
-          @filter="filterProducts"
-          @update:model-value="getPlansFunction"
-        >
-          <template v-slot:no-option>
-            <no-option-select-slot label="Nenhuma filial encontrada"/>
-          </template>
-        </q-select>
-        <q-btn
-          icon="add"
-          label="Cadastrar"
-          color="primary"
-          outline
-          :to="{ name: 'plans_create' }"
-        />
+      <div class="table-top-row full-width">
+        <div class="row">
+          <div class="col">
+            <h6 class="q-mt-none q-mb-none text-weight-regular">
+              Planos
+            </h6>
+          </div>
+          <div class="col">
+            <q-btn
+              class="float-right"
+              icon="add"
+              label="Cadastrar"
+              color="primary"
+              outline
+              :to="{ name: 'plans_create' }"
+            />
+          </div>
+        </div>
+        <div class="row q-mt-md q-gutter-md">
+          <q-select
+            v-model="mainPagination.product_id"
+            :options="productsData"
+            label="Produtos"
+            color="primary"
+            map-options
+            emit-value
+            outlined
+            dense
+            :option-label="opt => opt.name"
+            option-value="id"
+            clearable
+            use-input
+            fill-input
+            hide-selected
+            placeholder="Digite para pesquisar"
+            @filter="filterProducts"
+            @update:model-value="getPlansFunction"
+          >
+            <template v-slot:no-option>
+              <no-option-select-slot label="Nenhuma filial encontrada"/>
+            </template>
+          </q-select>
+        </div>
       </div>
     </template>
     <template v-slot:body-cell-preferential="props">
