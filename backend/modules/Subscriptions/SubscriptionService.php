@@ -117,17 +117,6 @@ class SubscriptionService extends Service
 
     /**
      * @param Subscription $subscription
-     * @return array
-     */
-    public function destroy(Subscription $subscription)
-    {
-        $subscription->delete();
-
-        return self::buildReturn();
-    }
-
-    /**
-     * @param Subscription $subscription
      * @param null $userPassword
      * @throws \GuzzleHttp\Exception\GuzzleException
      */

@@ -15,65 +15,100 @@
       </q-btn>
     </div>
     <div class="row items-center justify-center">
-      <div v-if="!existProduct">
-        <h5> Não foi possivel carregar os planos do produto</h5>
-      </div>
-      <div class="q-pa-md" v-else>
-        <h3 class="row items-center justify-center" style="color: #0a457d" > {{ productData.name}}</h3>
-        <div class="row justify-center">
-          <q-card
-            style="min-width: 300px; max-width: 400px"
-            class="q-mx-md card"
-            :class="plan.preferential ? 'order-first preferential q-mb-sm' : (windowWidth > 1475 ? 'q-my-xl' : 'q-my-md')"
-            v-for="(plan, i) in planData"
-            :key="i"
-          >
-            <q-item-section
-              class="items-center justify-center"
-            >
-              <div
-                v-if="plan.preferential"
-                class="text-subtitle1 q-pa-sm"
-                style="color: #00ff5d;"
-              >
-                <b>Recomendado</b>
+      <div class="q-pa-md">
+        <h3 class="row items-center justify-center" style="color: #0a457d" > {{ productData?.name}}</h3>
+        <div v-if="!existProduct">
+          <q-card class="shadow-24">
+            <q-card-section>
+              <div class="row">
+                <q-icon
+                  class="col"
+                  name="error"
+                  color="negative"
+                  size="4rem"
+                >
+                  <h5> Não foi possivel carregar os planos do produto</h5>
+                </q-icon>
               </div>
-              <q-img
-                class="q-ma-md"
-                :src="productLogo?.url || 'logo.jpeg'"
-                style="height: 80px; max-width: 80px; border-radius: 50%"
-              />
-            </q-item-section>
-            <q-item>
-              <q-item-section>
-                <q-item-label align="center">
-                  <h5 style="color: #0a457d; margin: 12px; align: center;"> {{ plan.name }}</h5>
-                </q-item-label>
-              </q-item-section>
-            </q-item>
-            <div class="q-pa-md text-center" style="text-align: center; padding-bottom: 90px">
-              <q-separator/>
-              <div v-html="plan.description"/>
-            </div>
-            <q-card-actions align="center" class="q-pa-md q-gutter-sm">
-              <q-btn
-                class="button"
-                :label="plan.subscription_status === 'active' ? 'Plano ativo': (plan.subscription_status  ? 'Aguardando Ativação': 'Assinar') "
-                padding="xs lg"
-                :key="`btn_size_dense_rd_${size}`"
-                :disable="['active', 'awaiting'].includes(plan.subscription_status)"
-                type="submit"
-                push
-                rounded
-                size="lg"
-                @click="openModalConfirmationSubscription.openModal(planData[i])"
-              />
-            </q-card-actions>
+            </q-card-section>
           </q-card>
-          <client-plan-confirmation-subscription-component
-            ref="openModalConfirmationSubscription"
-            @submit="getSubscriptionsFunction(productData.id)"
-          />
+        </div>
+        <div class="q-pa-md" v-else>
+          <div
+            v-if="planData[0]?.id"
+            class="row justify-center"
+          >
+            <q-card
+              style="min-width: 300px; max-width: 400px;"
+              class="q-mx-md card"
+              :class="plan.preferential ? 'order-first preferential q-mb-sm' : (windowWidth > 1475 ? 'q-my-xl' : 'q-my-md')"
+              v-for="(plan, i) in planData"
+              :key="i"
+            >
+              <q-item-section
+                class="items-center justify-center"
+              >
+                <div
+                  v-if="plan.preferential"
+                  class="text-h6 q-pa-sm"
+                  style="color: #00ff5d;"
+                >
+                  <b>Recomendado</b>
+                </div>
+                <q-img
+                  class="q-ma-md"
+                  :src="productLogo?.url || 'logo.jpeg'"
+                  style="border-radius: 50%"
+                  :style="plan.preferential ? 'width: 100px; height: 100px' : 'width: 80px; height: 80px;'"
+                />
+              </q-item-section>
+              <q-item>
+                <q-item-section>
+                  <q-item-label align="center">
+                    <h5 style="color: #0a457d; margin: 12px; align: center;"> {{ plan.name }}</h5>
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
+              <div class="q-pa-md text-center" style="text-align: center; padding-bottom: 90px">
+                <q-separator/>
+                <div v-html="plan.description"/>
+              </div>
+              <q-card-actions align="center" class="q-pa-md q-gutter-sm">
+                <q-btn
+                  class="button"
+                  :label="plan.subscription_status === 'active' ? 'Plano ativo': (plan.subscription_status  ? 'Aguardando Ativação': 'Assinar') "
+                  padding="xs lg"
+                  :key="`btn_size_dense_rd_${size}`"
+                  :disable="['active', 'awaiting'].includes(plan.subscription_status)"
+                  type="submit"
+                  push
+                  rounded
+                  size="lg"
+                  @click="openModalConfirmationSubscription.openModal(planData[i])"
+                />
+              </q-card-actions>
+            </q-card>
+            <client-plan-confirmation-subscription-component
+              ref="openModalConfirmationSubscription"
+              @submit="getSubscriptionsFunction(productData.id)"
+            />
+          </div>
+          <div v-else>
+            <q-card class="shadow-24">
+              <q-card-section>
+                <div class="row">
+                  <q-icon
+                    class="col"
+                    name="warning"
+                    color="warning"
+                    size="4rem"
+                  >
+                    <h5>Este produto não possui planos!</h5>
+                  </q-icon>
+                </div>
+              </q-card-section>
+            </q-card>
+          </div>
         </div>
       </div>
     </div>
@@ -83,7 +118,7 @@
 <script setup>
 import { onMounted, onUnmounted, ref } from 'vue'
 import { getPlans } from 'src/services/plan/plan-api'
-import { Notify } from 'quasar'
+import { Notify, Loading } from 'quasar'
 import { getMedia } from "src/services/media/media-api"
 import { formatResponseError } from "src/services/utils/error-formatter"
 import { getProducts } from "src/services/product/product-api"
@@ -94,12 +129,11 @@ import { getSubscriptions } from "src/services/subscription/subscription-api";
 let openModalConfirmationSubscription = ref(null)
 let productCode = ref(null)
 let planData = ref([])
-const loading = ref(false)
 let productLogo = ref(null)
 let productData = ref({})
 const route = useRoute()
-let existProduct = ref(false)
 let openModal = ref(false)
+let existProduct = ref(false)
 let loadingSubscriptions = ref(false)
 let windowWidth = ref(window.innerWidth)
 
@@ -114,10 +148,11 @@ onMounted(async () => {
 })
 
 async function getProductFunction(productCode) {
-  loading.value = true
+  Loading.show()
   try {
     const result = await getProducts({ code: productCode })
     productData.value = result[0]
+
     if (productData.value) {
       await getPlanFunction(productData.value.id)
       getLogoProductFunction(productData.value.id)
@@ -131,11 +166,11 @@ async function getProductFunction(productCode) {
       type: 'negative'
     })
   }
-  loading.value = false
+  Loading.hide()
 }
 
 async function getPlanFunction(productId) {
-  loading.value = true
+  Loading.show()
   try {
     const result = await getPlans({
       product_id: productId
@@ -147,7 +182,7 @@ async function getPlanFunction(productId) {
       type: 'negative'
     })
   }
-  loading.value = false
+  Loading.hide()
 }
 
 async function getLogoProductFunction(productId) {
@@ -204,6 +239,7 @@ async function getSubscriptionsFunction (productId) {
 
 .button:hover {
   background: #e3780c;
+  box-shadow: 0 0 40px 0 rgba(227, 120, 12, 0.8);
 }
 
 .card {
@@ -220,7 +256,7 @@ async function getSubscriptionsFunction (productId) {
   box-shadow: 0 0 40px 0 rgba(0, 40, 255, 0.800);
 }
 
-.preferential.card, .preferential .q-img, .preferential .q-btn {
+.preferential.card, .preferential .q-img {
   box-shadow: 0 0 20px 0 rgba(0, 30, 255, 0.650);
   transition: 0.3s;
   border-radius: 5px;

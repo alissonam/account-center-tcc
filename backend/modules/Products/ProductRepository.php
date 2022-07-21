@@ -22,7 +22,7 @@ class ProductRepository
             })->when($filters['description'] ?? null, function ($query, $description) {
                 return $query->where('description', 'like', "%$description%");
             })->when($filters['code'] ?? null, function ($query, $code) {
-                return $query->where('code', 'like', "%$code%");
+                return $query->where('code', $code);
             })->when($filters['status'] ?? null, function ($query, $status) {
                 return $query->where('status', $status);
             });

@@ -20,7 +20,7 @@
               Inscrições
             </h6>
           </div>
-          <div class="col">
+          <!--<div class="col">
             <q-btn
               class="float-right"
               icon="add"
@@ -29,7 +29,7 @@
               outline
               :to="{ name: 'subscriptions_create' }"
             />
-          </div>
+          </div> -->
         </div>
         <div class="row q-mt-md q-gutter-md">
           <q-btn-toggle
@@ -46,30 +46,16 @@
     </template>
     <template v-slot:body-cell-actions="props">
       <q-td key="actions" :props="props">
-        <q-btn-group outline>
-          <q-btn
-            outline
-            color="primary"
-            icon="edit"
-            :to="{ name: 'subscriptions_update', params: { 'id': props.row.id } }"
-          >
-            <q-tooltip>
-              Editar
-            </q-tooltip>
-          </q-btn>
-          <q-btn
-            outline
-            color="negative"
-            icon="delete"
-            :loading="removing === props.row.id"
-            :disable="removing === props.row.id"
-            @click="destroySubscriptionFunction(props.row.id)"
-          >
-            <q-tooltip>
-              Excluir
-            </q-tooltip>
-          </q-btn>
-        </q-btn-group>
+        <q-btn
+          outline
+          color="primary"
+          icon="edit"
+          :to="{ name: 'subscriptions_update', params: { 'id': props.row.id } }"
+        >
+          <q-tooltip>
+            Editar
+          </q-tooltip>
+        </q-btn>
       </q-td>
     </template>
   </q-table>
@@ -162,31 +148,6 @@ async function getSubscriptionsFunction (props) {
     })
   }
   loading.value = false
-}
-
-function destroySubscriptionFunction (subscription) {
-  Dialog.create({
-    title: 'Atenção!',
-    message: 'Tem certeza que deseja excluir esta inscrição?',
-    cancel: true,
-  }).onOk(async () => {
-    removing.value = subscription
-    try {
-      await destroySubscription(subscription)
-      getSubscriptionsFunction()
-
-      Notify.create({
-        message: 'Inscrição excluída com sucesso!',
-        type: 'positive'
-      })
-    } catch (e) {
-      Notify.create({
-        message: 'Falha ao excluir inscrição!',
-        type: 'negative'
-      })
-    }
-    removing.value = null
-  })
 }
 
 </script>

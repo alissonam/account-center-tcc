@@ -66,15 +66,4 @@ class SubscriptionController extends Controller
 
         return $this->response($result['response'], $result['status']);
     }
-
-    /**
-     * @param Subscription $subscription
-     * @return mixed
-     */
-    public function destroy(Subscription $subscription)
-    {
-        $result = $this->subscriptionService->destroy($subscription);
-
-        return $this->response($result['response'], $result['status']);
-    }
 }

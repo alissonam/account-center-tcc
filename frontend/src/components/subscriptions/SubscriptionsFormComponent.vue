@@ -73,7 +73,7 @@
               emit-value
               hide-bottom-space
               clearable
-              :readonly="!subscription.product_id"
+              :readonly="!!route.params.id"
               v-model="subscription.plan_id"
               :options="planOptions"
               :option-label="opt => opt.name || subscription.plan?.name || 'N/I'"
