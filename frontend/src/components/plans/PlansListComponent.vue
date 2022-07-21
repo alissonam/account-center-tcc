@@ -12,14 +12,51 @@
     binary-state-sort
     @request="getPlansFunction"
   >
-    <template v-slot:top-right>
-      <q-btn
-        icon="add"
-        label="Cadastrar"
-        color="primary"
-        outline
-        :to="{ name: 'plans_create' }"
-      />
+    <template v-slot:top>
+      <div class="table-top-row full-width">
+        <div class="row">
+          <div class="col">
+            <h6 class="q-mt-none q-mb-none text-weight-regular">
+              Planos
+            </h6>
+          </div>
+          <div class="col">
+            <q-btn
+              class="float-right"
+              icon="add"
+              label="Cadastrar"
+              color="primary"
+              outline
+              :to="{ name: 'plans_create' }"
+            />
+          </div>
+        </div>
+        <div class="row q-mt-md q-gutter-md">
+          <q-select
+            v-model="mainPagination.product_id"
+            :options="productsData"
+            label="Produtos"
+            color="primary"
+            map-options
+            emit-value
+            outlined
+            dense
+            :option-label="opt => opt.name"
+            option-value="id"
+            clearable
+            use-input
+            fill-input
+            hide-selected
+            placeholder="Digite para pesquisar"
+            @filter="filterProducts"
+            @update:model-value="getPlansFunction"
+          >
+            <template v-slot:no-option>
+              <no-option-select-slot label="Nenhuma filial encontrada"/>
+            </template>
+          </q-select>
+        </div>
+      </div>
     </template>
     <template v-slot:body-cell-preferential="props">
       <q-td key="preferential" :props="props">
@@ -85,10 +122,12 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import { getPlans, destroyPlan } from 'src/services/plan/plan-api'
+import { getProducts } from 'src/services/product/product-api'
 import { t } from 'src/services/utils/i18n'
 import { Notify, Dialog } from 'quasar'
 
 let plansData = ref([])
+let productsData = ref([])
 let loading = ref(false)
 let removing = ref(null)
 
@@ -96,6 +135,7 @@ const mainPagination = ref({
   page: 1,
   rowsPerPage: 10,
   rowsNumber: 0,
+  with: ['product']
 })
 
 const columns = [
@@ -104,6 +144,13 @@ const columns = [
     label: 'Nome',
     align: 'left',
     field: 'name',
+    format: val => val || 'N/I',
+  },
+  {
+    name: 'product',
+    label: 'Produto',
+    align: 'left',
+    field: row => row.product?.name,
     format: val => val || 'N/I',
   },
   {
@@ -177,5 +224,21 @@ function destroyPlanFunction (plan) {
     }
     removing.value = null
   })
+}
+
+async function filterProducts(val, update, abort) {
+  try {
+    productsData.value = await getProducts({
+      name: val,
+      rowsPerPage: 25,
+    })
+    update()
+  } catch {
+    Notify.create({
+      message: 'Falha ao buscar produto!',
+      type: 'negative'
+    })
+    abort()
+  }
 }
 </script>
