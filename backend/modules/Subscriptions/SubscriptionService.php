@@ -130,15 +130,4 @@ class SubscriptionService extends Service
 
         return self::buildReturn($subscription);
     }
-
-    /**
-     * @param Subscription $subscription
-     * @return array
-     */
-    public function destroy(Subscription $subscription)
-    {
-        $subscription->delete();
-
-        return self::buildReturn();
-    }
 }
