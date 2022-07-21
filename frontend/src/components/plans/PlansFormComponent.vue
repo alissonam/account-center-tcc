@@ -29,7 +29,7 @@
           <q-toggle
             label="Visível:"
             left-label
-            v-model="plan.hidden"
+            v-model="plan.visible"
             color="green"
           />
           <q-toggle
@@ -97,7 +97,7 @@
             <div class="text-h6">JSON</div>
             <Vue3JsonEditor
               v-model="plan.payload"
-              mode="tree"
+              mode="code"
               :expandedOnStart="false"
               @json-change="val => plan.payload = val"
             />
@@ -203,7 +203,10 @@ let saving = ref(false)
 
 let plan = ref({
   payload: {},
-  description: ''
+  description: '',
+  preferential: false,
+  visible: false,
+  default: false
 })
 
 const planForm = ref(null)

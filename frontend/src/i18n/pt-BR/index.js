@@ -25,7 +25,7 @@ export default {
     permissions:'Permissões',
   },
   plan: {
-    hidden: {
+    visible: {
       false: 'Não',
       true: 'Sim',
     },
