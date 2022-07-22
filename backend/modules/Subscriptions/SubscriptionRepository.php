@@ -60,7 +60,7 @@ class SubscriptionRepository
     public static function getAllSubscriptionInProductOfUser($user_id, $product_id, $status)
     {
         return Subscription::where("user_id", $user_id)
-        ->where("product_id", $product_id)
-        ->where("status", $status);
+            ->where("product_id", $product_id)
+            ->where("status", $status);
     }
 }
