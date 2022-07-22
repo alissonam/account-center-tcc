@@ -50,6 +50,8 @@
           rounded
           push
           label="Assinar"
+          :loading="saving"
+          :disable="saving"
           @click="createSubscriptionFunction(planData.id, userPassword)"
         />
       </div>
@@ -68,7 +70,6 @@ import { createSubscription } from "src/services/subscription/subscription-api";
 let openModal = ref(false)
 const route = useRoute()
 let saving = ref(false)
-let loading = ref(false)
 let planData = ref({})
 let passwordHidden = ref(true)
 let productLogo = ref(null)
