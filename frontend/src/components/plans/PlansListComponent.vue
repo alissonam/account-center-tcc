@@ -92,6 +92,7 @@
       <q-td key="default" :props="props">
         <q-input
           v-model="props.row.order"
+          :loading="saving === props.row.id"
           style="width: 60px"
           mask="##"
           dense
@@ -134,7 +135,7 @@
 
 <script setup>
 import { onMounted, ref } from 'vue'
-import { getPlans, destroyPlan, createPlan, updatePlan } from 'src/services/plan/plan-api'
+import { getPlans, destroyPlan, updatePlan } from 'src/services/plan/plan-api'
 import { getProducts } from 'src/services/product/product-api'
 import { t } from 'src/services/utils/i18n'
 import { Notify, Dialog } from 'quasar'
@@ -144,7 +145,7 @@ let plansData = ref([])
 let productsData = ref([])
 let loading = ref(false)
 let removing = ref(null)
-let saving = ref(false)
+let saving = ref(null)
 
 const mainPagination = ref({
   page: 1,
@@ -264,7 +265,7 @@ async function filterProducts(val, update, abort) {
 }
 
 async function changeOrderFunction(plan){
-  saving.value = true
+  saving.value = plan.id
   try {
     await updatePlan(plan.id, {
       order: plan.order
@@ -276,6 +277,6 @@ async function changeOrderFunction(plan){
       type: 'negative'
     })
   }
-  saving.value = false
+  saving.value = null
 }
 </script>
