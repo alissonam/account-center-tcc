@@ -275,8 +275,9 @@ let user = ref({
 const userForm = ref(null)
 
 onMounted(async () => {
-  if (route.params.id) {
-    await getUserFunction()
+  const userId = loggedUser.role == 'member' ? loggedUser.id : route.params.id
+  if (userId) {
+    await getUserFunction(userId)
   }
 })
 
@@ -304,10 +305,10 @@ async function submitUser() {
   saving.value = false
 }
 
-async function getUserFunction() {
+async function getUserFunction(userId) {
   Loading.show()
   try {
-    const response = await getUser(route.params.id)
+    const response = await getUser(userId)
     user.value = response
   } catch (e) {
     Notify.create({
