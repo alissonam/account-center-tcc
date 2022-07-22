@@ -6,6 +6,7 @@ use App\Http\Services\Service;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use PaymentGateway\PaymentGateway;
 use Plans\Plan;
 use Products\ProductService;
 use Users\User;
@@ -88,7 +89,8 @@ class SubscriptionService extends Service
 
             if (!$plan->default) {
                 try {
-                    // TODO: Criação vindi aqui passando $createdSubscription
+                    $subscription = PaymentGateway::Subscription($createdSubscription)->storeSubscription();
+                    $subscription->save();
                 } catch (\Throwable) {
                     throw self::exception(['message' => 'Falha ao criar inscrição no gateway']);
                 }
