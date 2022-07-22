@@ -82,7 +82,10 @@
               </template>
             </q-select>
           </div>
-            <div class="col-xs-5 col-sm-5 col-md-2 col-py-xs q-mr-md q-mb-lg">
+            <div
+              class="col-xs-5 col-sm-5 col-md-2 col-py-xs q-mr-md q-mb-lg"
+              v-if="plan.default != true"
+            >
               <q-input
                 label="Plano Vindi"
                 v-model="plan.vindi_plan_id"
@@ -91,7 +94,10 @@
                 outlined
               />
             </div>
-            <div class="col-xs-5 col-sm-5 col-md-2 col-py-xs q-mr-md q-mb-lg">
+            <div
+              class="col-xs-5 col-sm-5 col-md-2 col-py-xs q-mr-md q-mb-lg"
+              v-if="plan.default != true"
+              >
               <q-input
                 label="Produto Vindi"
                 v-model="plan.vindi_product_id"
@@ -232,6 +238,10 @@ async function submitPlan() {
     const validated = planForm.value.validate()
     if (validated) {
       const planToSave = { ...plan.value }
+      if (planToSave.default === true){
+        planToSave.vindi_product_id = null
+        planToSave.vindi_plan_id = null
+      }
       !route.params.id ? await createPlan(planToSave) : await updatePlan(route.params.id, planToSave)
 
       Notify.create({
