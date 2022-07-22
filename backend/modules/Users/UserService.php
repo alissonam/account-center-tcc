@@ -119,6 +119,14 @@ class UserService extends Service
      */
     public function update(User $user, array $data)
     {
+        $loggedUser = Auth::user();
+
+        if ($loggedUser->id != $user->id) {
+            throw self::exception([
+                'message' => 'Permissão negada'
+            ], 403);
+        }
+
         self::prepareData($data, [
             'phone' => fn($value) => self::onlyNumbers($value),
         ]);

@@ -80,6 +80,13 @@ const mainPagination = ref({
 
 const columns = [
   {
+    name: 'id',
+    label: 'ID',
+    align: 'left',
+    field: 'id',
+    format: val => val || 'N/I',
+  },
+  {
     name: 'user',
     label: 'Usuário',
     align: 'left',
