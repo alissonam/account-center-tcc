@@ -151,12 +151,25 @@ class SubscriptionService extends Service
      */
     public static function deactiveAllActiveSubscriptionInProductOfUser($user_id, $product_id)
     {
-        $subscriptions = SubscriptionRepository::getAllSubscriptionInProductOfUser($user_id, $product_id, Subscription::STATUS_INACTIVE);
-        $subscriptions->update(
+        $subscriptions = SubscriptionRepository::getAllSubscriptionInProductOfUser($user_id, $product_id, Subscription::STATUS_ACTIVE);
+        return $subscriptions->update(
             [
                 'status' => Subscription::STATUS_INACTIVE,
                 'finished_in' => new Carbon()
             ]
         );
+    }
+
+    /**
+     * this function active a specific subscription
+     * @param Subscription $subscription
+     */
+    public static function activeSubscription ($subscription)
+    {
+        return $subscription->update(
+            [
+                'status' => Subscription::STATUS_ACTIVE
+            ]
+            );
     }
 }

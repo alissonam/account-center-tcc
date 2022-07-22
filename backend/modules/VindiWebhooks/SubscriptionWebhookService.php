@@ -4,6 +4,7 @@ namespace VindiWebhooks;
 
 use App\Http\Services\Service;
 use Subscriptions\SubscriptionService;
+use Symfony\Contracts\Service\Attribute\SubscribedService;
 
 /**
  * Class SubscriptionWebhookService
@@ -21,6 +22,8 @@ class SubscriptionWebhookService extends Service
 
         $subscription = SubscriptionService::getByVindiId($vindiSubscription["id"]);
         SubscriptionService::deactiveAllActiveSubscriptionInProductOfUser($subscription->user_id, $subscription->product_id);
+        SubscriptionService::activeSubscription($subscription);
+
         dd($subscription);
         dd($vindiSubscription);
     }
