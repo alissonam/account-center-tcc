@@ -47,30 +47,7 @@ Artisan::command('subscription:active-defaults', function () {
                 ]);
                 $subscription->update(['status' => Subscription::STATUS_ACTIVE]);
 
-                $userToSubscription = $subscription->user;
-                $product            = $subscription->product;
-                $plan               = $subscription->plan;
-
-                ProductService::sendDataToProduct($product, [
-                    'action'  => 'subscription',
-                    'user'    => [
-                        'id'           => $userToSubscription->id,
-                        'name'         => $userToSubscription->name,
-                        'last_name'    => $userToSubscription->last_name,
-                        'document'     => $userToSubscription->document,
-                        'registration' => $userToSubscription->registration,
-                        'email'        => $userToSubscription->email,
-                        'phone'        => $userToSubscription->phone,
-                        'zipcode'      => $userToSubscription->zipcode,
-                        'state'        => $userToSubscription->state,
-                        'city'         => $userToSubscription->city,
-                        'neighborhood' => $userToSubscription->neighborhood,
-                        'street'       => $userToSubscription->street,
-                        'number'       => $userToSubscription->number,
-                        'complement'   => $userToSubscription->complement
-                    ],
-                    'payload' => $plan->payload
-                ]);
+                \Subscriptions\SubscriptionService::sendSubscriptionToProductApi($subscription);
 
                 DB::commit();
             } catch (\Throwable $t) {
