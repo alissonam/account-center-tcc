@@ -3,7 +3,7 @@
 namespace Products;
 
 use App\Http\Services\Service;
-use Products\ProductRepository;
+use Plans\Plan;
 use GuzzleHttp\Client;
 
 /**
@@ -64,18 +64,28 @@ class ProductService extends Service
 
     /**
      * @param Product $product
-     * @return array
+     * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Relations\HasMany|Plan|null
+     */
+    public static function getDefaultPlan(Product $product)
+    {
+        return $product->plans()->where('default', true)->first();
+    }
+
+    /**
+     * @param Product $product
+     * @param array $data
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public static function sendDataToProduct(Product $product, array $data)
     {
-        $client  = new Client();
-        $url = $product->action_url;
+        $client             = new Client();
+        $url                = $product->action_url;
         $options['headers'] = [
-            'Content-Type'         => 'application/json',
-            'Accept'               => 'application/json',
-            'x-access-token'       => $product->api_token,
+            'Content-Type'   => 'application/json',
+            'Accept'         => 'application/json',
+            'x-access-token' => $product->api_token,
         ];
-        $options['json'] = $data;
+        $options['json']    = $data;
 
         $client->post($url, $options);
     }

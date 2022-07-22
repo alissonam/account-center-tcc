@@ -35,79 +35,63 @@ class SubscriptionService extends Service
     /**
      * @param array $data
      * @return array
+     * @throws \Throwable
      */
     public function store(array $data)
     {
-        /** @var User $userLogged */
-        $userLogged = auth()->user();
+        /** @var User $loggedUser */
+        $loggedUser = auth()->user();
 
         if (
-            $userLogged->role === User::USER_ROLE_MEMBER &&
-            !Hash::check($data['password'], $userLogged->password ?? null)
+            $loggedUser->role === User::USER_ROLE_MEMBER &&
+            !Hash::check($data['password'], $loggedUser->password ?? null)
         ) {
             throw self::exception([
                 'message' => 'Senha incorreta!'
             ], 403);
         }
 
-        if ($userLogged->role === User::USER_ROLE_MEMBER) {
-            $data['user_id']    = $userLogged->id;
-            $userToSubscription = $userLogged;
-        } else {
-            $userToSubscription = User::find($data['user_id']);
-        }
-
-        $plan               = Plan::find($data['plan_id']);
-        $data['product_id'] = $plan->product_id;
-        $product            = $plan->product;
-
-        $haveActiveSubscription = SubscriptionRepository::activeSubscription($data['user_id'], $data['product_id'])->first();
-
         DB::beginTransaction();
         try {
+            $plan                   = Plan::find($data['plan_id']);
+            $userId                 = $loggedUser->checkRole(User::USER_ROLE_MEMBER) ? $loggedUser->id : $data['user_id'];
+            $haveActiveSubscription = SubscriptionRepository::activeSubscription($userId, $plan->product_id)->first();
+
+            self::prepareData($data, [
+                'user_id'    => fn($value) => $userId,
+                'product_id' => fn($value) => $plan->product_id,
+                'status'     => fn($value) => !$haveActiveSubscription && $plan->default ? Subscription::STATUS_ACTIVE : Subscription::STATUS_AWAITING,
+            ], true);
+
+            $createdSubscription = Subscription::create($data);
+
             if (!$haveActiveSubscription) {
-                $payload = $plan->payload;
-                if ($plan->default) {
-                    $data['status'] = Subscription::STATUS_ACTIVE;
-                } else {
-                    $defaultPlan                  = $product->plans()->where('default', true)->first();
-                    $dataToDefaultPlan            = $data;
-                    $dataToDefaultPlan['plan_id'] = $defaultPlan->id;
-                    $dataToDefaultPlan['status']  = Subscription::STATUS_ACTIVE;
-                    Subscription::create($dataToDefaultPlan);
-                    $payload = $defaultPlan->payload;
+                $subscriptionToProductApi = $createdSubscription;
+
+                if (!$plan->default) {
+                    $defaultPlan       = ProductService::getDefaultPlan($plan->product);
+                    $dataToDefaultPlan = $data;
+                    self::prepareData($dataToDefaultPlan, [
+                        'plan_id' => fn($value) => $defaultPlan->id,
+                        'status'  => fn($value) => Subscription::STATUS_ACTIVE,
+                    ], true);
+                    $subscriptionToProductApi = Subscription::create($dataToDefaultPlan);
                 }
 
                 try {
-                    ProductService::sendDataToProduct($product, [
-                        'action'  => 'subscription',
-                        'user'    => [
-                            'id'           => $userToSubscription->id,
-                            'name'         => $userToSubscription->name,
-                            'last_name'    => $userToSubscription->last_name,
-                            'document'     => $userToSubscription->document,
-                            'registration' => $userToSubscription->registration,
-                            'email'        => $userToSubscription->email,
-                            'phone'        => $userToSubscription->phone,
-                            'zipcode'      => $userToSubscription->zipcode,
-                            'state'        => $userToSubscription->state,
-                            'city'         => $userToSubscription->city,
-                            'neighborhood' => $userToSubscription->neighborhood,
-                            'street'       => $userToSubscription->street,
-                            'number'       => $userToSubscription->number,
-                            'complement'   => $userToSubscription->complement,
-                            'password'     => $data['password'],
-                        ],
-                        'payload' => $payload
-                    ]);
+                    self::sendSubscriptionToProductApi($subscriptionToProductApi, $data['password']);
                 } catch (\Throwable) {
                     throw self::exception(['message' => 'Falha ao criar inscrição no produto']);
                 }
             }
 
-            $subscription = Subscription::create($data);
-
-            // TODO: Criação vindi aqui passando $subscription
+            if (!$plan->default) {
+                try {
+                    // TODO: Criação vindi aqui passando $createdSubscription
+                } catch (\Throwable) {
+                    throw self::exception(['message' => 'Falha ao criar inscrição no gateway']);
+                }
+            }
 
             DB::commit();
         } catch (\Throwable $t) {
@@ -116,7 +100,7 @@ class SubscriptionService extends Service
             throw self::exception(['message' => 'Falha na inscrição do produto']);
         }
 
-        return self::buildReturn($subscription);
+        return self::buildReturn($createdSubscription);
     }
 
     /**
@@ -129,5 +113,39 @@ class SubscriptionService extends Service
         $subscription->update($data);
 
         return self::buildReturn($subscription);
+    }
+
+    /**
+     * @param Subscription $subscription
+     * @param null $userPassword
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public static function sendSubscriptionToProductApi(Subscription $subscription, $userPassword = null)
+    {
+        $product            = $subscription->product;
+        $plan               = $subscription->plan;
+        $userToSubscription = $subscription->user;
+
+        ProductService::sendDataToProduct($product, [
+            'action'  => 'subscription',
+            'user'    => [
+                'id'           => $userToSubscription->id,
+                'name'         => $userToSubscription->name,
+                'last_name'    => $userToSubscription->last_name,
+                'document'     => $userToSubscription->document,
+                'registration' => $userToSubscription->registration,
+                'email'        => $userToSubscription->email,
+                'phone'        => $userToSubscription->phone,
+                'zipcode'      => $userToSubscription->zipcode,
+                'state'        => $userToSubscription->state,
+                'city'         => $userToSubscription->city,
+                'neighborhood' => $userToSubscription->neighborhood,
+                'street'       => $userToSubscription->street,
+                'number'       => $userToSubscription->number,
+                'complement'   => $userToSubscription->complement,
+                'password'     => $userPassword,
+            ],
+            'payload' => $plan->payload
+        ]);
     }
 }
