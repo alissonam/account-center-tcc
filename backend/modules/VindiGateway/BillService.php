@@ -1,7 +1,6 @@
 <?php
-namespace VindiGatway;
 
-use Vindi\Vindi;
+namespace VindiGateway;
 
 class BillService extends ApiVindiService {
 

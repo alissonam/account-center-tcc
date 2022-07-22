@@ -16,7 +16,7 @@ class PlanRequest extends Request
     public function validateToIndex()
     {
         return [
-            'name' => '',
+            'name'       => '',
             'product_id' => '',
         ];
     }
@@ -27,14 +27,15 @@ class PlanRequest extends Request
     public function validateToStore()
     {
         return [
-            'name'          => 'required|min:2',
-            'product_id'    => 'required',
-            'vindi_id'      => '',
-            'payload'       => '',
-            'description'   => '',
-            'visible'       => '',
-            'preferential'  => '',
-            'default'       => '',
+            'name'             => 'required|min:2',
+            'product_id'       => 'required',
+            'vindi_product_id' => '',
+            'vindi_plan_id'    => '',
+            'payload'          => '',
+            'description'      => '',
+            'visible'          => '',
+            'preferential'     => '',
+            'default'          => '',
         ];
     }
 
@@ -44,14 +45,15 @@ class PlanRequest extends Request
     public function validateToUpdate()
     {
         return [
-            'name'          => 'min:2',
-            'product_id'    => '',
-            'vindi_id'      => '',
-            'payload'       => '',
-            'description'   => '',
-            'visible'       => '',
-            'preferential'  => '',
-            'default'       => '',
+            'name'             => 'min:2',
+            'product_id'       => '',
+            'vindi_product_id' => '',
+            'vindi_plan_id'    => '',
+            'payload'          => '',
+            'description'      => '',
+            'visible'          => '',
+            'preferential'     => '',
+            'default'          => '',
         ];
     }
 }

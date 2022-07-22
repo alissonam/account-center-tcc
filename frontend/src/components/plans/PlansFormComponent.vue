@@ -42,7 +42,7 @@
       </div>
       <div>
         <div class="row">
-          <div class="col-xs-12 col-sm-12 col-md-6 col-py-xs q-mr-md q-mb-lg">
+          <div class="col-xs-12 col-sm-12 col-md-4 col-py-xs q-mr-md q-mb-lg">
             <q-input
               label="Nome"
               v-model="plan.name"
@@ -52,7 +52,7 @@
               :rules="[val => !!val || 'Preenchimento obrigatório']"
             />
           </div>
-          <div class="col-xs-12 col-sm-12 col-md-4 col-py-xs q-mr-md">
+          <div class="col-xs-12 col-sm-12 col-md-3 col-py-xs q-mr-md">
             <q-select
               :readonly="route.params.id"
               v-model="plan.product_id"
@@ -82,16 +82,31 @@
               </template>
             </q-select>
           </div>
-          <div class="col q-mb-lg">
-            <q-input
-              label="Vindi ID"
-              v-model="plan.vindi_id"
-              hide-bottom-space
-              dense
-              outlined
-            />
+            <div
+              class="col-xs-5 col-sm-5 col-md-2 col-py-xs q-mr-md q-mb-lg"
+              v-if="!plan.default"
+            >
+              <q-input
+                label="Plano Vindi"
+                v-model="plan.vindi_plan_id"
+                hide-bottom-space
+                dense
+                outlined
+              />
+            </div>
+            <div
+              class="col-xs-5 col-sm-5 col-md-2 col-py-xs q-mr-md q-mb-lg"
+              v-if="!plan.default"
+              >
+              <q-input
+                label="Produto Vindi"
+                v-model="plan.vindi_product_id"
+                hide-bottom-space
+                dense
+                outlined
+              />
+            </div>
           </div>
-        </div>
         <div class="row">
           <div class="col-xs-12 col-sm-12 col-md-6 col-py-xs q-mr-md q-mb-lg">
             <div class="text-h6">JSON</div>
@@ -223,6 +238,10 @@ async function submitPlan() {
     const validated = planForm.value.validate()
     if (validated) {
       const planToSave = { ...plan.value }
+      if (planToSave.default === true){
+        planToSave.vindi_product_id = null
+        planToSave.vindi_plan_id = null
+      }
       !route.params.id ? await createPlan(planToSave) : await updatePlan(route.params.id, planToSave)
 
       Notify.create({

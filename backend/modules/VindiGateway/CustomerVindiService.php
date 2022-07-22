@@ -1,8 +1,8 @@
 <?php
-namespace VindiGatway;
+
+namespace VindiGateway;
 
 use Users\User;
-use Vindi\Vindi;
 
 class CustomerVindiService extends ApiVindiService {
 
@@ -14,7 +14,7 @@ class CustomerVindiService extends ApiVindiService {
         $this->accountCenterUser = $accountCenterUser;
     }
 
-    public function getCustomerByPaymentGatwayId($idCustomer)
+    public function getCustomerByPaymentGatewayId($idCustomer)
     {
         $customer = $this->vindiService->get($idCustomer);
         return $this->customerToAccountCenterUser($customer);
@@ -69,12 +69,13 @@ class CustomerVindiService extends ApiVindiService {
 
     private function accountCenterToCustomer() {
         $customer = [
-            'id'            => $this->accountCenterUser->vindi_id ?? null,
-            'name'          => $this->accountCenterUser->name.$this->accountCenterUser->last_name,
+            'id'            => $this->accountCenterUser->vindi_id,
+            'name'          => $this->accountCenterUser->name." ".$this->accountCenterUser->last_name,
             'email'         => $this->accountCenterUser->email,
             'code'          => $this->accountCenterUser->id,
             'registry_code' => $this->accountCenterUser->document,
             'status'        => $this->accountCenterUser->status
+            // TODO: conferir se a vindi aceita qualquer status, ou necessita conversão
         ];
 
         $customerAddress = [
@@ -92,6 +93,7 @@ class CustomerVindiService extends ApiVindiService {
         return array_filter($customer);
     }
 
+    // TODO: conferir aqui que não está sendo usado
     private function mountVindiPhone($phoneNumber)
     {
         $customerPhone =[];

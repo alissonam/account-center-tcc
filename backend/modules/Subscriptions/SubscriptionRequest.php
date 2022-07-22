@@ -32,7 +32,6 @@ class SubscriptionRequest extends Request
         return [
             'plan_id'       => 'required',
             'user_id'       => '',
-            'vindi_id'      => '',
             'password'      => 'nullable|string|min:6',
         ];
     }
@@ -43,11 +42,7 @@ class SubscriptionRequest extends Request
     public function validateToUpdate()
     {
         return [
-            'plan_id'     => '',
             'vindi_id'    => '',
-            'password'    => 'nullable|string|min:6',
-            'status'      => ['required', 'string', Rule::in([Subscription::STATUS_ACTIVE, Subscription::STATUS_INACTIVE, Subscription::STATUS_AWAITING])],
-            'finished_in' => '',
         ];
     }
 }

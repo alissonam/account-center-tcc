@@ -1,7 +1,6 @@
 <?php
-namespace VindiGatway;
 
-use Vindi;
+namespace VindiGateway;
 
 class ApiVindiService {
 

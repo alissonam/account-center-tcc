@@ -47,6 +47,7 @@
             label="Nome"
             class="col-2"
             debounce="500"
+            outlined
             dense
             @update:model-value="getUsersFunction"
           />
