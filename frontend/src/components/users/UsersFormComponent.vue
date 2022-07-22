@@ -293,11 +293,7 @@ async function submitUser() {
         type: 'positive'
       })
 
-      if (loggedUser.role == 'admin') {
-        router.push({ name: 'users' })
-      } else {
-        router.push({ name: 'dashboard' })
-      }
+      loggedUser.role == 'admin' ? router.push({ name: 'users' }) : router.push({ name: 'dashboard' })
     }
   } catch (error) {
     Notify.create({
