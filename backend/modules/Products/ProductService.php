@@ -83,7 +83,7 @@ class ProductService extends Service
         $options['headers'] = [
             'Content-Type'   => 'application/json',
             'Accept'         => 'application/json',
-            'x-access-token' => $product->api_token,
+            'x-auth-token' => $product->api_token,
         ];
         $options['json']    = $data;
 
