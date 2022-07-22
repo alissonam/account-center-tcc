@@ -15,23 +15,12 @@ class VindiReceptorController extends Controller
      */
     public function vindiReceptor(Request $request)
     {
-        $traceError = null;
-        $errorMessage = null;
-        $error = null;
-        try{
-            $eventType = $request['event']['type'];
-            switch ($eventType) {
-                case 'bill_paid':
-                    SubscriptionWebhookService::payedSubscription($request["event"]["data"]);
-                    break;
-            }
-        } catch (\Throwable $error) {
-            $errorMessage = substr($error->getMessage(), 0, 1000);
-            $traceError = json_encode($error->getTrace());
-            $error = $error;
+        $eventType = $request['event']['type'];
+        switch ($eventType) {
+            case 'bill_paid':
+                SubscriptionWebhookService::payedSubscription($request["event"]["data"]);
+                break;
         }
-        if ($error)
-            throw $error;
     }
 
 }

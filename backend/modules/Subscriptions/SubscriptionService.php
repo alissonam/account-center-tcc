@@ -123,13 +123,8 @@ class SubscriptionService extends Service
     {
         DB::beginTransaction();
         try {
-            SubscriptionRepository::activeSubscription($subscription->user_id, $subscription->product_id)
-                ->update([
-                    'status'      => Subscription::STATUS_INACTIVE,
-                    'finished_in' => new \DateTime()
-                ]);
-
-            $subscription->update(['status' => Subscription::STATUS_ACTIVE]);
+            self::deactiveAllActiveSubscriptionInProductOfUser($subscription->user_id, $subscription->product_id);
+            self::activeSubscription($subscription);
 
             self::sendSubscriptionToProductApi($subscription);
 
@@ -211,6 +206,6 @@ class SubscriptionService extends Service
             [
                 'status' => Subscription::STATUS_ACTIVE
             ]
-            );
+        );
     }
 }

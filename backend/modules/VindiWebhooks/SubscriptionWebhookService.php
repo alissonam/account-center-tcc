@@ -17,15 +17,10 @@ class SubscriptionWebhookService extends Service
      * @param array $billData
      */
     public static function payedSubscription ($billData) {
-        $vindiCustomer = self::getCustomerOfBill($billData);
         $vindiSubscription = self::getSubscriptionOfBill($billData);
 
         $subscription = SubscriptionService::getByVindiId($vindiSubscription["id"]);
-        SubscriptionService::deactiveAllActiveSubscriptionInProductOfUser($subscription->user_id, $subscription->product_id);
-        SubscriptionService::activeSubscription($subscription);
-
-        dd($subscription);
-        dd($vindiSubscription);
+        SubscriptionService::activeSubscriptionByGateway($subscription);
     }
 
     /**
