@@ -41,4 +41,26 @@ class SubscriptionRepository
             ->where('product_id', $productId)
             ->orderBy('id', 'desc');
     }
+
+    /**
+     * this function get subscription by vindi_id
+     * @param int $vindi_id
+     */
+    public static function getByVindiId($vindi_id)
+    {
+        return Subscription::where("vindi_id", $vindi_id);
+    }
+
+    /**
+     * this function get subscription by vindi_id
+     * @param int $user_id
+     * @param int $product_id
+     * @param string $status
+     */
+    public static function getAllSubscriptionInProductOfUser($user_id, $product_id, $status)
+    {
+        return Subscription::where("user_id", $user_id)
+            ->where("product_id", $product_id)
+            ->where("status", $status);
+    }
 }

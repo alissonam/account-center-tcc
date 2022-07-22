@@ -61,14 +61,12 @@
 
 <script setup>
 import { ref } from 'vue'
-import { useRoute } from 'vue-router'
 import { Notify } from 'quasar'
 import { getMedia } from "src/services/media/media-api";
 import { formatResponseError } from "src/services/utils/error-formatter";
 import { createSubscription } from "src/services/subscription/subscription-api";
 
 let openModal = ref(false)
-const route = useRoute()
 let saving = ref(false)
 let planData = ref({})
 let passwordHidden = ref(true)
