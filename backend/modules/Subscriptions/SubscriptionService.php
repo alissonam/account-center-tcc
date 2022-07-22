@@ -89,7 +89,6 @@ class SubscriptionService extends Service
 
             if (!$plan->default) {
                 try {
-                    // TODO: Criação vindi aqui passando $createdSubscription
                     $subscription = PaymentGateway::Subscription($createdSubscription)->storeSubscription();
                     $subscription->save();
                 } catch (\Throwable) {
