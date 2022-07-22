@@ -88,6 +88,15 @@ class SubscriptionService extends Service
             }
 
             if (!$plan->default) {
+                // TODO: Quando tiver outro Gateway a validação do if será de acordo com o Gateway do usuário
+                if (!$createdSubscription->user->vindi_id) {
+                    try {
+                        $user = PaymentGateway::Customer($createdSubscription->user)->storeCustomer();
+                        $user->save();
+                    } catch (\Throwable) {
+                        throw self::exception(['message' => 'Falha ao criar usuário no gateway']);
+                    }
+                }
                 try {
                     $subscription = PaymentGateway::Subscription($createdSubscription)->storeSubscription();
                     $subscription->save();
