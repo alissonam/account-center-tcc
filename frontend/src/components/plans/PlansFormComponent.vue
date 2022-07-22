@@ -96,7 +96,7 @@
             </div>
             <div
               class="col-xs-5 col-sm-5 col-md-2 col-py-xs q-mr-md q-mb-lg"
-              v-if="plan.default != true"
+              v-if="!plan.default"
               >
               <q-input
                 label="Produto Vindi"
