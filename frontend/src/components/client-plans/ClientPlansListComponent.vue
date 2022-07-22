@@ -17,31 +17,27 @@
     <div class="row items-center justify-center">
       <div class="q-pa-md">
         <h3 class="row items-center justify-center" style="color: #0a457d" > {{ productData?.name}}</h3>
-        <div v-if="!existProduct">
+        <div v-if="!planData?.length && !loading && !loadingSubscriptions">
           <q-card class="shadow-24">
             <q-card-section>
               <div class="row">
                 <q-icon
                   class="col"
-                  name="error"
-                  color="negative"
+                  name="warning"
+                  color="warning"
                   size="4rem"
                 >
-                  <h5> Não foi possivel carregar os planos do produto</h5>
+                  <h5> Nenhum plano encontrado!</h5>
                 </q-icon>
               </div>
             </q-card-section>
           </q-card>
         </div>
-        <div class="q-pa-md" v-else>
-          <div
-            v-if="planData[0]?.id"
-            class="row justify-center"
-          >
+        <div class="q-pa-md row justify-center" v-else>
             <q-card
-              style="min-width: 300px; max-width: 400px;"
+              style="width: 250px"
               class="q-mx-md card"
-              :class="plan.preferential ? 'order-first preferential q-mb-sm' : (windowWidth > 1475 ? 'q-my-xl' : 'q-my-md')"
+              :class="plan.preferential ? 'preferential q-mb-sm' : (windowWidth > 1475 ? 'q-my-xl' : 'q-my-md')"
               v-for="(plan, i) in planData"
               :key="i"
             >
@@ -92,23 +88,6 @@
               ref="openModalConfirmationSubscription"
               @submit="getSubscriptionsFunction(productData.id)"
             />
-          </div>
-          <div v-else>
-            <q-card class="shadow-24">
-              <q-card-section>
-                <div class="row">
-                  <q-icon
-                    class="col"
-                    name="warning"
-                    color="warning"
-                    size="4rem"
-                  >
-                    <h5>Este produto não possui planos!</h5>
-                  </q-icon>
-                </div>
-              </q-card-section>
-            </q-card>
-          </div>
         </div>
       </div>
     </div>
@@ -133,7 +112,7 @@ let productLogo = ref(null)
 let productData = ref({})
 const route = useRoute()
 let openModal = ref(false)
-let existProduct = ref(false)
+let loading = ref(false)
 let loadingSubscriptions = ref(false)
 let windowWidth = ref(window.innerWidth)
 
@@ -149,6 +128,7 @@ onMounted(async () => {
 
 async function getProductFunction(productCode) {
   Loading.show()
+  loading.value = true
   try {
     const result = await getProducts({ code: productCode })
     productData.value = result[0]
@@ -156,9 +136,6 @@ async function getProductFunction(productCode) {
     if (productData.value) {
       await getPlanFunction(productData.value.id)
       getLogoProductFunction(productData.value.id)
-      existProduct.value = true
-    } else {
-      existProduct.value = false
     }
   } catch (error) {
     Notify.create({
@@ -167,6 +144,7 @@ async function getProductFunction(productCode) {
     })
   }
   Loading.hide()
+  loading.value = false
 }
 
 async function getPlanFunction(productId) {

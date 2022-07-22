@@ -20,6 +20,8 @@ class PlanService extends Service
 
         return self::buildReturn(
             $plansQuery
+                ->orderBy('product_id')
+                ->orderBy('order')
                 ->with(\request()->with ?? [])
                 ->paginate(\request()->perPage)
         );
@@ -33,11 +35,11 @@ class PlanService extends Service
     {
         $plan = Plan::create($data);
 
-        if ($data['preferential'] === true) {
+        if ($plan->preferential === true) {
             PlanRepository::plansOfProduct($plan->product_id, $plan->id)->update(['preferential' => false]);
         }
 
-        if ($data['default'] === true) {
+        if ($plan->default === true) {
             PlanRepository::plansOfProduct($plan->product_id, $plan->id)->update(['default' => false]);
         }
 
@@ -53,11 +55,11 @@ class PlanService extends Service
     {
         $plan->update($data);
 
-        if ($data['preferential'] === true) {
+        if ($plan->preferential === true) {
             PlanRepository::plansOfProduct($plan->product_id, $plan->id)->update(['preferential' => false]);
         }
 
-        if ($data['default'] === true) {
+        if ($plan->default === true) {
             PlanRepository::plansOfProduct($plan->product_id, $plan->id)->update(['default' => false]);
         }
 
