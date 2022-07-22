@@ -36,6 +36,7 @@ class PlanRequest extends Request
             'visible'          => '',
             'preferential'     => '',
             'default'          => '',
+            'order'            => ''
         ];
     }
 
@@ -54,6 +55,7 @@ class PlanRequest extends Request
             'visible'          => '',
             'preferential'     => '',
             'default'          => '',
+            'order'            => ''
         ];
     }
 }

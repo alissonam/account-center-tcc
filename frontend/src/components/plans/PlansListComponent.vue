@@ -88,6 +88,19 @@
         />
       </q-td>
     </template>
+    <template v-slot:body-cell-order="props">
+      <q-td key="default" :props="props">
+        <q-input
+          v-model="props.row.order"
+          style="width: 60px"
+          mask="##"
+          dense
+          debounce="800"
+          autofocus
+          @update:model-value="changeOrderFunction(props.row)"
+         />
+      </q-td>
+    </template>
     <template v-slot:body-cell-actions="props">
       <q-td key="actions" :props="props">
         <q-btn-group outline>
@@ -121,15 +134,17 @@
 
 <script setup>
 import { onMounted, ref } from 'vue'
-import { getPlans, destroyPlan } from 'src/services/plan/plan-api'
+import { getPlans, destroyPlan, createPlan, updatePlan } from 'src/services/plan/plan-api'
 import { getProducts } from 'src/services/product/product-api'
 import { t } from 'src/services/utils/i18n'
 import { Notify, Dialog } from 'quasar'
+import { formatResponseError } from "src/services/utils/error-formatter";
 
 let plansData = ref([])
 let productsData = ref([])
 let loading = ref(false)
 let removing = ref(null)
+let saving = ref(false)
 
 const mainPagination = ref({
   page: 1,
@@ -173,6 +188,12 @@ const columns = [
     align: 'left',
     field: 'default',
     format: val => t(`plan.default.${val}`),
+  },
+  {
+    name: 'order',
+    label: 'Ordem',
+    align: 'left',
+    field: 'order',
   },
   {
     name: 'actions',
@@ -240,5 +261,21 @@ async function filterProducts(val, update, abort) {
     })
     abort()
   }
+}
+
+async function changeOrderFunction(plan){
+  saving.value = true
+  try {
+    await updatePlan(plan.id, {
+      order: plan.order
+    })
+    getPlansFunction()
+  } catch (error) {
+    Notify.create({
+      message: formatResponseError(error) || 'Falha ao salvar plano!',
+      type: 'negative'
+    })
+  }
+  saving.value = false
 }
 </script>

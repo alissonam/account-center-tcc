@@ -39,9 +39,9 @@
             class="row justify-center"
           >
             <q-card
-              style="min-width: 300px; max-width: 400px;"
+              style="width: 250px"
               class="q-mx-md card"
-              :class="plan.preferential ? 'order-first preferential q-mb-sm' : (windowWidth > 1475 ? 'q-my-xl' : 'q-my-md')"
+              :class="plan.preferential ? 'preferential q-mb-sm' : (windowWidth > 1475 ? 'q-my-xl' : 'q-my-md')"
               v-for="(plan, i) in planData"
               :key="i"
             >

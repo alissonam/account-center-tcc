@@ -25,7 +25,8 @@ class Plan extends Model
         'default',
         'product_id',
         'vindi_product_id',
-        'vindi_plan_id'
+        'vindi_plan_id',
+        'order'
     ];
 
     /**
