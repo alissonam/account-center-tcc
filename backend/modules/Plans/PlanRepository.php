@@ -32,4 +32,14 @@ class PlanRepository
             ->where('id', '!=',  $exceptPlanId);
     }
 
+    /**
+     * @param $vindiPlan
+     * @param $vindiProduct
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public static function planFromVindi($vindiPlan, $vindiProduct)
+    {
+        return Plan::query()->where('vindi_plan_id', $vindiPlan)
+            ->where('vindi_product_id', $vindiProduct);
+    }
 }
