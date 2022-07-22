@@ -130,7 +130,7 @@ async function accessProduct (product) {
 <style scoped>
 
 .card:hover, .card:hover .q-img, .card:hover .q-btn {
-  box-shadow: 0 0 30px 0 rgba(0, 0, 0, 1);
+  box-shadow: 0 16px 24px 0 rgba(0, 0, 0, 0.4)
 }
 
 </style>

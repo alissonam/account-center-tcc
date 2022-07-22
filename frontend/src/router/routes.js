@@ -68,7 +68,7 @@ const users = [
     name: 'users_update',
     component: () => import('pages/Users/UsersForm'),
     beforeEnter: checkPermission,
-    meta: { permission: ['admin'] }
+    meta: { permission: ['admin', 'member'] }
   }
 ]
 

@@ -6,14 +6,14 @@
       dense
       outline
       rounded
-      :to="{ name: 'users' }"
+      :to="loggedUser.role == 'admin' ? { name: 'users' } : { name: 'dashboard' }"
     >
       <q-tooltip :offset="[5, 5]">
         Voltar
       </q-tooltip>
     </q-btn>
-    <h4 class="q-mt-lg" v-if="!route.params.id">Criar usuário</h4>
-    <h4 class="q-mt-lg" v-else>Editar usuário</h4>
+    <h4 class="q-mt-lg" v-if="!route.params.id">Criar perfil</h4>
+    <h4 class="q-mt-lg" v-else>Editar perfil</h4>
     <q-form
       ref="userForm"
       @submit="submitUser()"
@@ -66,6 +66,7 @@
           </div>
           <div class="col-xs-12 col-sm-12 col-md-4 col-py-xs q-mr-md q-mb-lg">
             <q-input
+              :disable="loggedUser.role != 'admin'"
               label="E-mail"
               v-model="user.email"
               hide-bottom-space
@@ -87,7 +88,10 @@
             />
           </div>
         </div>
-        <div class="row">
+        <div
+          v-if="loggedUser.role == 'admin'"
+          class="row"
+        >
           <div class="col-xs-12 col-sm-12 col-md-4 col-py-xs q-mr-md q-mb-lg">
             <q-select
               label="Perfil"
@@ -224,11 +228,12 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import { createUser, updateUser, getUser } from 'src/services/user/user-api'
+import { createUser, updateUser, getUser,  } from 'src/services/user/user-api'
 import { Notify, Loading } from 'quasar'
 import { formatResponseError } from "src/services/utils/error-formatter";
 import {locationFromZipCode} from "src/services/utils/ceps";
 import {validateCPForCNPJ} from "src/services/utils/documents";
+import { loggedUser } from "boot/user"
 
 const router = useRouter()
 const route = useRoute()
@@ -288,7 +293,11 @@ async function submitUser() {
         type: 'positive'
       })
 
-      router.push({ name: 'users' })
+      if (loggedUser.role == 'admin') {
+        router.push({ name: 'users' })
+      } else {
+        router.push({ name: 'dashboard' })
+      }
     }
   } catch (error) {
     Notify.create({

@@ -24,7 +24,7 @@
           />
           <div class="absolute-right">
               <b
-                class="q-mr-md"
+                class="text-h6 q-mr-sm"
                 style="color: #1061a6"
               >
                 {{ loggedUser.name }}
@@ -33,17 +33,26 @@
               flat
               round
               icon="account_circle"
-              color="grey-6"
-              size="20px"
+              color="primary"
+              size="22px"
             >
               <q-list>
+                <q-item
+                  clickable
+                  v-close-popup
+                  :to="{ name: 'users_update', params: { id: loggedUser.id }}"
+                >
+                  <q-item-section>
+                    <q-item-label>Editar perfil</q-item-label>
+                  </q-item-section>
+                </q-item>
                 <q-item
                   clickable
                   v-close-popup
                   @click="logoutUser"
                 >
                   <q-item-section>
-                    <q-item-label>Logout</q-item-label>
+                    <q-item-label>Sair</q-item-label>
                   </q-item-section>
                 </q-item>
               </q-list>
