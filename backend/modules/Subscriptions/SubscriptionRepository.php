@@ -29,10 +29,15 @@ class SubscriptionRepository
             });
     }
 
+    /**
+     * @param $userId
+     * @param $productId
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
     public static function activeSubscription($userId, $productId)
     {
         return Subscription::query()->where('user_id', $userId)
-            ->where('status', '=',  'active')
+            ->where('status', '=',  Subscription::STATUS_ACTIVE)
             ->where('product_id', $productId)
             ->orderBy('id', 'desc');
     }

@@ -116,6 +116,31 @@ class SubscriptionService extends Service
     }
 
     /**
+     * @param $subscription
+     */
+    public static function activeSubscriptionByGateway($subscription)
+    {
+        DB::beginTransaction();
+        try {
+            SubscriptionRepository::activeSubscription($subscription->user_id, $subscription->product_id)
+                ->update([
+                    'status'      => Subscription::STATUS_INACTIVE,
+                    'finished_in' => new \DateTime()
+                ]);
+
+            $subscription->update(['status' => Subscription::STATUS_ACTIVE]);
+
+            self::sendSubscriptionToProductApi($subscription);
+
+            DB::commit();
+        } catch (\Throwable $t) {
+            DB::rollBack();
+            // TODO: adicionar notificação slack ou registro do erro com msg do erro
+            throw self::exception(['message' => 'Falha na ativação da inscrição']);
+        }
+    }
+
+    /**
      * @param Subscription $subscription
      * @param null $userPassword
      * @throws \GuzzleHttp\Exception\GuzzleException
