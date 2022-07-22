@@ -3,6 +3,7 @@
 namespace Subscriptions;
 
 use App\Http\Services\Service;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Plans\Plan;
@@ -122,13 +123,8 @@ class SubscriptionService extends Service
     {
         DB::beginTransaction();
         try {
-            SubscriptionRepository::activeSubscription($subscription->user_id, $subscription->product_id)
-                ->update([
-                    'status'      => Subscription::STATUS_INACTIVE,
-                    'finished_in' => new \DateTime()
-                ]);
-
-            $subscription->update(['status' => Subscription::STATUS_ACTIVE]);
+            self::deactiveAllActiveSubscriptionInProductOfUser($subscription->user_id, $subscription->product_id);
+            self::activeSubscription($subscription);
 
             self::sendSubscriptionToProductApi($subscription);
 
@@ -172,5 +168,44 @@ class SubscriptionService extends Service
             ],
             'payload' => $plan->payload
         ]);
+    }
+
+    /**
+     * this function get subscription by vindi_id
+     * @param int $vindi_id
+     * @return Subscription
+     */
+    public static function getByVindiId($vindi_id)
+    {
+        return SubscriptionRepository::getByVindiId($vindi_id)->first();
+    }
+
+    /**
+     * this function deactive all actives subscription in specific product of user
+     * @param int $user_id
+     * @param int $product_id
+     */
+    public static function deactiveAllActiveSubscriptionInProductOfUser($user_id, $product_id)
+    {
+        $subscriptions = SubscriptionRepository::getAllSubscriptionInProductOfUser($user_id, $product_id, Subscription::STATUS_ACTIVE);
+        return $subscriptions->update(
+            [
+                'status' => Subscription::STATUS_INACTIVE,
+                'finished_in' => new Carbon()
+            ]
+        );
+    }
+
+    /**
+     * this function active a specific subscription
+     * @param Subscription $subscription
+     */
+    public static function activeSubscription ($subscription)
+    {
+        return $subscription->update(
+            [
+                'status' => Subscription::STATUS_ACTIVE
+            ]
+        );
     }
 }
