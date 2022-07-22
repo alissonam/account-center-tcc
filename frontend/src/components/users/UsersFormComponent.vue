@@ -228,7 +228,7 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import { createUser, updateUser, getUser,  } from 'src/services/user/user-api'
+import { createUser, updateUser, getUser } from 'src/services/user/user-api'
 import { Notify, Loading } from 'quasar'
 import { formatResponseError } from "src/services/utils/error-formatter";
 import {locationFromZipCode} from "src/services/utils/ceps";
