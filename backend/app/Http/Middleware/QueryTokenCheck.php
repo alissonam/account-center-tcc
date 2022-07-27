@@ -18,15 +18,9 @@ class QueryTokenCheck
     public function handle($request, Closure $next)
     {
         $queryToken = $request->query('token');
-
-        if (!$queryToken)
-        {
-            throw Service::exception(['message' => 'Não autenticado'], Response::HTTP_UNAUTHORIZED);
-        }
-
         $envQueryToken = env('EXTERNAL_QUERY_TOKEN');
 
-        if ($queryToken !== $envQueryToken)
+        if (!$queryToken || $queryToken !== $envQueryToken)
         {
             throw Service::exception(['message' => 'Não autenticado'], Response::HTTP_UNAUTHORIZED);
         }
