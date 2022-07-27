@@ -42,7 +42,10 @@ Artisan::command('subscription:active-defaults', function () {
             DB::beginTransaction();
 
             try {
-                PaymentGateway::Subscription($activeSubscription)->cancelSubscription();
+                if ($activeSubscription->vindi_id) {
+                    PaymentGateway::Subscription($activeSubscription)->cancelSubscription();
+                }
+
                 $activeSubscription->update([
                     'status'      => Subscription::STATUS_INACTIVE,
                     'finished_in' => new \DateTime()
