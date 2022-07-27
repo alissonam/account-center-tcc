@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\DB;
 use Subscriptions\Subscription;
 use Illuminate\Support\Facades\Artisan;
+use PaymentGateway\PaymentGateway;
 use Products\ProductService;
 
 /*
@@ -41,6 +42,10 @@ Artisan::command('subscription:active-defaults', function () {
             DB::beginTransaction();
 
             try {
+                if ($activeSubscription->vindi_id) {
+                    PaymentGateway::Subscription($activeSubscription)->cancelSubscription();
+                }
+
                 $activeSubscription->update([
                     'status'      => Subscription::STATUS_INACTIVE,
                     'finished_in' => new \DateTime()
