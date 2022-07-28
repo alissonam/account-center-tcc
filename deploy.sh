@@ -37,7 +37,7 @@ if [[ $SCOPE == "backend" || $SCOPE == "all" ]]; then
   # docker exec -it $CONTAINER_BACK_NAME chown nginx:nginx /var/www/app/pipe
   # docker exec -d -it $CONTAINER_BACK_NAME sh /var/www/app/exec-pipe.sh
 
-  docker ps
+  docker ps | grep account
   docker exec -it $CONTAINER_BACK_NAME service cron status
   echo "::::: DEPLOY BACKEND COMPLETED :::::"
   $NOTIFIER ":small_orange_diamond: BACKEND - DEPLOY COMPLETED"
