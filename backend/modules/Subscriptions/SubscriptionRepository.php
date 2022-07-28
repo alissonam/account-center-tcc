@@ -20,6 +20,8 @@ class SubscriptionRepository
             return $query->where('product_id', $id);
         })->when($filters['user_id'] ?? null, function ($query, $id) {
             return $query->where('user_id', $id);
+        })->when($filters['default'] ?? null, function ($query, $default) {
+            return $query->where('default', $default);
         })->when($filters['status'] ?? null, function ($query, $status) {
                 if (is_array($status)) {
                     $query->whereIn('status', $status);
