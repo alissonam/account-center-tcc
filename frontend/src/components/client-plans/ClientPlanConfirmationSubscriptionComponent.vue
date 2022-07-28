@@ -138,6 +138,7 @@ async function getClientSubscriptions () {
   try {
     const result = await getSubscriptions({
       user_id: loggedUser.id,
+      product_id: planData.value.product_id,
       status: 'active',
       default: 0
     })
