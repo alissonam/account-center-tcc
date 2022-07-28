@@ -128,8 +128,6 @@ function showSubscriptionMessages () {
       title: 'Atenção!',
       message: !planData.value.default && clientSubscriptions.value?.length ? firstMessageAfterSubscription + '<br/><br/>' + secondMessageAfterSubscription : firstMessageAfterSubscription,
       html: true
-    }).onOk(async () => {
-
     })
   }
 }
