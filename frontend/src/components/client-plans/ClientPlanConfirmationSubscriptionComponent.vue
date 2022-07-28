@@ -65,15 +65,6 @@ let passwordHidden = ref(true)
 let productLogo = ref(null)
 let userPassword = ref(null)
 
-const mainPagination = ref({
-  page: 1,
-  rowsPerPage: 10,
-  rowsNumber: 0,
-  user_id: loggedUser.id,
-  status: 'active',
-  default: 0
-})
-
 const emit = defineEmits({
   submit: () => {
     return true
@@ -145,7 +136,11 @@ function showSubscriptionMessages () {
 
 async function getClientSubscriptions () {
   try {
-    const result = await getSubscriptions(mainPagination.value)
+    const result = await getSubscriptions({
+      user_id: loggedUser.id,
+      status: 'active',
+      default: 0
+    })
     clientSubscriptions.value = result
   } catch (error) {
     Notify.create({
