@@ -51,17 +51,28 @@
 
 <script setup>
 import { ref } from 'vue'
-import { Notify } from 'quasar'
+import { Notify, Dialog } from 'quasar'
 import { getMedia } from "src/services/media/media-api";
 import { formatResponseError } from "src/services/utils/error-formatter";
-import { createSubscription } from "src/services/subscription/subscription-api";
+import { createSubscription, getSubscriptions } from "src/services/subscription/subscription-api";
+import { loggedUser } from 'boot/user'
 
 let openModal = ref(false)
 let saving = ref(false)
 let planData = ref({})
+let clientSubscriptions = ref([])
 let passwordHidden = ref(true)
 let productLogo = ref(null)
 let userPassword = ref(null)
+
+const mainPagination = ref({
+  page: 1,
+  rowsPerPage: 10,
+  rowsNumber: 0,
+  user_id: loggedUser.id,
+  status: 'active',
+  default: 0
+})
 
 const emit = defineEmits({
   submit: () => {
@@ -71,26 +82,28 @@ const emit = defineEmits({
 
 defineExpose({
   openModal: async (dataPlan) => {
-    getLogoProductFunction(dataPlan.product_id)
+    await getLogoProductFunction(dataPlan.product_id)
+    await getClientSubscriptions()
     planData.value = dataPlan
     openModal.value = true
   }
 })
 
-async function createSubscriptionFunction(planId, password){
+async function createSubscriptionFunction(planId, password) {
   saving.value = true
   try {
-      await createSubscription({
-        'plan_id': planId,
-        'password': password
-      })
-      Notify.create({
-        message: 'Inscrição criada com sucesso!',
-        type: 'positive'
-      })
+    await createSubscription({
+      'plan_id': planId,
+      'password': password
+    })
+    Notify.create({
+      message: 'Inscrição criada com sucesso!',
+      type: 'positive'
+    })
     userPassword.value = null
     openModal.value = false
     emit('submit')
+    showSubscriptionMessages()
   } catch (error) {
     Notify.create({
       message: formatResponseError(error) || 'Falha ao salvar inscrição',
@@ -98,7 +111,6 @@ async function createSubscriptionFunction(planId, password){
     })
   }
   saving.value = false
-
 }
 
 async function getLogoProductFunction(productId) {
@@ -114,7 +126,33 @@ async function getLogoProductFunction(productId) {
       type: 'negative'
     })
   }
+}
 
+function showSubscriptionMessages () {
+  let firstMessageAfterSubscription = 'Verifique sua caixa de entrada. Em breve você deve receber um e-mail com o link de pagamento.'
+  let secondMessageAfterSubscription = 'O restante da cota não utilizada será movida para o próximo plano.'
+
+  if (!planData.value.default || clientSubscriptions.value != '') {
+    Dialog.create({
+      title: 'Atenção!',
+      message: !planData.value.default && clientSubscriptions.value != '' ? firstMessageAfterSubscription + '<br/><br/>' + secondMessageAfterSubscription : firstMessageAfterSubscription,
+      html: true
+    }).onOk(async () => {
+
+    })
+  }
+}
+
+async function getClientSubscriptions () {
+  try {
+    const result = await getSubscriptions(mainPagination.value)
+    clientSubscriptions.value = result
+  } catch (error) {
+    Notify.create({
+      message: formatResponseError(error) || 'Falha ao carregar inscrições do usuário',
+      type: 'negative'
+    })
+  }
 }
 
 </script>
