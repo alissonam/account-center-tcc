@@ -108,7 +108,10 @@
               :rules="[val => !!val || 'Preenchimento obrigatório']"
             />
           </div>
-          <div class="col-xs-12 col-sm-12 col-md-4 col-py-xs q-mr-md q-mb-lg">
+          <div
+            class="col-xs-12 col-sm-12 col-md-4 col-py-xs q-mr-md q-mb-lg"
+            v-if="route.params.id"
+          >
             <q-select
               label="Status"
               map-options
