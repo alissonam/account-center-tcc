@@ -35,6 +35,16 @@
         <q-btn-group outline>
           <q-btn
             outline
+            color="positive"
+            icon="copy_all"
+            @click="copyUrl(props.row.code)"
+          >
+            <q-tooltip>
+              Copiar URL
+            </q-tooltip>
+          </q-btn>
+          <q-btn
+            outline
             color="primary"
             icon="edit"
             :to="{ name: 'products_update', params: { 'id': props.row.id } }"
@@ -65,7 +75,7 @@
 import { onMounted, ref } from 'vue'
 import { getProducts, destroyProduct } from 'src/services/product/product-api'
 import { t } from 'src/services/utils/i18n'
-import { Notify, Dialog } from 'quasar'
+import { Notify, Dialog, copyToClipboard } from 'quasar'
 
 let productsData = ref([])
 let loading = ref(false)
@@ -119,7 +129,7 @@ async function getProductsFunction (props) {
     productsData.value = await getProducts(mainPagination.value)
   } catch (e) {
     Notify.create({
-      message: 'Falha ao buscar produtos',
+      message: 'Falha ao buscar produtos!',
       type: 'negative'
     })
   }
@@ -148,6 +158,22 @@ function destroyProductFunction (product) {
       })
     }
     removing.value = null
+  })
+}
+
+function copyUrl (code) {
+  copyToClipboard(`${process.env.APP_URL}/#/register?code=${code}`)
+  .then(() => {
+    Notify.create({
+      message: 'URL copiada com sucesso!',
+      type: 'positive'
+    })
+  })
+  .catch(() => {
+    Notify.create({
+      message: 'Falha ao copiar URL!',
+      type: 'negative'
+    })
   })
 }
 </script>

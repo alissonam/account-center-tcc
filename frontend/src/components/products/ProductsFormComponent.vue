@@ -20,7 +20,7 @@
     >
       <div>
         <div class="row">
-          <div class="col-xs-12 col-sm-12 col-md-5 col-py-xs q-mr-md q-mb-lg">
+          <div class="col-xs-12 col-sm-12 col-md-4 col-py-xs q-mr-md q-mb-lg">
             <q-input
               label="Nome"
               v-model="product.name"
@@ -33,36 +33,31 @@
               ]"
             />
           </div>
-          <div class="row col-xs-12 col-sm-12 col-md-4 col-py-xs q-mr-md q-mb-lg">
-            <div
-              class="col-xs-12 col-sm-12 col-md-6 col-py-xs q-mr-md"
-              :class="width > 1023 ? '' : 'q-mb-lg'"
-            >
-              <q-input
-                label="Código"
-                v-model="product.code"
-                hide-bottom-space
-                dense
-                outlined
-                :rules="[val => val.length <= 255 || 'Não pode ter mais de 255 caracteres']"
-              />
-            </div>
-            <div class="col">
-              <q-select
-                label="Status"
-                map-options
-                emit-value
-                hide-bottom-space
-                clearable
-                v-model="product.status"
-                :options="statusOptions"
-                option-label="label"
-                option-value="value"
-                dense
-                outlined
-                :rules="[val => !!val || 'Preenchimento obrigatório']"
-              />
-            </div>
+          <div class="col-xs-12 col-sm-12 col-md-4 col-py-xs q-mr-md q-mb-lg">
+            <q-input
+              label="Código"
+              v-model="product.code"
+              hide-bottom-space
+              dense
+              outlined
+              :rules="[val => val.length <= 255 || 'Não pode ter mais de 255 caracteres']"
+            />
+          </div>
+          <div class="col">
+            <q-select
+              label="Status"
+              map-options
+              emit-value
+              hide-bottom-space
+              clearable
+              v-model="product.status"
+              :options="statusOptions"
+              option-label="label"
+              option-value="value"
+              dense
+              outlined
+              :rules="[val => !!val || 'Preenchimento obrigatório']"
+            />
           </div>
         </div>
         <div class="row">
@@ -143,7 +138,10 @@
               hide-bottom-space
               dense
               outlined
-              :rules="[val => (val || '').length <= 255 || 'Não pode ter mais de 255 caracteres']"
+              :rules="[
+                val => !!val || 'Preenchimento obrigatório',
+                val => val.length <= 255 || 'Não pode ter mais de 255 caracteres'
+              ]"
             >
               <q-btn
                 round
@@ -171,7 +169,10 @@
               hide-bottom-space
               dense
               outlined
-              :rules="[val => (val || '').length <= 255 || 'Não pode ter mais de 255 caracteres']"
+              :rules="[
+                val => !!val || 'Preenchimento obrigatório',
+                val => val.length <= 255 || 'Não pode ter mais de 255 caracteres'
+              ]"
             >
               <q-btn
                 round
@@ -201,7 +202,10 @@
               hide-bottom-space
               dense
               outlined
-              :rules="[val => (val || '').length <= 255 || 'Não pode ter mais de 255 caracteres']"
+              :rules="[
+                val => !!val || 'Preenchimento obrigatório',
+                val => val.length <= 255 || 'Não pode ter mais de 255 caracteres'
+              ]"
             />
           </div>
         </div>
