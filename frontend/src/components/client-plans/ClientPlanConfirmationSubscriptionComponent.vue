@@ -73,8 +73,8 @@ const emit = defineEmits({
 
 defineExpose({
   openModal: async (dataPlan) => {
-    await getLogoProductFunction(dataPlan.product_id)
-    await getClientSubscriptions()
+    getLogoProductFunction(dataPlan.product_id)
+    getClientSubscriptions()
     planData.value = dataPlan
     openModal.value = true
   }
