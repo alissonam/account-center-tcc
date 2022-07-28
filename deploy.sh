@@ -5,7 +5,7 @@ SCOPES=("root" "backend" "frontend" "all")
 
 source .env
 
-NOTIFIER=slack-notify
+NOTIFIER=./slack-notify
 
 if [[ ! " ${SCOPES[@]} " =~ " ${SCOPE} " ]]; then
   echo "Insira um escopo de deploy válido: ('--root', '--backend', '--frontend', '--all')"
