@@ -134,7 +134,7 @@ class SubscriptionService extends Service
     {
         DB::beginTransaction();
         try {
-            self::deactiveAllActiveSubscriptionInProductOfUser($subscription->user_id, $subscription->product_id);
+            self::deactiveAllActiveSubscriptionInProductOfUser($subscription->user_id, $subscription->product_id, $subscription);
             self::activeSubscription($subscription);
 
             self::sendSubscriptionToProductApi($subscription);
@@ -196,15 +196,26 @@ class SubscriptionService extends Service
      * @param int $user_id
      * @param int $product_id
      */
-    public static function deactiveAllActiveSubscriptionInProductOfUser($user_id, $product_id)
+    public static function deactiveAllActiveSubscriptionInProductOfUser($user_id, $product_id, $actualSubscription)
     {
-        $subscriptions = SubscriptionRepository::getAllSubscriptionInProductOfUser($user_id, $product_id, Subscription::STATUS_ACTIVE);
-        return $subscriptions->update(
-            [
-                'status' => Subscription::STATUS_INACTIVE,
-                'finished_in' => new Carbon()
-            ]
-        );
+        $subscriptions = SubscriptionRepository::getAllSubscriptionInProductOfUser($user_id, $product_id, Subscription::STATUS_ACTIVE)
+            ->get();
+
+        foreach ($subscriptions as $subscription) {
+            if ($subscription->id != $actualSubscription->id) {
+
+                if ($subscription->vindi_id) {
+                    PaymentGateway::Subscription($subscription)->cancelSubscription();
+                }
+
+                $subscription->update(
+                    [
+                        'status' => Subscription::STATUS_INACTIVE,
+                        'finished_in' => new Carbon()
+                    ]
+                );
+            }
+        }
     }
 
     /**
