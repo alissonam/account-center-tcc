@@ -123,10 +123,10 @@ function showSubscriptionMessages () {
   let firstMessageAfterSubscription = 'Verifique sua caixa de entrada. Em breve você deve receber um e-mail com o link de pagamento.'
   let secondMessageAfterSubscription = 'O restante da cota não utilizada será movida para o próximo plano.'
 
-  if (!planData.value.default || clientSubscriptions.value != '') {
+  if (!planData.value.default || clientSubscriptions.value?.length) {
     Dialog.create({
       title: 'Atenção!',
-      message: !planData.value.default && clientSubscriptions.value != '' ? firstMessageAfterSubscription + '<br/><br/>' + secondMessageAfterSubscription : firstMessageAfterSubscription,
+      message: !planData.value.default && clientSubscriptions.value?.length ? firstMessageAfterSubscription + '<br/><br/>' + secondMessageAfterSubscription : firstMessageAfterSubscription,
       html: true
     }).onOk(async () => {
 
