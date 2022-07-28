@@ -94,7 +94,7 @@ async function createSubscriptionFunction(planId, password) {
     userPassword.value = null
     openModal.value = false
     emit('submit')
-    showSubscriptionMessages()
+    showMessagesAfterSubscription()
   } catch (error) {
     Notify.create({
       message: formatResponseError(error) || 'Falha ao salvar inscrição',
@@ -119,14 +119,22 @@ async function getLogoProductFunction(productId) {
   }
 }
 
-function showSubscriptionMessages () {
-  let firstMessageAfterSubscription = 'Verifique sua caixa de entrada. Em breve você deve receber um e-mail com o link de pagamento.'
-  let secondMessageAfterSubscription = 'O restante da cota não utilizada será movida para o próximo plano.'
+function showMessagesAfterSubscription () {
+  let firstMessage = null
+  let secondMessage = null
 
-  if (!planData.value.default || clientSubscriptions.value?.length) {
+  if (!planData.value.default) {
+    firstMessage = 'Verifique sua caixa de entrada. Em breve você deve receber um e-mail com o link de pagamento.'
+  }
+
+  if (!planData.value.default && clientSubscriptions.value?.length) {
+    secondMessage = 'O restante da cota não utilizada será movida para o próximo plano.'
+  }
+
+  if (firstMessage || secondMessage) {
     Dialog.create({
       title: 'Atenção!',
-      message: !planData.value.default && clientSubscriptions.value?.length ? firstMessageAfterSubscription + '<br/><br/>' + secondMessageAfterSubscription : firstMessageAfterSubscription,
+      message: firstMessage + (firstMessage && secondMessage ? '<br/><br/>' : '') + secondMessage,
       html: true
     })
   }
