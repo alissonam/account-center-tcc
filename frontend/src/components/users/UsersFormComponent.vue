@@ -19,6 +19,64 @@
       @submit="submitUser()"
     >
       <div>
+        <q-dialog v-model="openPasswordModal">
+          <q-card style="width: 660px; max-width: 80vw;">
+            <div class="text-h6 q-ma-md">
+              Defina sua senha:
+            </div>
+            <q-card-section>
+              <div class="col-xs-12 col-sm-12 col-md-6 col-py-xs q-mb-lg q-mr-md">
+                <div class="text-deep-orange text-bold">
+                  Aviso: Após o salvamento do usuário esta senha não será mais exibida.
+                </div>
+                <q-input
+                  v-model="user.password"
+                  label="Senha"
+                  outlined
+                  clearable
+                  dense
+                  hide-bottom-space
+                  :rules="[
+                    val => val && val.length >= 6 || 'A senha deve ter no mínimo 6 caracteres'
+                  ]"
+                  lazy-rules
+                />
+              </div>
+            </q-card-section>
+            <q-card-actions align="right">
+              <q-btn
+                label="Fechar"
+                dense
+                outline
+                color="negative"
+                type="button"
+                @click="openPasswordModal = false"
+              />
+            </q-card-actions>
+          </q-card>
+        </q-dialog>
+        <div align="right" class="q-mb-md">
+          <q-btn
+            outline
+            label="Definir senha"
+            icon="lock_open"
+            color="positive"
+            type="button"
+            @click="openPasswordModal = true"
+          />
+          <q-chip
+            v-if="user.password"
+            color="positive"
+            text-color="white"
+            label="Senha definida"
+          />
+          <div
+            v-if="$route.params.id"
+            class="text-deep-orange text-bold"
+          >
+            Aviso: caso a senha não seja definida será enviado um e-mail para definição da senha.
+          </div>
+        </div>
         <div class="row">
           <div class="col-xs-12 col-sm-12 col-md-4 col-py-xs q-mr-md q-mb-lg">
             <q-input
@@ -242,6 +300,7 @@ const router = useRouter()
 const route = useRoute()
 let searchForZipCode = false
 let saving = ref(false)
+let openPasswordModal = ref(false)
 
 const rolesOptions = [
   {
