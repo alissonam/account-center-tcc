@@ -110,12 +110,12 @@
         <div class="row">
           <div class="col-xs-12 col-sm-12 col-md-6 col-py-xs q-mr-md q-mb-lg">
             <div class="text-h6">JSON</div>
-            <Vue3JsonEditor
-              v-model="plan.payload"
-              mode="code"
-              :expandedOnStart="false"
-              @json-change="val => plan.payload = val"
-            />
+<!--            <Vue3JsonEditor-->
+<!--              v-model="plan.payload"-->
+<!--              mode="code"-->
+<!--              :expandedOnStart="false"-->
+<!--              @json-change="val => plan.payload = val"-->
+<!--            />-->
           </div>
           <div class="col q-mb-md">
             <div class="text-h6">HTML</div>
@@ -209,7 +209,7 @@ import { createPlan, updatePlan, getPlan } from 'src/services/plan/plan-api'
 import { getProducts } from 'src/services/product/product-api'
 import { Notify, Loading } from 'quasar'
 import { formatResponseError } from "src/services/utils/error-formatter";
-import { Vue3JsonEditor } from 'vue3-json-editor'
+// import { Vue3JsonEditor } from 'vue3-json-editor'
 
 const router = useRouter()
 const route = useRoute()
