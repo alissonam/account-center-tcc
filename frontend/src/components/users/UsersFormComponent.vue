@@ -27,7 +27,7 @@
             <q-card-section>
               <div class="col-xs-12 col-sm-12 col-md-6 col-py-xs q-mb-lg q-mr-md">
                 <div class="text-deep-orange text-bold">
-                  Aviso: Após o salvamento do usuário esta senha não será mais exibida.
+                  Aviso: Após o salvamento a senha não será mais exibida.
                 </div>
                 <q-input
                   v-model="user.password"
