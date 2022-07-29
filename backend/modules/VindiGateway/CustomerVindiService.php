@@ -89,6 +89,9 @@ class CustomerVindiService extends ApiVindiService {
             "country"            => 'BR'
         ];
 
+        $customerPhone = $this->mountVindiPhone($this->accountCenterUser->phone);
+
+        $customer['phones'] = $customerPhone;
         $customer['address'] = $customerAddress;
         return array_filter($customer);
     }
