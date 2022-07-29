@@ -6,6 +6,7 @@ use App\Http\Services\Service;
 use App\Mail\SendEmailToResetPassword;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 
@@ -90,23 +91,32 @@ class UserService extends Service
      */
     public function store(array $data)
     {
-        self::prepareData($data, [
-            'phone' => fn($value) => self::onlyNumbers($value),
-        ]);
+        DB::beginTransaction();
+        try {
+            self::prepareData($data, [
+                'phone' => fn($value) => self::onlyNumbers($value),
+            ]);
 
-        $definedPassword  = $data['password'] ?? false;
-        $randomPassword   = Carbon::now()->timestamp;
-        $data['password'] = bcrypt(!$definedPassword ? $randomPassword : $data['password']);
+            $definedPassword  = $data['password'] ?? false;
+            $randomPassword   = Carbon::now()->timestamp;
+            $data['password'] = bcrypt(!$definedPassword ? $randomPassword : $data['password']);
 
-        if ($definedPassword) {
-            $data['status'] = User::STATUS_ACTIVE;
-        }
+            if ($definedPassword) {
+                $data['status'] = User::STATUS_ACTIVE;
+            }
 
-        $user = User::create($data);
+            $user = User::create($data);
 
-        if (!$definedPassword) {
-            $token = $user->createToken('Create password');
-            Mail::to($user->email)->send(new SendEmailToResetPassword($user, $token));
+            if (!$definedPassword) {
+                $token = $user->createToken('Create password');
+                Mail::to($user->email)->send(new SendEmailToResetPassword($user, $token));
+            }
+
+            DB::commit();
+        } catch (\Throwable $t) {
+            DB::rollBack();
+            // TODO: adicionar notificação slack ou registro do erro com msg do erro
+            throw self::exception(['message' => 'Falha ao criar usuário']);
         }
 
         return self::buildReturn($user);
@@ -119,9 +129,10 @@ class UserService extends Service
      */
     public function update(User $user, array $data)
     {
+        /** @var User $loggedUser */
         $loggedUser = Auth::user();
 
-        if ($loggedUser->id != $user->id) {
+        if ($loggedUser->checkRole(User::USER_ROLE_MEMBER) && $loggedUser->id != $user->id) {
             throw self::exception([
                 'message' => 'Permissão negada'
             ], 403);
@@ -243,17 +254,26 @@ class UserService extends Service
      */
     public function register(array $data)
     {
-        self::prepareData($data, [
-            'phone' => fn($value) => self::onlyNumbers($value),
-        ]);
+        DB::beginTransaction();
+        try {
+            self::prepareData($data, [
+                'phone' => fn($value) => self::onlyNumbers($value),
+            ]);
 
-        $data['password'] = bcrypt(Carbon::now()->timestamp);
+            $data['password'] = bcrypt(Carbon::now()->timestamp);
 
-        $user = User::create($data);
-        $code = $data['product_code'];
+            $user = User::create($data);
+            $code = $data['product_code']?? null;
 
-        $token = $user->createToken('Create password');
-        Mail::to($user->email)->send(new SendEmailToResetPassword($user, $token, $code));
+            $token = $user->createToken('Create password');
+            Mail::to($user->email)->send(new SendEmailToResetPassword($user, $token, $code));
+
+            DB::commit();
+        } catch (\Throwable $t) {
+            DB::rollBack();
+            // TODO: adicionar notificação slack ou registro do erro com msg do erro
+            throw self::exception(['message' => 'Falha ao registrar usuário']);
+        }
 
         return self::buildReturn($user);
     }
