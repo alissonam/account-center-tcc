@@ -80,6 +80,7 @@ import { Notify, Dialog, copyToClipboard } from 'quasar'
 let productsData = ref([])
 let loading = ref(false)
 let removing = ref(null)
+const url = process.env.FRONT_URL
 
 const mainPagination = ref({
   page: 1,
@@ -162,7 +163,7 @@ function destroyProductFunction (product) {
 }
 
 function copyUrl (code) {
-  copyToClipboard(`${process.env.APP_URL}/#/register?code=${code}`)
+  copyToClipboard(`${url}/#/register?code=${code}`)
   .then(() => {
     Notify.create({
       message: 'URL copiada com sucesso!',
