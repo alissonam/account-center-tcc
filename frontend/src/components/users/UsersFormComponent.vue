@@ -22,7 +22,7 @@
         <q-dialog v-model="openPasswordModal">
           <q-card style="width: 660px; max-width: 80vw;">
             <div class="text-h6 q-ma-md">
-              Defina sua senha:
+              Definição de senha:
             </div>
             <q-card-section>
               <div class="col-xs-12 col-sm-12 col-md-6 col-py-xs q-mb-lg q-mr-md">
