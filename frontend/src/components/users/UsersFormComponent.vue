@@ -71,7 +71,7 @@
             label="Senha definida"
           />
           <div
-            v-if="$route.params.id"
+            v-if="!$route.params.id"
             class="text-deep-orange text-bold"
           >
             Aviso: caso a senha não seja definida será enviado um e-mail para definição da senha.
