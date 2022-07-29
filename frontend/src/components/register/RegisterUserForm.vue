@@ -26,7 +26,7 @@
       <div class="row" v-if="!userCreate">
         <div class="col-xs-12 col-sm-12 col-md-12 col-py-xs q-mr-md q-mb-lg">
           <q-input
-            label="Nome / Razão social"
+            label="Nome / Nome fantasia"
             v-model="account.name"
             hide-bottom-space
             dense
@@ -37,7 +37,7 @@
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12 col-py-xs q-mr-md q-mb-lg">
           <q-input
-            label="Sobrenome / Nome fantasia"
+            label="Sobrenome / Razão social"
             v-model="account.last_name"
             hide-bottom-space
             dense
