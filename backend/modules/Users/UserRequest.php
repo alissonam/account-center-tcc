@@ -99,6 +99,7 @@ class UserRequest extends Request
             'email'         => 'required|string|email|unique:users',
             'phone'         => 'required|string',
             'product_code'  => '',
+            'last_name'     => '',
         ];
     }
 
