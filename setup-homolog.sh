@@ -43,7 +43,7 @@ docker exec -it $CONTAINER_BACK_NAME php artisan key:generate
 docker restart $CONTAINER_BACK_NAME
 docker exec -it $CONTAINER_BACK_NAME php artisan migrate
 
-docker ps
+docker ps | grep account
 
 echo ""
 echo "Para concluir o setup realize os itens a seguir:"

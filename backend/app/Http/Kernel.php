@@ -48,7 +48,11 @@ class Kernel extends HttpKernel
 
         'user_checker' => [
             \App\Http\Middleware\UserChecker::class
-        ]
+        ],
+
+        'query_token_check' => [
+            \App\Http\Middleware\QueryTokenCheck::class
+        ],
     ];
 
     /**

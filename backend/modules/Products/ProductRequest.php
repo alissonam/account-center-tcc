@@ -37,7 +37,7 @@ class ProductRequest extends Request
             'action_url'  => 'string|max:255',
             'app_url'     => 'string|max:255',
             'api_token'   => 'string|max: 255',
-            'description' => 'string',
+            'description' => '',
         ];
     }
 

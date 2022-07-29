@@ -100,8 +100,10 @@
 <script setup>
 
 import { onMounted, ref } from "vue"
+import { Notify } from 'quasar'
 import { useRouter, useRoute } from "vue-router"
 import { createRegister } from "src/services/user/user-api";
+import { formatResponseError } from "src/services/utils/error-formatter";
 
 let account = ref({})
 let accountForm = ref(null)

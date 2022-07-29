@@ -20,7 +20,8 @@ class SubscriptionRequest extends Request
             'plan_id'    => '',
             'user_id'    => '',
             'product_id' => '',
-            'status'     => ''
+            'status'     => '',
+            'default'    => '',
         ];
     }
 

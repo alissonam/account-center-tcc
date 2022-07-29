@@ -132,7 +132,11 @@ export default {
         localStorage.setItem('isUserLogged', 'true')
         localStorage.setItem('userToken', data.token)
         await loadLoggedUser()
-        this.$router.push({ name: 'dashboard' })
+        if (this.$route.query.code) {
+          this.$router.push({ name: 'client_plans', params: {code: this.$route.query.code} })
+        } else {
+          this.$router.push({ name: 'dashboard' })
+        }
       } catch (error) {
         const message = error.response.data.message
         this.$q.notify({

@@ -13,7 +13,8 @@ Route::group([
     Route::post('logout', [UserController::class, 'logout']);
     Route::post('logout-all', [UserController::class, 'logoutAll']);
     Route::get('users/logged-user',[UserController::class, 'loggedUser']);
-    Route::apiResource('users', UserController::class);
+    Route::apiResource('users', UserController::class)->only((['show', 'update']));
+    Route::apiResource('users', UserController::class)->except((['show', 'update']))->middleware(['abilities:admin']);
 });
 
 Route::group([

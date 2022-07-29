@@ -45,7 +45,6 @@ class UserRequest extends Request
             'last_name'     => '',
             'role'          => 'required',
             'password'      => 'nullable|string|min:6',
-            'status'        => '',
             'document'      => '',
             'registration'  => '',
             'zipcode'       => '',
