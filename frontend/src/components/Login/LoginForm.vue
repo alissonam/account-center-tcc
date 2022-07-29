@@ -6,7 +6,7 @@
           Bem-vindo
         </h1>
       </div>
-      <div class="q-mt-md">
+      <div class="q-mb-md">
         <q-input
           v-model="formData.email"
           label="E-mail"
