@@ -123,7 +123,7 @@ async function getSubscriptionsFunction () {
 }
 
 async function accessProduct (product) {
-  window.open(product.action_url)
+  window.open(product.app_url)
 }
 </script>
 
