@@ -26,13 +26,23 @@
       <div class="row" v-if="!userCreate">
         <div class="col-xs-12 col-sm-12 col-md-12 col-py-xs q-mr-md q-mb-lg">
           <q-input
-            label="Nome"
+            label="Nome / Nome fantasia"
             v-model="account.name"
             hide-bottom-space
             dense
             rounded
             outlined
             :rules="[val => !!val || 'Preenchimento obrigatório']"
+          />
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-py-xs q-mr-md q-mb-lg">
+          <q-input
+            label="Sobrenome / Razão social"
+            v-model="account.last_name"
+            hide-bottom-space
+            dense
+            rounded
+            outlined
           />
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12 col-py-xs q-mr-md q-mb-lg">
