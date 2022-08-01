@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Products\ProductService;
+use Subscriptions\SubscriptionService;
 
 /**
  * Class UserService
@@ -161,6 +163,10 @@ class UserService extends Service
 
         $user->update($data);
 
+        if ($data['password'] ?? false) {
+            self::resetAllProducsPasswordUser ($user, $data['password']);
+        }
+
         return self::buildReturn($user);
     }
 
@@ -220,6 +226,8 @@ class UserService extends Service
             'password' => bcrypt($userData['password'])
         ]);
 
+        self::resetAllProducsPasswordUser ($user, $userData['password']);
+
         $abilities = [$user->role] ?? [];
 
         $token = $user->createToken('Api token', $abilities);
@@ -227,6 +235,31 @@ class UserService extends Service
         return self::buildReturn([
             'token' => $token->plainTextToken
         ]);
+    }
+
+    /**
+     * @param User $user
+     * @param String $password
+     */
+    public static function resetAllProducsPasswordUser ($user, $password)
+    {
+        $productList = SubscriptionService::getAllProductsOfActiveSubscriptionUser($user);
+        $userData = [
+            'action'  => 'define_password',
+            'user'    => [
+                'id'           => $user->id,
+                'email'        => $user->email,
+                'password'     => $password,
+            ]
+        ];
+
+        foreach ($productList as $product) {
+            try {
+                ProductService::sendDataToProduct($product, $userData);
+            } catch (\Throwable $error) {
+                // TODO: Add notificação slack
+            }
+        }
     }
 
     /**

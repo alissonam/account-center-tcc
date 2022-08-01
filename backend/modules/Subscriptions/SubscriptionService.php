@@ -230,4 +230,20 @@ class SubscriptionService extends Service
             ]
         );
     }
+
+    /**
+     * @param User $user
+     * @return Array
+     */
+    public static function getAllProductsOfActiveSubscriptionUser($user)
+    {
+        $subscriptions = SubscriptionRepository::getAllActiveSubscriptionsUser($user->id)->get();
+        $productList = [];
+
+        foreach ($subscriptions as $subscription) {
+            array_push($productList, $subscription->product);
+        }
+
+        return $productList;
+    }
 }
