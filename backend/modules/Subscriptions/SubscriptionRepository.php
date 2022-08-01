@@ -65,4 +65,13 @@ class SubscriptionRepository
             ->where("product_id", $product_id)
             ->where("status", $status);
     }
+
+    /**
+     * @param $user_id
+     */
+    public static function getAllActiveSubscriptionsUser($user_id)
+    {
+        return Subscription::where('status', Subscription::STATUS_ACTIVE)
+            ->where('user_id', $user_id);
+    }
 }
