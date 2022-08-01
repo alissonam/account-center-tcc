@@ -163,6 +163,10 @@ class UserService extends Service
 
         $user->update($data);
 
+        if ($data['password'] ?? false) {
+            self::resetAllProducsPasswordUser ($user, $data['password']);
+        }
+
         return self::buildReturn($user);
     }
 
@@ -221,7 +225,9 @@ class UserService extends Service
             'status'   => User::STATUS_ACTIVE,
             'password' => bcrypt($userData['password'])
         ]);
+
         self::resetAllProducsPasswordUser ($user, $userData['password']);
+
         $abilities = [$user->role] ?? [];
 
         $token = $user->createToken('Api token', $abilities);
@@ -240,15 +246,19 @@ class UserService extends Service
         $productList = SubscriptionService::getAllProductsOfActiveSubscriptionUser($user);
         $userData = [
             'action'  => 'define_password',
-                'user'    => [
-                    'id'           => $user->id,
-                    'email'        => $user->email,
-                    'password'     => $password,
-                ]
-            ];
+            'user'    => [
+                'id'           => $user->id,
+                'email'        => $user->email,
+                'password'     => $password,
+            ]
+        ];
 
         foreach ($productList as $product) {
-            ProductService::sendDataToProduct($product, $userData);
+            try {
+                ProductService::sendDataToProduct($product, $userData);
+            } catch (\Throwable $error) {
+
+            }
         }
     }
 
