@@ -211,7 +211,7 @@ class UserService extends Service
 
         if ($user->status !== User::STATUS_PENDING_PASSWORD) {
             throw self::exception([
-                'message' => 'O status do usuário não permite a alteração de senha'
+                'message' => 'O status não permite a alteração de senha'
             ], 403);
         }
 
