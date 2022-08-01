@@ -257,7 +257,7 @@ class UserService extends Service
             try {
                 ProductService::sendDataToProduct($product, $userData);
             } catch (\Throwable $error) {
-
+                // TODO: Add notificação slack
             }
         }
     }
