@@ -26,7 +26,7 @@ return new class extends Migration
                 ->references('id')
                 ->on('products')
                 ->onUpdate('RESTRICT')
-                ->onDelete('RESTRICT');
+                ->onDelete('CASCADE');
 
             $table->foreign('user_id', 'fk_sg_user_id')
                 ->references('id')
