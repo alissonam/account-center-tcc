@@ -68,8 +68,8 @@
                 <q-btn
                   v-if="subscriptionsData[i]?.product_id == product.id"
                   label="Sugestões"
-                  color="primary"
-                  icon="rocket_launch"
+                  color="yellow-9"
+                  icon="o_lightbulb"
                   :disable="loadingSubscriptions"
                   size="18px"
                   rounded
