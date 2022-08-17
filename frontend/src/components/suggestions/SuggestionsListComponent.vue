@@ -32,7 +32,7 @@
       <div class="col-xs-12 col-sm-8 col-md-10 q-pa-md">
         <q-input
           label="Sugestão"
-          v-model="sugestion.description"
+          v-model="suggestion.description"
           hide-bottom-space
           dense
           autogrow
@@ -44,25 +44,25 @@
           outline
           label="Enviar"
           icon="send"
-          @click="submitSugestion"
+          @click="submitSuggestion"
           color="primary"
-          :disable="!sugestion.description.trim()"
+          :disable="!suggestion.description.trim()"
           :loading="saving"
         />
       </div>
     </div>
     <div
       class="q-pa-sm"
-      v-for="sugestion in sugestionsData"
-      :key="sugestion.id"
+      v-for="suggestion in suggestionsData"
+      :key="suggestion.id"
     >
       <q-card dark style="color:black; background-color:#E3E3E3">
         <div class="row">
           <span class="col-md-10 q-pa-lg">
-            {{ sugestion.description }}
+            {{ suggestion.description }}
           </span>
           <span class="col q-pa-lg">
-            Postado em: {{ formatDatetimeBR(sugestion.created_at) }}
+            Postado em: {{ formatDatetimeBR(suggestion.created_at) }}
           </span>
         </div>
       </q-card>
@@ -74,7 +74,7 @@
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 
-import { getSugestions, createSugestion } from 'src/services/sugestion/sugestion-api'
+import { getSuggestions, createSuggestion } from 'src/services/suggestion/suggestion-api'
 import { getMedia } from "src/services/media/media-api"
 import { getProduct } from "src/services/product/product-api"
 import { formatDatetimeBR } from 'src/services/utils/date'
@@ -83,7 +83,7 @@ import { Notify, Loading } from 'quasar'
 
 const route = useRoute()
 
-let sugestionsData = ref([])
+let suggestionsData = ref([])
 let loading = ref(false)
 let saving = ref(false)
 let productLogo = ref(null)
@@ -97,22 +97,22 @@ const mainPagination = ref({
 
 const productId = route.params.product_id
 
-let sugestion = ref({
+let suggestion = ref({
   description: '',
 })
 
-const sugestionForm = ref(null)
+const suggestionForm = ref(null)
 
 onMounted(async () => {
-  await getSugestionsFunction()
+  await getSuggestionsFunction()
   await getProductFunction(productId)
 })
 
-async function getSugestionsFunction (props) {
+async function getSuggestionsFunction (props) {
   loading.value = true
   try {
     mainPagination.value.product_id = productId
-    sugestionsData.value = await getSugestions(mainPagination.value)
+    suggestionsData.value = await getSuggestions(mainPagination.value)
   } catch (e) {
     Notify.create({
       message: 'Falha ao buscar sugestões',
@@ -157,18 +157,18 @@ async function getLogoProductFunction(productId) {
 
 }
 
-async function submitSugestion() {
+async function submitSuggestion() {
   try {
-    const sugestionToSave = { ...sugestion.value, product_id: productId }
-    await createSugestion(sugestionToSave)
+    const suggestionToSave = { ...suggestion.value, product_id: productId }
+    await createSuggestion(suggestionToSave)
 
     Notify.create({
       message: 'Sugestão criada com sucesso!',
       type: 'positive'
     })
 
-    await getSugestionsFunction()
-    sugestion.value.description = ''
+    await getSuggestionsFunction()
+    suggestion.value.description = ''
   } catch (error) {
     Notify.create({
       message: formatResponseError(error) || 'Falha ao criar sugestão',

@@ -74,7 +74,7 @@
                   size="18px"
                   rounded
                   outline
-                  :to="{name:'sugestions', params: {product_id: product.id}}"
+                  :to="{name:'suggestions', params: {product_id: product.id}}"
                 />
               </div>
             </div>

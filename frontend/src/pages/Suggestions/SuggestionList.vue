@@ -1,11 +1,11 @@
 <template>
   <div class="full-width q-pa-lg items-start">
-    <sugestions-list-component />
+    <suggestions-list-component />
   </div>
 </template>
 
 <script setup>
-import SugestionsListComponent from 'components/sugestions/SugestionsListComponent.vue'
+import SuggestionsListComponent from 'components/suggestions/SuggestionsListComponent.vue'
 </script>
 
 <style scoped>
