@@ -28,7 +28,7 @@ class SugestionRequest extends Request
     {
         return [
             'description'      => 'required',
-            'product_id'       => 'exists:products,id',
+            'product_id'       => 'required|exists:products,id',
         ];
     }
 
