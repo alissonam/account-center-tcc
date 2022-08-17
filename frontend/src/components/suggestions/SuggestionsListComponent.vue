@@ -84,7 +84,6 @@ import { Notify, Loading } from 'quasar'
 const route = useRoute()
 
 let suggestionsData = ref([])
-let loading = ref(false)
 let saving = ref(false)
 let productLogo = ref(null)
 let productData = ref(null)
@@ -104,12 +103,14 @@ let suggestion = ref({
 const suggestionForm = ref(null)
 
 onMounted(async () => {
+  Loading.show()
   await getSuggestionsFunction()
   await getProductFunction(productId)
+  Loading.hide()
+
 })
 
 async function getSuggestionsFunction (props) {
-  loading.value = true
   try {
     mainPagination.value.product_id = productId
     suggestionsData.value = await getSuggestions(mainPagination.value)
@@ -119,45 +120,22 @@ async function getSuggestionsFunction (props) {
       type: 'negative'
     })
   }
-  loading.value = false
 }
 
 async function getProductFunction(productId) {
-  Loading.show()
-  loading.value = true
   try {
     const result = await getProduct(productId)
     productData.value = result
-    if (productData.value) {
-      getLogoProductFunction(productData.value.id)
-    }
   } catch (error) {
     Notify.create({
       message: formatResponseError(error) || 'Falha ao buscar produto',
       type: 'negative'
     })
   }
-  Loading.hide()
-  loading.value = false
-}
-
-async function getLogoProductFunction(productId) {
-  try {
-    const result = await getMedia({
-      media_type: 'product_logo',
-      subject_id: productId
-    })
-    productLogo.value = result[0]
-  } catch (error) {
-    Notify.create({
-      message: formatResponseError(error) || 'Falha ao carregar logo',
-      type: 'negative'
-    })
-  }
-
 }
 
 async function submitSuggestion() {
+  saving.value = true
   try {
     const suggestionToSave = { ...suggestion.value, product_id: productId }
     await createSuggestion(suggestionToSave)
@@ -167,8 +145,8 @@ async function submitSuggestion() {
       type: 'positive'
     })
 
-    await getSuggestionsFunction()
     suggestion.value.description = ''
+    await getSuggestionsFunction()
   } catch (error) {
     Notify.create({
       message: formatResponseError(error) || 'Falha ao criar sugestão',
