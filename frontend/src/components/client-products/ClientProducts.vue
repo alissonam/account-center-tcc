@@ -65,6 +65,17 @@
                   outline
                   @click="accessProduct(product)"
                 />
+                <q-btn
+                  v-if="subscriptionsData[i]?.product_id == product.id"
+                  label="Sugestões"
+                  color="primary"
+                  icon="rocket_launch"
+                  :disable="loadingSubscriptions"
+                  size="18px"
+                  rounded
+                  outline
+                  :to="{name:'sugestions', params: {product_id: product.id}}"
+                />
               </div>
             </div>
           </div>

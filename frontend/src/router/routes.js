@@ -140,6 +140,16 @@ const clientProducts = [
   }
 ]
 
+const sugestions = [
+  {
+    path: '/sugestions/:product_id',
+    name: 'sugestions',
+    component: () => import('pages/Sugestions/SugestionList'),
+    beforeEnter: checkPermission,
+    meta: { permission: ['member', 'admin']}
+  }
+]
+
 const routes = [
   {
     path: '/',
@@ -161,7 +171,8 @@ const routes = [
       ...plans,
       ...subscriptions,
       ...clientPlans,
-      ...clientProducts
+      ...clientProducts,
+      ...sugestions,
     ]
   },
   {
