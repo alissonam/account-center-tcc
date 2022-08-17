@@ -1,15 +1,15 @@
 <?php
 
-namespace Sugestions;
+namespace Suggestions;
 
 use Illuminate\Database\Eloquent\Model;
 use Products\Product;
 
 /**
- * Class Sugestion
- * @package Sugestion
+ * Class Suggestion
+ * @package Suggestion
  */
-class Sugestion extends Model
+class Suggestion extends Model
 {
     /**
      * The attributes that are mass assignable.

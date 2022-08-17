@@ -1,14 +1,14 @@
 <?php
 
-namespace Sugestions;
+namespace Suggestions;
 
 use App\Http\Requests\Request;
 
 /**
- * Class SugestionRequest
- * @package Sugestions
+ * Class SuggestionRequest
+ * @package Suggestions
  */
-class SugestionRequest extends Request
+class SuggestionRequest extends Request
 {
     /**
      * @return string[]
@@ -16,7 +16,6 @@ class SugestionRequest extends Request
     public function validateToIndex()
     {
         return [
-            'name'       => '',
             'product_id' => '',
         ];
     }
@@ -27,8 +26,8 @@ class SugestionRequest extends Request
     public function validateToStore()
     {
         return [
-            'description'      => 'required',
-            'product_id'       => 'required|exists:products,id',
+            'description' => 'required',
+            'product_id'  => 'required|exists:products,id',
         ];
     }
 
@@ -38,7 +37,7 @@ class SugestionRequest extends Request
     public function validateToUpdate()
     {
         return [
-            'description'      => 'required',
+            'description' => 'required',
         ];
     }
 }

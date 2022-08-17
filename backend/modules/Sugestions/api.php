@@ -1,10 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Sugestions\SugestionController;
+use Suggestions\SuggestionController;
 
 Route::group([
     'middleware' => ['auth:sanctum', 'user_checker']
 ], function () {
-    Route::apiResource('sugestions', SugestionController::class)->only((['index', 'store']));
+    Route::apiResource('suggestions', SuggestionController::class)->only((['index', 'store']));
 });

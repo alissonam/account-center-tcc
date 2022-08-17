@@ -1,14 +1,14 @@
 <?php
 
-namespace Sugestions;
+namespace Suggestions;
 
 use App\Http\Services\Service;
 
 /**
- * Class SugestionService
- * @package Sugestions
+ * Class SuggestionService
+ * @package Suggestions
  */
-class SugestionService extends Service
+class SuggestionService extends Service
 {
     /**
      * @param array $filters
@@ -16,10 +16,10 @@ class SugestionService extends Service
      */
     public function index(array $filters)
     {
-        $sugestionsQuery = SugestionRepository::index($filters);
+        $suggestionsQuery = SuggestionRepository::index($filters);
 
         return self::buildReturn(
-            $sugestionsQuery
+            $suggestionsQuery
                 ->orderBy('id', 'desc')
                 ->with(\request()->with ?? [])
                 ->paginate(\request()->perPage)
@@ -48,30 +48,30 @@ class SugestionService extends Service
             'user_id'    => fn($value) => $userId,
         ], true);
 
-        $sugestion = Sugestion::create($data);
+        $suggestion = Suggestion::create($data);
 
-        return self::buildReturn($sugestion);
+        return self::buildReturn($suggestion);
     }
 
     /**
-     * @param Sugestion $sugestion
+     * @param Suggestion $suggestion
      * @param array $data
      * @return array
      */
-    public function update(Sugestion $sugestion, array $data)
+    public function update(Suggestion $suggestion, array $data)
     {
-        $sugestion->update($data);
+        $suggestion->update($data);
 
-        return self::buildReturn($sugestion);
+        return self::buildReturn($suggestion);
     }
 
     /**
-     * @param Sugestion $sugestion
+     * @param Suggestion $suggestion
      * @return array
      */
-    public function destroy(Sugestion $sugestion)
+    public function destroy(Suggestion $suggestion)
     {
-        $sugestion->delete();
+        $suggestion->delete();
 
         return self::buildReturn();
     }

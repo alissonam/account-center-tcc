@@ -1,12 +1,12 @@
 <?php
 
-namespace Sugestions;
+namespace Suggestions;
 
 /**
- * Trait SugestionResponse
- * @package Sugestions
+ * Trait SuggestionResponse
+ * @package Suggestions
  */
-trait SugestionResponse
+trait SuggestionResponse
 {
     //
 }

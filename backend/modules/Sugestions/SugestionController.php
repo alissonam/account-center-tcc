@@ -1,79 +1,79 @@
 <?php
 
-namespace Sugestions;
+namespace Suggestions;
 
 use App\Http\Controllers\Controller;
 
 /**
- * Class SugestionController
- * @package Sugestions
+ * Class SuggestionController
+ * @package Suggestions
  */
-class SugestionController extends Controller
+class SuggestionController extends Controller
 {
-    use SugestionResponse;
+    use SuggestionResponse;
 
-    /** @var SugestionService */
-    private SugestionService $sugestionService;
+    /** @var SuggestionService */
+    private SuggestionService $suggestionService;
 
     /**
-     * SugestionController constructor.
-     * @param SugestionService $sugestionService
+     * SuggestionController constructor.
+     * @param SuggestionService $suggestionService
      */
-    public function __construct(SugestionService $sugestionService)
+    public function __construct(SuggestionService $suggestionService)
     {
-        $this->sugestionService = $sugestionService;
+        $this->suggestionService = $suggestionService;
     }
 
     /**
-     * @param SugestionRequest $request
+     * @param SuggestionRequest $request
      * @return mixed
      */
-    public function index(SugestionRequest $request)
+    public function index(SuggestionRequest $request)
     {
-        $result = $this->sugestionService->index($request->validated());
+        $result = $this->suggestionService->index($request->validated());
 
         return $this->response($result['response'], $result['status']);
     }
 
     /**
-     * @param SugestionRequest $request
+     * @param SuggestionRequest $request
      * @return mixed
      */
-    public function store(SugestionRequest $request)
+    public function store(SuggestionRequest $request)
     {
-        $result = $this->sugestionService->store($request->validated());
+        $result = $this->suggestionService->store($request->validated());
 
         return $this->response($result['response'], $result['status']);
     }
 
     /**
-     * @param Sugestion $sugestion
+     * @param Suggestion $suggestion
      * @return mixed
      */
-    public function show(Sugestion $sugestion)
+    public function show(Suggestion $suggestion)
     {
-        return $this->response($sugestion->load(\request('with') ?? [])->toArray());
+        return $this->response($suggestion->load(\request('with') ?? [])->toArray());
     }
 
     /**
-     * @param SugestionRequest $request
-     * @param Sugestion $sugestion
+     * @param SuggestionRequest $request
+     * @param Suggestion $suggestion
      * @return mixed
      */
-    public function update(SugestionRequest $request, Sugestion $sugestion)
+    public function update(SuggestionRequest $request, Suggestion $suggestion)
     {
-        $result = $this->sugestionService->update($sugestion, $request->validated());
+        $result = $this->suggestionService->update($suggestion, $request->validated());
 
         return $this->response($result['response'], $result['status']);
     }
 
     /**
-     * @param Sugestion $sugestion
+     * @param Suggestion $suggestion
      * @return mixed
      */
-    public function destroy(Sugestion $sugestion)
+    public function destroy(Suggestion $suggestion)
     {
-        $result = $this->sugestionService->destroy($sugestion);
+        $result = $this->suggestionService->destroy($suggestion);
 
         return $this->response($result['response'], $result['status']);
     }

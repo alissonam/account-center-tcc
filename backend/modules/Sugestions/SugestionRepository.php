@@ -1,12 +1,12 @@
 <?php
 
-namespace Sugestions;
+namespace Suggestions;
 
 /**
- * Class SugestionRepository
- * @package Sugestions
+ * Class SuggestionRepository
+ * @package Suggestions
  */
-class SugestionRepository
+class SuggestionRepository
 {
     /**
      * @param array $filters
@@ -14,7 +14,7 @@ class SugestionRepository
      */
     public static function index(array $filters = [])
     {
-        return Sugestion::query()->when($filters['product_id'] ?? null, function ($query, $client) {
+        return Suggestion::query()->when($filters['product_id'] ?? null, function ($query, $client) {
             return $query->where('product_id', $client);
         });
     }
