@@ -29,6 +29,7 @@ class UserRequest extends Request
     {
         return [
             'name'          => '',
+            'permission_id' => '',
             'role'          => '',
         ];
     }
@@ -44,6 +45,7 @@ class UserRequest extends Request
             'name'          => 'required',
             'last_name'     => '',
             'role'          => 'required',
+            'permission_id' => 'required',
             'password'      => 'nullable|string|min:6',
             'document'      => '',
             'registration'  => '',
@@ -73,6 +75,7 @@ class UserRequest extends Request
             'name'          => '',
             'last_name'     => '',
             'role'          => '',
+            'permission_id' => '',
             'password'      => 'nullable|string|min:6',
             'status'        => "in:$pendingPassword,$active,$blocked",
             'document'      => '',

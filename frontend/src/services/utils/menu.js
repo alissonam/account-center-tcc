@@ -49,6 +49,14 @@ const generalItems = [
     },
     permission: ['admin']
   },
+  {
+    label: 'Permissões',
+    icon: 'fingerprint',
+    to: {
+      name: 'permissions'
+    },
+    permission: ['admin']
+  },
 ]
 
 export const generateMenu = () => {

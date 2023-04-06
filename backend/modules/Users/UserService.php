@@ -39,7 +39,7 @@ class UserService extends Service
             ], 403);
         }
 
-        $abilities = [$user->role] ?? [];
+        $abilities = $user->permission->abilities ?? [];
 
         $token = $user->createToken('Api token', $abilities);
 
@@ -196,7 +196,7 @@ class UserService extends Service
             ], 403);
         }
 
-        $abilities = [$user->role];
+        $abilities = $user->permission->abilities ?? [];
 
         $token        = $user->createToken('Forgot password', $abilities);
         $user->status = User::STATUS_PENDING_PASSWORD;
@@ -228,7 +228,7 @@ class UserService extends Service
 
         self::resetAllProducsPasswordUser ($user, $userData['password']);
 
-        $abilities = [$user->role] ?? [];
+        $abilities = $user->permission->abilities ?? [];
 
         $token = $user->createToken('Api token', $abilities);
 
