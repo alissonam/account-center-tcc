@@ -12,7 +12,10 @@ class Permission extends Model
 {
     const PERMISSIONS = [
         'users',
-        'permissions'
+        'permissions',
+        'subscriptions',
+        'plans',
+        'products'
     ];
 
     /**

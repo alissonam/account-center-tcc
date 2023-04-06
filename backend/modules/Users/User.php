@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Permissions\Permission;
 
 class User extends Authenticatable
 {
@@ -25,6 +26,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
+        'permission_id',
         'name',
         'last_name',
         'email',
@@ -69,5 +71,13 @@ class User extends Authenticatable
     public function checkRole($roleToCheck)
     {
         return $this->attributes['role'] === $roleToCheck;
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function permission()
+    {
+        return $this->belongsTo(Permission::class);
     }
 }

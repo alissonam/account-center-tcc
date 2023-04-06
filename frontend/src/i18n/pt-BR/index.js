@@ -23,6 +23,9 @@ export default {
   permissions: {
     users: 'Usuários',
     permissions:'Permissões',
+    subscriptions: 'Inscrições',
+    plans: 'Planos',
+    products: 'Produtos',
   },
   plan: {
     visible: {

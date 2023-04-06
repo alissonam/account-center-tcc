@@ -166,8 +166,26 @@
               :rules="[val => !!val || 'Preenchimento obrigatório']"
             />
           </div>
+          <div class="col-xs-12 col-sm-12 col-md-4 col-py-xs q-mr-md q-mb-lg">
+            <q-select
+              label="Permissão"
+              v-model="user.permission_id"
+              map-options
+              emit-value
+              hide-bottom-space
+              clearable
+              :options="permissionsOptions"
+              :option-label="opt => opt.name || user.permission?.name || 'N/I'"
+              option-value="id"
+              dense
+              outlined
+              :loading="loadingPermissions"
+              :rules="[val => !!val || 'Preenchimento obrigatório']"
+              @filter="filterPermissions"
+            />
+          </div>
           <div
-            class="col-xs-12 col-sm-12 col-md-4 col-py-xs q-mr-md q-mb-lg"
+            class="col-xs-12 col-sm-12 col-md-2 col-py-xs q-mr-md q-mb-lg"
             v-if="route.params.id"
           >
             <q-select
@@ -290,6 +308,7 @@
 import { onMounted, ref } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { createUser, updateUser, getUser } from 'src/services/user/user-api'
+import { getPermissions } from 'src/services/permission/permission-api'
 import { Notify, Loading } from 'quasar'
 import { formatResponseError } from "src/services/utils/error-formatter";
 import {locationFromZipCode} from "src/services/utils/ceps";
@@ -299,6 +318,8 @@ import { loggedUser } from "boot/user"
 const router = useRouter()
 const route = useRoute()
 let searchForZipCode = false
+let permissionsOptions = ref([])
+let loadingPermissions = ref(false)
 let saving = ref(false)
 let openPasswordModal = ref(false)
 
@@ -370,7 +391,10 @@ async function submitUser() {
 async function getUserFunction(userId) {
   Loading.show()
   try {
-    const response = await getUser(userId)
+    const params = {
+      with: [ 'permission' ]
+    }
+    const response = await getUser(userId, params)
     user.value = response
   } catch (e) {
     Notify.create({
@@ -402,6 +426,25 @@ async function searchAddressWithZipcode() {
     searchForZipCode = false
   }
   Loading.hide()
+}
+
+async function filterPermissions(val, update, abort) {
+  loadingPermissions.value = true
+  try {
+    const result = await getPermissions({
+      name: val,
+      rowsPerPage: 25,
+    })
+    permissionsOptions.value = result
+    update()
+  } catch (e) {
+    Notify.create({
+      message: 'Falha ao buscar permissões!',
+      type: 'negative'
+    })
+    abort()
+  }
+  loadingPermissions.value = false
 }
 
 async function checkIfCPForCNPJIsValid(value) {
