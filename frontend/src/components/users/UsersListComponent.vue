@@ -84,9 +84,14 @@
             icon="edit"
             :to="{ name: 'users_update', params: { 'id': props.row.id } }"
           >
-            <q-tooltip>
-              Editar
-            </q-tooltip>
+            <q-tooltip
+        class="bg-blue text-body2"
+        :offset="[5, 5]"
+        transition-show="rotate"
+        transition-hide="rotate"
+      >
+        Editar
+      </q-tooltip>
           </q-btn>
           <q-btn
             v-if="loggedUser.id !== props.row.id"
@@ -97,7 +102,12 @@
             :disable="removing"
             @click="destroyUserFunction(props.row.id)"
           >
-            <q-tooltip>
+            <q-tooltip
+              class="bg-red text-body2"
+              :offset="[5, 5]"
+              transition-show="rotate"
+              transition-hide="rotate"
+            >
               Excluir
             </q-tooltip>
           </q-btn>

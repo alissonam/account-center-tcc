@@ -1,16 +1,21 @@
 <template>
   <q-btn
-    color="primary"
-    icon="arrow_back"
-    dense
-    outline
-    rounded
-    :to="{ name: 'permissions' }"
-  >
-    <q-tooltip :offset="[5, 5]">
-      Voltar
-    </q-tooltip>
-  </q-btn>
+      color="primary"
+      icon="arrow_back"
+      dense
+      outline
+      rounded
+      :to="{ name: 'permissions' }"
+    >
+      <q-tooltip
+        class="bg-blue text-body2"
+        :offset="[5, 5]"
+        transition-show="rotate"
+        transition-hide="rotate"
+      >
+        Voltar
+      </q-tooltip>
+    </q-btn>
   <h4 class="q-mt-lg" v-if="!route.params.id">Criar permissão</h4>
   <h4 class="q-mt-lg" v-else>Editar permissão</h4>
   <q-form

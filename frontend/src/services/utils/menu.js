@@ -1,4 +1,5 @@
-import { loggedUser } from '../../boot/user'
+import { loggedUser } from '../../boot/user';
+import { findCommomElementOnArrays } from "src/services/utils/findCommomElementOnArrays";
 
 const generalItems = [
   {
@@ -15,7 +16,7 @@ const generalItems = [
     to: {
       name: 'products'
     },
-    permission: ['admin']
+    permission: ['products', 'admin']
   },
   {
     label: 'Planos',
@@ -23,7 +24,7 @@ const generalItems = [
     to: {
       name: 'plans'
     },
-    permission: ['admin']
+    permission: ['plans', 'admin']
   },
   {
     label: 'Planos',
@@ -39,7 +40,7 @@ const generalItems = [
     to: {
       name: 'subscriptions'
     },
-    permission: ['admin', 'member']
+    permission: ['subscriptions', 'admin', 'member']
   },
   {
     label: 'Usuários',
@@ -47,7 +48,7 @@ const generalItems = [
     to: {
       name: 'users'
     },
-    permission: ['admin']
+    permission: ['users', 'admin']
   },
   {
     label: 'Permissões',
@@ -55,15 +56,16 @@ const generalItems = [
     to: {
       name: 'permissions'
     },
-    permission: ['admin']
+    permission: ['permissions', 'admin']
   },
 ]
 
 export const generateMenu = () => {
   const filteredMenu = []
+  const abilities = loggedUser.permission.abilities
   for (const menuItem of generalItems) {
     if (
-      (menuItem.permission || []).includes(loggedUser.role) ||
+      findCommomElementOnArrays((menuItem.permission || []), abilities) ||
       (menuItem.permission || []).includes('allowed')
     ) {
       filteredMenu.push(menuItem)
@@ -72,7 +74,7 @@ export const generateMenu = () => {
 
     if (menuItem.children) {
       menuItem.children = menuItem.children.filter(children => (
-        (children.permission || []).includes(loggedUser.role) ||
+        findCommomElementOnArrays((children.permission || []), abilities) ||
         (children.permission || []).includes('allowed')
       ))
 

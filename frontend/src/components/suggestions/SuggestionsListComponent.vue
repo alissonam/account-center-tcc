@@ -9,7 +9,12 @@
         rounded
         :to="{ name: 'dashboard' }"
       >
-        <q-tooltip :offset="[5, 5]">
+        <q-tooltip
+          class="bg-blue text-body2"
+          :offset="[5, 5]"
+          transition-show="rotate"
+          transition-hide="rotate"
+        >
           Voltar
         </q-tooltip>
       </q-btn>

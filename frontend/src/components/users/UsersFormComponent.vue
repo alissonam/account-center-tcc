@@ -8,7 +8,12 @@
       rounded
       :to="loggedUser.role == 'admin' ? { name: 'users' } : { name: 'dashboard' }"
     >
-      <q-tooltip :offset="[5, 5]">
+      <q-tooltip
+        class="bg-blue text-body2"
+        :offset="[5, 5]"
+        transition-show="rotate"
+        transition-hide="rotate"
+      >
         Voltar
       </q-tooltip>
     </q-btn>
@@ -311,8 +316,8 @@ import { createUser, updateUser, getUser } from 'src/services/user/user-api'
 import { getPermissions } from 'src/services/permission/permission-api'
 import { Notify, Loading } from 'quasar'
 import { formatResponseError } from "src/services/utils/error-formatter";
-import {locationFromZipCode} from "src/services/utils/ceps";
-import {validateCPForCNPJ} from "src/services/utils/documents";
+import { locationFromZipCode } from "src/services/utils/ceps";
+import {validateCPForCNPJ } from "src/services/utils/documents";
 import { loggedUser } from "boot/user"
 
 const router = useRouter()
