@@ -158,9 +158,9 @@ module.exports = configure(function (ctx) {
       },
 
       manifest: {
-        name: `Base project`,
-        short_name: `Base project`,
-        description: `Base Application`,
+        name: `Account Center`,
+        short_name: `Account Center`,
+        description: `Account Center`,
         display: 'standalone',
         orientation: 'portrait',
         background_color: '#ffffff',
@@ -225,7 +225,7 @@ module.exports = configure(function (ctx) {
       builder: {
         // https://www.electron.build/configuration/configuration
 
-        appId: 'base-project-frontend'
+        appId: 'account-center-frontend'
       },
 
       // "chain" is a webpack-chain object https://github.com/neutrinojs/webpack-chain

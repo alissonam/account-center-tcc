@@ -17,6 +17,12 @@ class Subscription extends Model
     const STATUS_AWAITING = 'awaiting';
     const STATUS_INACTIVE = 'inactive';
 
+    const SUBSCRIPTION_STATUS = [
+        self::STATUS_ACTIVE,
+        self::STATUS_AWAITING,
+        self::STATUS_INACTIVE,
+    ];
+
     /**
      * The attributes that are mass assignable.
      *

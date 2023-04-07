@@ -11,7 +11,7 @@ Route::group([
     'middleware' => ['auth:sanctum', 'user_checker']
 ], function () {
     Route::post('logout', [UserController::class, 'logout']);
-    Route::post('logout-all', [UserController::class, 'logoutAll'])->middleware(['abilities:admin']);
+    Route::post('logout-all', [UserController::class, 'logoutAll'])->middleware(['abilities:permissions,admin']);
     Route::get('users/logged-user',[UserController::class, 'loggedUser']);
     Route::apiResource('users', UserController::class)->only((['show', 'update']));
     Route::apiResource('users', UserController::class)->except((['show', 'update']))->middleware(['ability:users,admin']);

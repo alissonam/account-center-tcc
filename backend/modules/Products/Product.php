@@ -16,6 +16,11 @@ class Product extends Model
     const STATUS_ACTIVE           = 'active';
     const STATUS_INATIVE          = 'inative';
 
+    const PRODUCT_STATUS = [
+        self::STATUS_ACTIVE,
+        self::STATUS_INATIVE,
+    ];
+
     /**
      * The attributes that are mass assignable.
      *

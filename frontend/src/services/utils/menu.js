@@ -1,5 +1,4 @@
 import { loggedUser } from '../../boot/user';
-import { findCommomElementOnArrays } from "src/services/utils/find-commom-element-on-arrays";
 
 const generalItems = [
   {
@@ -8,7 +7,7 @@ const generalItems = [
     to: {
       name: 'dashboard'
     },
-    permission: "allowed"
+    permission: ['allowed']
   },
   {
     label: 'Produtos',
@@ -63,9 +62,10 @@ const generalItems = [
 export const generateMenu = () => {
   const filteredMenu = []
   const abilities = loggedUser.permission.abilities
+
   for (const menuItem of generalItems) {
     if (
-      findCommomElementOnArrays((menuItem.permission || []), abilities) ||
+      (menuItem.permission || []).every(elem => abilities.includes(elem)) ||
       (menuItem.permission || []).includes('allowed')
     ) {
       filteredMenu.push(menuItem)
@@ -74,7 +74,7 @@ export const generateMenu = () => {
 
     if (menuItem.children) {
       menuItem.children = menuItem.children.filter(children => (
-        findCommomElementOnArrays((children.permission || []), abilities) ||
+        (children.permission || []).every(elem => abilities.includes(elem)) ||
         (children.permission || []).includes('allowed')
       ))
 
