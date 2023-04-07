@@ -8,7 +8,12 @@
       rounded
       :to="{ name: 'products' }"
     >
-      <q-tooltip :offset="[5, 5]">
+      <q-tooltip
+        class="bg-blue text-body2"
+        :offset="[5, 5]"
+        transition-show="rotate"
+        transition-hide="rotate"
+      >
         Voltar
       </q-tooltip>
     </q-btn>
@@ -33,15 +38,36 @@
               ]"
             />
           </div>
-          <div class="col-xs-12 col-sm-12 col-md-4 col-py-xs q-mr-md q-mb-lg">
-            <q-input
-              label="Código"
-              v-model="product.code"
-              hide-bottom-space
-              dense
-              outlined
-              :rules="[val => val.length <= 255 || 'Não pode ter mais de 255 caracteres']"
-            />
+          <div class="row col-xs-12 col-sm-12 col-md-4 col-py-xs q-mr-md q-mb-lg">
+            <div class="col-11">
+              <q-input
+                label="Código"
+                v-model="product.code"
+                hide-bottom-space
+                dense
+                outlined
+                :rules="[val => val.length <= 255 || 'Não pode ter mais de 255 caracteres']"
+              />
+            </div>
+            <div class="col">
+              <q-btn
+                flat
+                color="green"
+                icon="generating_tokens"
+                @click="product.code = randomToken()"
+              >
+                <q-tooltip
+                  class="bg-green text-body2"
+                  anchor="top middle"
+                  self="bottom middle"
+                  :offset="[5, 5]"
+                  transition-show="rotate"
+                  transition-hide="rotate"
+                >
+                  Gerar Código
+                </q-tooltip>
+              </q-btn>
+            </div>
           </div>
           <div class="col">
             <q-select
@@ -225,7 +251,7 @@
             max-file-size="3000000"
             batch
             :url="`${uploadURL}/media`"
-            :headers="[{ name: 'Authorization', value: `Bearer ${token}` }]"
+            :headers="[{ name: 'Authorization', value: token }]"
             label="Clique para selecionar ou arraste arquivos aqui"
             no-thumbnails
             auto-upload
@@ -262,6 +288,7 @@ import { createProduct, updateProduct, getProduct } from 'src/services/product/p
 import { Notify, Loading } from 'quasar'
 import { formatResponseError } from "src/services/utils/error-formatter"
 import { getMedia } from "src/services/media/media-api"
+import { randomToken } from "src/services/utils/randomToken";
 import { userToken } from "src/services/utils/local-storage"
 
 const router = useRouter()
@@ -269,7 +296,7 @@ const route = useRoute()
 let saving = ref(false)
 let productLogo = ref(null)
 
-const token = localStorage.getItem('userToken')
+const token = userToken
 const uploadURL = process.env.API_URL
 
 let windowWidth = ref(window.innerWidth)

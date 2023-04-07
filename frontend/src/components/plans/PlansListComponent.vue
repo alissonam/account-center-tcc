@@ -111,7 +111,12 @@
             icon="edit"
             :to="{ name: 'plans_update', params: { 'id': props.row.id } }"
           >
-            <q-tooltip>
+            <q-tooltip
+              class="bg-blue text-body2"
+              :offset="[5, 5]"
+              transition-show="rotate"
+              transition-hide="rotate"
+            >
               Editar
             </q-tooltip>
           </q-btn>
@@ -123,7 +128,12 @@
             :disable="removing === props.row.id"
             @click="destroyPlanFunction(props.row.id)"
           >
-            <q-tooltip>
+            <q-tooltip
+              class="bg-red text-body2"
+              :offset="[5, 5]"
+              transition-show="rotate"
+              transition-hide="rotate"
+            >
               Excluir
             </q-tooltip>
           </q-btn>

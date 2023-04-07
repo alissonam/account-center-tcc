@@ -2,17 +2,22 @@
   <div>
     <div>
       <q-btn
-        color="primary"
-        icon="arrow_back"
-        dense
-        outline
-        rounded
-        :to="{ name: 'dashboard' }"
+      color="primary"
+      icon="arrow_back"
+      dense
+      outline
+      rounded
+      :to="{ name: 'dashboard' }"
+    >
+      <q-tooltip
+        class="bg-blue text-body2"
+        :offset="[5, 5]"
+        transition-show="rotate"
+        transition-hide="rotate"
       >
-        <q-tooltip :offset="[5, 5]">
-          Voltar
-        </q-tooltip>
-      </q-btn>
+        Voltar
+      </q-tooltip>
+    </q-btn>
     </div>
     <div class="row items-center justify-center">
       <div class="q-pa-md">

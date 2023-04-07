@@ -7,5 +7,5 @@ Route::group([
     'middleware' => ['auth:sanctum', 'user_checker']
 ], function () {
     Route::apiResource('products', ProductController::class)->only((['index', 'show']));
-    Route::apiResource('products', ProductController::class)->except((['index', 'show']))->middleware(['abilities:admin']);
+    Route::apiResource('products', ProductController::class)->except((['index', 'show']))->middleware(['ability:products,admin']);
 });
