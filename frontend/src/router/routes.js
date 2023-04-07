@@ -1,5 +1,4 @@
 import { loggedUser } from '../boot/user';
-import { findCommomElementOnArrays } from "src/services/utils/find-commom-element-on-arrays";
 
 const redirectToDashboardIfLogged = (to, from, next) => {
   if (localStorage.getItem('isUserLogged')) {
@@ -19,7 +18,7 @@ const redirectToLoginIfNotLogged = (to, from, next) => {
 
 const checkPermission = (to, from, next) => {
   const abilities = loggedUser.permission.abilities
-  if (findCommomElementOnArrays((to.meta.permission || []), abilities)) {
+  if (to.meta.permission.every(elem => abilities.includes(elem))) {
     next()
   } else {
     next('/')

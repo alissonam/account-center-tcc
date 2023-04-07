@@ -16,9 +16,20 @@ class User extends Authenticatable
     const USER_ROLE_ADMIN     = 'admin';
     const USER_ROLE_MEMBER    = 'member';
 
+    const USER_ROLES = [
+        self::USER_ROLE_ADMIN,
+        self::USER_ROLE_MEMBER,
+    ];
+
     const STATUS_PENDING_PASSWORD = 'pending_password';
     const STATUS_ACTIVE           = 'active';
     const STATUS_BLOCKED          = 'blocked';
+
+    const USER_STATUS = [
+        self::STATUS_PENDING_PASSWORD,
+        self::STATUS_ACTIVE,
+        self::STATUS_BLOCKED,
+    ];
 
     /**
      * The attributes that are mass assignable.

@@ -1,8 +1,8 @@
 {
-  "name": "base-project",
-  "version": "0.0.1",
-  "description": "Base Application",
-  "productName": "Base Application",
+  "name": "account-center",
+  "version": "0.0.2",
+  "description": "Account Center",
+  "productName": "Account Center",
   "author": "Kolina Labs <team@kolinalabs.com>",
   "private": true,
   "scripts": {

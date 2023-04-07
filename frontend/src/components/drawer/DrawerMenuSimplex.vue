@@ -64,7 +64,7 @@
           </template>
           <q-list>
             <q-item
-              class="text-grey-9 q-pl-lg"
+              class="q-pl-lg"
               v-for="(children, j) in item.children"
               :key="j"
               :to="children.to"
