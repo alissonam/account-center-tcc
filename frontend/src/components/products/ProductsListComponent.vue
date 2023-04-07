@@ -39,7 +39,14 @@
             icon="copy_all"
             @click="copyUrl(props.row.code)"
           >
-            <q-tooltip>
+            <q-tooltip
+              class="bg-positive text-body2"
+              anchor="top middle"
+              self="bottom middle"
+              :offset="[5, 5]"
+              transition-show="rotate"
+              transition-hide="rotate"
+            >
               Copiar URL
             </q-tooltip>
           </q-btn>
@@ -51,9 +58,7 @@
           >
             <q-tooltip
               class="bg-primary text-body2"
-              anchor="top middle"
-              self="bottom middle"
-              :offset="[10, 10]"
+              :offset="[5, 5]"
               transition-show="rotate"
               transition-hide="rotate"
             >
@@ -67,7 +72,9 @@
             :to="{ name: 'products_update', params: { 'id': props.row.id } }"
           >
             <q-tooltip
-              class="bg-blue text-body2"
+              class="bg-primary text-body2"
+              anchor="top middle"
+              self="bottom middle"
               :offset="[5, 5]"
               transition-show="rotate"
               transition-hide="rotate"
@@ -84,7 +91,7 @@
             @click="destroyProductFunction(props.row.id)"
           >
             <q-tooltip
-              class="bg-red text-body2"
+              class="bg-negative text-body2"
               :offset="[5, 5]"
               transition-show="rotate"
               transition-hide="rotate"

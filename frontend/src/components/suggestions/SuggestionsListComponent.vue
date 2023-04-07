@@ -61,7 +61,7 @@
       v-for="suggestion in suggestionsData"
       :key="suggestion.id"
     >
-      <q-card dark style="color:black; background-color:#E3E3E3">
+      <q-card dark style="color:dark; background-color:#E3E3E3">
         <div class="row">
           <span class="col-md-10 q-pa-lg">
             {{ suggestion.description }}
