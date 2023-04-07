@@ -251,7 +251,7 @@
             max-file-size="3000000"
             batch
             :url="`${uploadURL}/media`"
-            :headers="[{ name: 'Authorization', value: token }]"
+            :headers="[{ name: 'Authorization', value: userToken() }]"
             label="Clique para selecionar ou arraste arquivos aqui"
             no-thumbnails
             auto-upload
@@ -288,7 +288,7 @@ import { createProduct, updateProduct, getProduct } from 'src/services/product/p
 import { Notify, Loading } from 'quasar'
 import { formatResponseError } from "src/services/utils/error-formatter"
 import { getMedia } from "src/services/media/media-api"
-import { randomToken } from "src/services/utils/randomToken";
+import { randomToken } from "src/services/utils/random-token";
 import { userToken } from "src/services/utils/local-storage"
 
 const router = useRouter()
@@ -296,7 +296,6 @@ const route = useRoute()
 let saving = ref(false)
 let productLogo = ref(null)
 
-const token = userToken
 const uploadURL = process.env.API_URL
 
 let windowWidth = ref(window.innerWidth)
