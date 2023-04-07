@@ -108,7 +108,7 @@
         <div class="text-center q-my-md">
           <q-img
             :src="certificate.imageValues['assinatura-tecnico']"
-            style="width: 8cm; border-bottom: 1px solid black"
+            style="width: 8cm; border-bottom: 1px solid dark"
           />
           <br> {{ certificate.simpleValues['nome-tecnico'] }} - {{ certificate.simpleValues['registro-tecnico'] }}
         </div>

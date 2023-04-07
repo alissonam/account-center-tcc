@@ -52,7 +52,14 @@
           icon="edit"
           :to="{ name: 'subscriptions_update', params: { 'id': props.row.id } }"
         >
-          <q-tooltip>
+          <q-tooltip
+            class="bg-primary text-body2"
+            anchor="top middle"
+            self="bottom middle"
+            :offset="[5, 5]"
+            transition-show="rotate"
+            transition-hide="rotate"
+          >
             Editar
           </q-tooltip>
         </q-btn>

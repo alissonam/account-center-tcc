@@ -34,7 +34,6 @@
           v-if="!item.children"
           clickable
           v-ripple:green
-          class="text-grey-9"
           :active="item.icon === 'o_shopping_bag'"
           active-class="active-link"
           :to="item.to"

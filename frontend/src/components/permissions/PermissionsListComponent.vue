@@ -31,7 +31,9 @@
             :to="{ name: 'permissions_update', params: { 'id': props.row.id } }"
           >
             <q-tooltip
-              class="bg-blue text-body2"
+              class="bg-primary text-body2"
+              anchor="top middle"
+              self="bottom middle"
               :offset="[5, 5]"
               transition-show="rotate"
               transition-hide="rotate"
@@ -48,7 +50,7 @@
             @click="destroyPermissionFunction(props.row.id)"
           >
             <q-tooltip
-              class="bg-red text-body2"
+              class="bg-negative text-body2"
               :offset="[5, 5]"
               transition-show="rotate"
               transition-hide="rotate"

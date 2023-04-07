@@ -1,6 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header class="bg-white">
+    <q-header :class="isActiveDarkMode ? 'bg-dark' : 'bg-white'">
       <q-toolbar>
         <div
           class="q-pa-sm absolute-left"
@@ -23,12 +23,29 @@
             size="20px"
           />
           <div class="absolute-right">
-              <b
-                class="text-h6 q-mr-sm"
-                style="color: #1061a6"
+            <q-toggle
+              v-model="isActiveDarkMode"
+              @update:model-value="darkMode(isActiveDarkMode)"
+              :icon="isActiveDarkMode ? 'dark_mode' : 'light_mode'"
+              size="xl"
+              :color="isActiveDarkMode ? 'dark' : 'white'"
+              keep-color
+            >
+              <q-tooltip
+                :class="isActiveDarkMode ? 'bg-white text-dark' : 'bg-dark'"
+                :offset="[5, 5]"
+                transition-show="rotate"
+                transition-hide="rotate"
               >
-                {{ loggedUser.name }}
-              </b>
+                {{ isActiveDarkMode ? 'Dark Mode' : 'Light Mode' }}
+              </q-tooltip>
+            </q-toggle>
+            <b
+              class="text-h6 q-mr-sm"
+              style="color: #1061a6"
+            >
+              {{ loggedUser.name }}
+            </b>
             <q-btn-dropdown
               flat
               round
@@ -75,11 +92,14 @@ import AppDrawer from 'src/components/drawer/AppDrawer.vue'
 import { postLogoutUser } from "src/services/login/login-api"
 import { resetLoggedUser, resetUserInLocalStorage, loggedUser } from "boot/user"
 import { useRouter } from 'vue-router'
+import { useQuasar } from 'quasar'
 import { Notify } from "quasar"
 import { ref } from "vue";
 
+let isActiveDarkMode = ref(false);
 const router = useRouter()
 const appDrawer = ref(null)
+const $q = useQuasar()
 
 const logoutUser = async () => {
   try {
@@ -94,6 +114,10 @@ const logoutUser = async () => {
       type: 'negative'
     })
   }
+}
+
+const darkMode = (val) => {
+  $q.dark.set(val);
 }
 </script>
 
