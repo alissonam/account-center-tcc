@@ -46,6 +46,23 @@
           <q-btn
             outline
             color="primary"
+            icon="exit_to_app"
+            @click="openLink(props.row.app_url)"
+          >
+            <q-tooltip
+              class="bg-primary text-body2"
+              anchor="top middle"
+              self="bottom middle"
+              :offset="[10, 10]"
+              transition-show="rotate"
+              transition-hide="rotate"
+            >
+              Acessar Link
+            </q-tooltip>
+          </q-btn>
+          <q-btn
+            outline
+            color="primary"
             icon="edit"
             :to="{ name: 'products_update', params: { 'id': props.row.id } }"
           >
@@ -186,5 +203,10 @@ function copyUrl (code) {
       type: 'negative'
     })
   })
+}
+
+function openLink(value)
+{
+  window.open(value)
 }
 </script>

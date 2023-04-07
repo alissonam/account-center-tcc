@@ -1,5 +1,5 @@
 import { loggedUser } from '../../boot/user';
-import { findCommomElementOnArrays } from "src/services/utils/findCommomElementOnArrays";
+import { findCommomElementOnArrays } from "src/services/utils/find-commom-element-on-arrays";
 
 const generalItems = [
   {
