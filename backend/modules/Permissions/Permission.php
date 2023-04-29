@@ -15,7 +15,8 @@ class Permission extends Model
         'permissions',
         'subscriptions',
         'plans',
-        'products'
+        'products',
+        'admin'
     ];
 
     /**

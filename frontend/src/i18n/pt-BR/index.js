@@ -26,6 +26,7 @@ export default {
     subscriptions: 'Inscrições',
     plans: 'Planos',
     products: 'Produtos',
+    admin: 'Administrador',
   },
   plan: {
     visible: {
