@@ -3,6 +3,7 @@
 namespace Permissions;
 
 use App\Http\Controllers\Controller;
+use Utils\FilterPermissionOptions;
 
 /**
  * Class PermissionController
@@ -78,7 +79,9 @@ class PermissionController extends Controller
         return $this->response($result['response'], $result['status']);
     }
 
-    public function allPermissions (){
-        return $this->response(Permission::PERMISSIONS);
+    public function allPermissions () {
+        $filteredPermissions = FilterPermissionOptions::unsetPermissions('admin', 'member');
+
+        return $this->response($filteredPermissions);
     }
 }
