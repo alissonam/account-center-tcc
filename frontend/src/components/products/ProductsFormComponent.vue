@@ -236,8 +236,8 @@
           </div>
         </div>
       </div>
-      <div class="row">
-        <div v-if="product.id">
+      <div v-if="product.id" class="row">
+        <div class="q-mr-xl">
           <q-chip
             text-color="white"
             :label="productLogo ? 'Logo de produto cadastrado' : 'Sem Logo de produto cadastrado'"
@@ -265,6 +265,12 @@
             @uploaded="getLogoFunction(product.id)"
           />
         </div>
+        <q-img
+          style="height: 200px; max-width: 200px; border-radius: 50%"
+          class="q-ml-xl"
+          :src="productLogo || 'logo.jpeg'"
+          no-native-menu
+        />
       </div>
       <div align="right">
         <q-btn
@@ -383,7 +389,7 @@ async function getLogoFunction(productId){
       media_type: 'product_logo',
       subject_id: productId
     })
-    productLogo.value = result[0]
+    productLogo.value = result[0].filename
   } catch (error) {
     Notify.create({
       message: formatResponseError(error) || 'Falha ao carregar logo',

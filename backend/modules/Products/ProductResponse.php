@@ -14,7 +14,7 @@ trait ProductResponse
     {
         foreach ($data->items() as $product) {
             $product['logoUrl'] = !$product->logo ? '' :
-            $product['logoUrl'] = MediaService::generateTemporaryUrl($product->logo);
+            $product['logoUrl'] = $product->logo->filename;
         }
         return response()->json($data, $statusCode);
     }

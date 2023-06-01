@@ -264,7 +264,6 @@
         </div>
 
         <div class="row">
-
           <div class="col-xs-12 col-sm-12 col-md-3 col-py-xs q-mr-md q-mb-lg">
             <q-input
               label="Rua"

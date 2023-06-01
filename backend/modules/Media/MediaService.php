@@ -44,7 +44,7 @@ class MediaService extends Service
 
         $mediaItems->getCollection()
             ->transform(function ($media) {
-                $media['url'] = self::generateTemporaryUrl($media);
+                $media['url'] = $media->filename;
                 return $media;
             });
 
@@ -88,12 +88,18 @@ class MediaService extends Service
         foreach ($allFiles as $file) {
             $extension = $file->extension();
 
+            $filename = Str::uuid() . '.' . $extension;
+
             $storage = Storage::putFileAs(
-                $this->spaceDirectory,
+                // $this->spaceDirectory,
+                'public/account-center',
                 $file,
-                Str::uuid() . '.' . $extension,
+                // Str::uuid() . '.' . $extension,
+                $filename,
                 $data['is_public']
             );
+
+            // $storage = Storage::put('file.jpg', $file);
 
             if (!$storage) {
                 throw self::exception([
@@ -105,14 +111,15 @@ class MediaService extends Service
                 'media_type'   => $data['media_type'],
                 'subject_id'   => $data['subject_id'],
                 'subject_type' => $data['subject_type'],
-                'filename'     => $file->getClientOriginalName(),
+                // 'filename'     => $file->getClientOriginalName(),
+                'filename'     => asset(sprintf('storage/account-center/%s', $filename)),
                 'description'  => $data['description'],
                 'path'         => $storage,
                 'mime_type'    => $file->getMimeType(),
                 'extension'    => $extension,
             ]);
 
-            $media['url'] = self::generateTemporaryUrl($media);
+            $media['url'] = $media->filename;  //self::generateTemporaryUrl($media);
 
             array_push($createdMedia, $media);
         }
@@ -138,7 +145,7 @@ class MediaService extends Service
             ], Response::HTTP_NOT_FOUND);
         }
 
-        $media['url'] = self::generateTemporaryUrl($media);
+        $media['url'] = $media->filename;
 
         return self::buildReturn($media->toArray());
     }
