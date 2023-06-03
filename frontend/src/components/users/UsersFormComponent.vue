@@ -292,6 +292,42 @@
             />
           </div>
         </div>
+        <div v-if="user.id" class="row">
+          <div class="q-mr-xl">
+            <q-chip
+              text-color="white"
+              :label="userImage ? 'Imagem de Perfil cadastrada' : 'Sem Imagem de Perfil cadastrada'"
+              :color="userImage ? 'positive' : 'negative'"
+            />
+            <q-uploader
+              ref="attachmentUploader"
+              dense
+              hide-bottom-space
+              class="row"
+              max-file-size="3000000"
+              batch
+              :url="`${uploadURL}/media`"
+              :headers="[{ name: 'Authorization', value: userToken() }]"
+              label="Clique para selecionar ou arraste arquivos aqui"
+              no-thumbnails
+              auto-upload
+              color="primary"
+              accept=".jpg,.png,.jpeg,.gif"
+              :form-fields="() => [
+                    {name: 'subject_id', value: user.id},
+                    {name: 'media_type', value: 'user_profile'}
+                  ]"
+              @start="() => closeLabel = 'Cancelar'"
+              @uploaded="getLogoFunction(user.id)"
+            />
+          </div>
+          <q-img
+            style="height: 200px; max-width: 200px; border-radius: 50%"
+            class="q-ml-xl"
+            :src="userImage || 'logo.jpeg'"
+            no-native-menu
+          />
+        </div>
       </div>
       <div align="right">
         <q-btn
@@ -312,12 +348,14 @@
 import { onMounted, ref } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { createUser, updateUser, getUser } from 'src/services/user/user-api'
+import { getMedia } from "src/services/media/media-api"
 import { getPermissions } from 'src/services/permission/permission-api'
 import { Notify, Loading } from 'quasar'
 import { formatResponseError } from "src/services/utils/error-formatter";
 import { locationFromZipCode } from "src/services/utils/ceps";
 import {validateCPForCNPJ } from "src/services/utils/documents";
 import { loggedUser } from "boot/user"
+import { userToken } from "src/services/utils/local-storage"
 
 const router = useRouter()
 const route = useRoute()
@@ -325,7 +363,10 @@ let searchForZipCode = false
 let permissionsOptions = ref([])
 let loadingPermissions = ref(false)
 let saving = ref(false)
+let userImage = ref(null)
 let openPasswordModal = ref(false)
+
+const uploadURL = process.env.API_URL
 
 const rolesOptions = [
   {
@@ -365,6 +406,7 @@ onMounted(async () => {
   const userId = loggedUser.role == 'member' ? loggedUser.id : route.params.id
   if (userId) {
     await getUserFunction(userId)
+    await getLogoFunction(route.params.id)
   }
 })
 
@@ -457,5 +499,20 @@ async function checkIfCPForCNPJIsValid(value) {
   }
   const isValid = await validateCPForCNPJ(value)
   return isValid || '* Documento inválido'
+}
+
+async function getLogoFunction(userId){
+  try {
+    let result = await getMedia({
+      media_type: 'user_profile',
+      subject_id: userId
+    })
+    userImage.value = result[0].filename
+  } catch (error) {
+    Notify.create({
+      message: formatResponseError(error) || 'Falha ao carregar logo',
+      type: 'negative'
+    })
+  }
 }
 </script>
