@@ -76,6 +76,17 @@
                   outline
                   :to="{name:'suggestions', params: {product_id: product.id}}"
                 />
+                <q-btn
+                  v-if="subscriptionsData[i]?.product_id == product.id"
+                  label="Cancelar Assinatura"
+                  color="negative"
+                  icon="warning"
+                  :disable="loadingSubscriptions"
+                  size="18px"
+                  rounded
+                  outline
+                  @click="cancelSubscription(product)"
+                />
               </div>
             </div>
           </div>

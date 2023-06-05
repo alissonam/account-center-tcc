@@ -81,7 +81,7 @@ class SubscriptionService extends Service
                 }
 
                 try {
-                    self::sendSubscriptionToProductApi($subscriptionToProductApi, $data['password']);
+                    //self::sendSubscriptionToProductApi($subscriptionToProductApi, $data['password']);
                 } catch (\Throwable) {
                     throw self::exception(['message' => 'Falha ao criar inscrição no produto']);
                 }
