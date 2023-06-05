@@ -31,7 +31,7 @@ const subscriptions = [
     name: 'subscriptions',
     component: () => import('pages/Subscriptions/SubscriptionsList'),
     beforeEnter: checkPermission,
-    meta: { permission: ['subscriptions', 'admin'] }
+    meta: { permission: ['subscriptions'] }
   },
   {
     path: '/subscriptions/create',
@@ -55,7 +55,7 @@ const users = [
     name: 'users',
     component: () => import('pages/Users/UsersList'),
     beforeEnter: checkPermission,
-    meta: { permission: ['users', 'admin'] }
+    meta: { permission: ['users'] }
   },
   {
     path: '/users/create',
@@ -79,21 +79,21 @@ const products = [
     name: 'products',
     component: () => import('pages/Products/ProductsListPage'),
     beforeEnter: checkPermission,
-    meta: { permission: ['products', 'admin'] }
+    meta: { permission: ['products'] }
   },
   {
     path: '/products/create',
     name: 'products_create',
     component: () => import('pages/Products/ProductFormPage'),
     beforeEnter: checkPermission,
-    meta: { permission: ['products', 'admin'] }
+    meta: { permission: ['products'] }
   },
   {
     path: '/products/update/:id',
     name: 'products_update',
     component: () => import('pages/Products/ProductFormPage'),
     beforeEnter: checkPermission,
-    meta: { permission: ['products', 'admin'] }
+    meta: { permission: ['products'] }
   }
 ]
 
@@ -103,21 +103,21 @@ const plans = [
     name: 'plans',
     component: () => import('pages/Plans/PlansList'),
     beforeEnter: checkPermission,
-    meta: { permission: ['plans', 'admin'] }
+    meta: { permission: ['plans'] }
   },
   {
     path: '/plans/create',
     name: 'plans_create',
     component: () => import('pages/Plans/PlansForm'),
     beforeEnter: checkPermission,
-    meta: { permission: ['plans', 'admin'] }
+    meta: { permission: ['plans'] }
   },
   {
     path: '/plans/update/:id',
     name: 'plans_update',
     component: () => import('pages/Plans/PlansForm'),
     beforeEnter: checkPermission,
-    meta: { permission: ['plans', 'admin'] }
+    meta: { permission: ['plans'] }
   }
 ]
 
@@ -127,7 +127,7 @@ const permissions = [
     name: 'permissions',
     component: () => import('pages/Permissions/PermissionsList'),
     beforeEnter: checkPermission,
-    meta: { permission: ['permissions', 'admin'] }
+    meta: { permission: ['permissions'] }
   },
   {
     path: '/permissions/create',
@@ -151,7 +151,7 @@ const clientPlans = [
     name: 'client_plans',
     component: () => import('pages/ClientPlans/ClientPlansList'),
     beforeEnter: checkPermission,
-    meta: { permission: ['member', 'admin'] }
+    meta: { permission: ['member'] }
   }
 ]
 
@@ -161,7 +161,7 @@ const clientProducts = [
     name: 'client_products',
     component: () => import('components/client-products/ClientProducts'),
     beforeEnter: checkPermission,
-    meta: { permission: ['member', 'admin'] }
+    meta: { permission: ['member'] }
   }
 ]
 
@@ -171,7 +171,7 @@ const suggestions = [
     name: 'suggestions',
     component: () => import('pages/Suggestions/SuggestionList'),
     beforeEnter: checkPermission,
-    meta: { permission: ['member', 'admin']}
+    meta: { permission: ['member']}
   }
 ]
 

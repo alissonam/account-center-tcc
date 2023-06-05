@@ -69,10 +69,18 @@
                 <q-item-section>
                   <q-item-label align="center">
                     <h5 style="color: #0a457d; margin: 12px; align: center;"> {{ plan.name }}</h5>
+                    <q-chip
+                      class="text-h6"
+                      outline
+                      color="positive"
+                      text-color="white"
+                    >
+                      {{  plan.payload.value.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}) }}
+                    </q-chip>
                   </q-item-label>
                 </q-item-section>
               </q-item>
-              <div class="q-pa-xs text-left" style="padding-bottom: 90px">
+              <div class="q-pa-xs text-left">
                 <q-separator/>
                 <div v-html="plan.description"/>
               </div>
@@ -243,6 +251,26 @@ async function getSubscriptionsFunction (productId) {
 
 .preferential.card, .preferential .q-img {
   box-shadow: 0 0 20px 0 rgba(0, 30, 255, 0.650);
+  transition: 0.3s;
+  border-radius: 5px;
+}
+
+.silver.card:hover {
+  box-shadow: 0 0 40px 0 rgba(192,192,192, 0.800);
+}
+
+.silver.card, .silver .q-img {
+  box-shadow: 0 0 20px 0 rgba(192,192,192, 0.650);
+  transition: 0.3s;
+  border-radius: 5px;
+}
+
+.gold.card:hover {
+  box-shadow: 0 0 40px 0 rgb(255, 215, 0, 0.800);
+}
+
+.gold.card, .gold .q-img {
+  box-shadow: 0 0 20px 0 rgb(255, 215, 0, 0.650);
   transition: 0.3s;
   border-radius: 5px;
 }
