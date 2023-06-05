@@ -73,7 +73,7 @@
                 </q-btn-dropdown>
               </div>
               <q-img
-                class="q-mt-md q-mr-md"
+                class="q-mt-sm"
                 style="height: 43px; max-width: 43px; border-radius: 50%"
                 :src="userImage || 'logo.jpeg'"
                 no-native-menu
@@ -111,7 +111,7 @@ const $q = useQuasar()
 let userImage = ref(null)
 
 onMounted(async () => {
-  const userId = loggedUser.role == 'member' ? loggedUser.id : route.params.id
+  const userId = loggedUser.role == 'member' ? loggedUser.id : loggedUser.id
   if (userId) {
     await getLogoFunction(userId)
   }
@@ -140,7 +140,6 @@ async function getLogoFunction(userId){
     })
     userImage.value = result[0].filename
   } catch (error) {
-    console.log(error)
     Notify.create({
       message: formatResponseError(error) || 'Falha ao carregar logo',
       type: 'negative'

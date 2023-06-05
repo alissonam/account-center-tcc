@@ -40,22 +40,24 @@
         </div>
         <div class="q-pa-md row justify-center" v-else>
             <q-card
-              style="width: 250px"
+              style="width: 250px;"
               class="q-mx-md card"
               :class="plan.preferential ? 'preferential q-mb-sm' : (windowWidth > 1475 ? 'q-my-xl' : 'q-my-md')"
               v-for="(plan, i) in planData"
               :key="i"
             >
               <q-item-section
-                class="items-center justify-center"
+                class="items-center"
               >
-                <div
+                <q-banner
                   v-if="plan.preferential"
-                  class="text-h6 q-pa-sm"
-                  style="color: #00ff5d;"
+                  class="bg-positive text-white text-center"
+                  style="width: 100%"
+                  dense
+                  rounded
                 >
-                  <b>Recomendado</b>
-                </div>
+                  Recomendado
+                </q-banner>
                 <q-img
                   class="q-ma-md"
                   :src="productLogo?.url || 'logo.jpeg'"
@@ -70,7 +72,7 @@
                   </q-item-label>
                 </q-item-section>
               </q-item>
-              <div class="q-pa-md text-center" style="text-align: center; padding-bottom: 90px">
+              <div class="q-pa-xs text-left" style="padding-bottom: 90px">
                 <q-separator/>
                 <div v-html="plan.description"/>
               </div>
