@@ -151,7 +151,8 @@
                     ]
                   },
                 ],
-                ['undo', 'redo', 'fullscreen']
+                ['undo', 'redo', 'fullscreen'],
+                ['quote', 'unordered', 'ordered'],
               ]"
             />
           </div>
