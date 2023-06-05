@@ -39,7 +39,7 @@ const generalItems = [
     to: {
       name: 'subscriptions'
     },
-    permission: ['subscriptions', 'admin', 'member']
+    permission: ['subscriptions', 'admin']
   },
   {
     label: 'Usuários',
